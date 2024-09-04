@@ -108,6 +108,7 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
         Route::get('amenities', [RoomController::class, 'roomamenities']);
         Route::post('amenity/add-action', [RoomController::class, 'updateOrAddAmenity']);
         Route::get('amenity/edit/{id?}', [RoomController::class, 'amenityEdit'])->name('amenity.edit');
+        
         Route::post('amenity/update/{id?}', [RoomController::class, 'updateOrAddAmenity'])->name('amenity.update');
         Route::get('amenity/delete/{id}', [RoomController::class, 'amenityDelete'])->name('amenity.delete');
 
@@ -135,7 +136,11 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
         Route::get('avalibility', [RoomController::class, 'roomAvalibility']);
         Route::get('addRoomavailable', [RoomController::class, 'addRoomavailable']);
         Route::post('save_roomavailable/{id?}', [RoomController::class, 'saveRoomavailable'])->name('room.saveavailable');
+        // Route::get('edit_roomavailable/{id?}', [RoomController::class, 'edit_roomavailable']);
         Route::get('edit_roomavailable/{id?}', [RoomController::class, 'edit_roomavailable']);
+        Route::post('update_roomavailable', [RoomController::class, 'update_roomavailable']);
+        Route::post('update_availability', [RoomController::class, 'update_availability']);
+        
         Route::post('delete_roomavailable/{id}', [RoomController::class, 'deleteRoomavailable'])->name('room.deleteavailable');
 
     });

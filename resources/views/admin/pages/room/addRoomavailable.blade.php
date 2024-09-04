@@ -46,9 +46,25 @@
                                
                             </div>
                         </div>
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-floating form-floating-outline mb-4">
+                                    <input type="text" value="" name="amount" class="form-control" id="basic-default-name">
+                                    <label for="basic-default-name">Price</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating form-floating-outline mb-4">
+                                    <input type="month" value="" name="available_month" class="form-control" id="basic-default-name">
+                                    <label for="basic-default-name">Month</label>
+                                </div>
+                            </div>
+                        </div>
                        
 
-                        @if(isset($room_date) && $room_date->isNotEmpty())
+                        {{-- @if(isset($room_date) && $room_date->isNotEmpty())
                             @foreach($room_date as $index => $date)
                             <div class="row added_row">
                                 <div class="col-md-4">
@@ -69,14 +85,7 @@
                                         <label for="basic-default-name">Price</label>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-2">
-                                    @if ($index == 0)
-                                    <button type="button" class="btn btn-info add-more-row">Add More</button>
-                                    @else
-                                        <button type="button" class="btn btn-danger remove-row">Remove</button>
-                                    @endif
-                                    
-                                </div> --}}
+                                
                             </div>
                             @endforeach
                         @else
@@ -99,13 +108,9 @@
                                         <label for="basic-default-name">Price</label>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-2">
-                                    <button type="button" class="btn btn-info add-more-row">Add More</button>
-                                </div> --}}
+                               
                             </div>
-                        @endif
-
-                        {{-- <div id="dynamic-rows-container"></div> --}}
+                        @endif --}}
                         
                         
                         

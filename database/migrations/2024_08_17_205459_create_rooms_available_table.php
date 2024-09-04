@@ -20,7 +20,8 @@ return new class extends Migration
             $table->date('from_date')->nullable();
             $table->date('to_date')->nullable();
             $table->date('available_date')->nullable();
-            $table->enum('status', ['available', 'maintenance', 'unavailable']);
+            $table->string('available_month')->nullable();
+            $table->enum('available_status', ['available', 'maintenance', 'unavailable']);
             $table->string('added_by')->nullable();
             $table->timestamps();
         });

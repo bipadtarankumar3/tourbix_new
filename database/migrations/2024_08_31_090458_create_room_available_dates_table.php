@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('rad_room_id')->nullable();               
             $table->decimal('rad_amount', 10, 2)->nullable(); 
             $table->date('rad_available_date')->nullable();
+            $table->string('rad_available_status')->nullable();
             $table->timestamps();
         });
     }

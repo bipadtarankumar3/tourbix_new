@@ -128,29 +128,29 @@ $(document).ready(function() {
     });
 
     	
-	$('.owl-product-date').owlCarousel({
-		stagePadding: 0,
-		loop:true,
-		margin:0,
-        nav:true,
-	    navText: [`<img src='${i_left}'>`,`<img src='${i_right}'>`],
-		autoplay:false,
-        autoplayTimeout:6000,
-        autoplayHoverPause:false,
-		responsiveClass:true,
-		responsive:{
-			0:{
-				items:1,
-			},
-			600:{
-				items:1,
-			},
-			1000:{
-				items:1,
-				loop:true
-			}
-		}
-	});
+    $('.owl-product-date').owlCarousel({
+    stagePadding: 0,
+    loop: true,
+    margin: 10, // Adjust margin between items if needed
+    nav: true,
+    navText: [`<img src='${i_left}'>`, `<img src='${i_right}'>`],
+    autoplay: false,
+    autoplayTimeout: 6000,
+    autoplayHoverPause: false,
+    responsiveClass: true,
+    responsive: {
+        0: {
+            items: 1, // Number of items on extra small screens
+        },
+        600: {
+            items: 3, // Number of items on small screens
+        },
+        1000: {
+            items: 7, // Number of items on larger screens
+        }
+    }
+});
+
   </script> 
   
   <script>

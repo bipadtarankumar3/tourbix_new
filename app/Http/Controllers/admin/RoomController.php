@@ -18,6 +18,8 @@ use App\Models\RoomAvailableDate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
+use DateTime;
+
 class RoomController extends Controller
 {
     public function __construct()
@@ -322,57 +324,129 @@ class RoomController extends Controller
     public function edit_roomavailable($id)
     {
         $data['title'] = 'Add Room Avalibility';
-        $data['room'] = RoomAvailable::where('id', $id)->first();
+        $data['available_room'] = RoomAvailable::where('id', $id)->first();
         $data['hotels'] = Hotel::orderBy('id', 'desc')->get();
         $data['rooms'] = Room::orderBy('id', 'desc')->get();
 
-        $data['room_date'] = RoomAvailableDate::where('rad_room_id', $id)->get();
+        $data['availabilityData'] = RoomAvailableDate::where('rad_available_room_id', $id)->get();
 
 
-        return view('admin.pages.room.addRoomavailable', $data);
+        return view('admin.pages.room.editAvailableRoom', $data);
     }
 
     public function saveRoomavailable(Request $request, $roomId = null)
     {
 
+        // dd($request->all());
         
         $room = $roomId ? RoomAvailable::findOrFail($roomId) : new RoomAvailable();
+
+        $roomId = $request->input('room_id');
+
+        $year_month = explode('-', $request->input('available_month'));
+        $year = $year_month[0];
+        $month = $year_month[1];
 
         // Set attributes
         $room->hotel_id = $request->input('hotel_id');
         $room->room_id = $request->input('room_id');
         $room->amount = $request->input('amount');
         $room->no_of_rooms = $request->input('no_of_rooms');
-        // $room->available_date = $request->input('available_date');
-        $room->form_date = $request->form_date;
-        $room->to_date = $request->to_date;
+        $room->available_month = $request->input('available_month');
+        // $room->form_date = $request->form_date;
+        // $room->to_date = $request->to_date;
         $room->added_by = Auth::user()->id;
         // Add other fields here
 
         // Save the room
         $room->save();
 
-        // // Handle available dates and prices
-        // $form_date = $request->form_date;
-        // $to_date = $request->to_date;
-        // $rad_amount = $request->rad_amount;
 
-        // RoomAvailableDate::where('rad_room_id', $room->id)->delete();
-        // $roomAvailable = new RoomAvailableDate();
-        // $roomAvailable->rad_hotel_id = $request->input('hotel_id');
-        // $roomAvailable->rad_room_id = $room->id;
-        // $roomAvailable->form_date = $form_date;
-        // $roomAvailable->to_date = $to_date;
-        // $roomAvailable->rad_amount = $rad_amount;
-        // $roomAvailable->save();
+        
+        
+        // Create a DateTime object for the first day of the given month
+        $startDate = new DateTime("$year-$month-01");
+        // Clone the DateTime object and set it to the first day of the next month
+        $endDate = clone $startDate;
 
-        if (!empty($roomId)) {
-            $request->session()->flash('success', 'Update success');
-        } else {
-            $request->session()->flash('success', 'Addes success');
+        $endDate->modify('first day of next month');
+        
+        // Initialize an array to store all dates in the month
+        $dates = [];
+        while ($startDate < $endDate) {
+            $dates[] = $startDate->format('Y-m-d');
+            $startDate->modify('+1 day');
         }
-        return redirect()->back();
+
+        foreach ($dates as $date) {
+            
+            $roomAvailable = new RoomAvailableDate();
+            $roomAvailable->rad_hotel_id = $request->input('hotel_id');
+            $roomAvailable->rad_room_id = $request->input('room_id');
+            $roomAvailable->rad_available_room_id = $room->id;
+            $roomAvailable->rad_amount = $request->input('amount');
+            $roomAvailable->rad_available_date = $date;
+            $roomAvailable->rad_available_status = 'YES';
+            $roomAvailable->save();
+        }
+
+        return redirect('admin/room/edit_roomavailable/' . $room->id);
+
+        
+
+        // if (!empty($roomId)) {
+        //     $request->session()->flash('success', 'Update success');
+        // } else {
+        //     $request->session()->flash('success', 'Addes success');
+        // }
+        // return redirect()->back();
     }
+
+
+    public function update_roomavailable(Request $request)
+    {
+
+        // dd($request->all());
+        $roomId = $request->input('available_room_id');
+
+        $room = $roomId ? RoomAvailable::findOrFail($roomId) : new RoomAvailable();
+        $room->hotel_id = $request->input('hotel_id');
+        $room->room_id = $request->input('room_id');
+        $room->no_of_rooms = $request->input('no_of_rooms');
+        $room->added_by = Auth::user()->id;
+        // Add other fields here
+
+        // Save the room
+        $room->save();
+
+
+        return redirect('admin/room/avalibility/');
+
+    }
+
+
+    public function update_availability(Request $request)
+{
+    $id = $request->input('id');
+    $amount = $request->input('amount');
+    $status = $request->input('status');
+
+    $availability = RoomAvailableDate::find($id);  // Find by ID
+    if ($availability) {
+        $availability->rad_amount = $amount;
+        $availability->rad_available_status = $status;
+        $availability->save();
+
+        return response()->json([
+            'success' => true,
+            'amount' => $amount,
+            'status' => $status
+        ]);
+    }
+
+    return response()->json(['success' => false], 404);
+}
+
 
 
     public function deleteRoomavailable($id)

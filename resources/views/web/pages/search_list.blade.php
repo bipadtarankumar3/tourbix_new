@@ -6,7 +6,7 @@
    <div class="container">
       <div class="row">
          <div class="col-md-12">
-            <h5 class="mt-4 mb-4">{{$searchcount}} places in Darjeeling</h5>
+            <h5 class="mt-4 mb-4">{{count($search)}} places in {{$location_name}}</h5>
          </div>
       </div>
 
@@ -36,8 +36,8 @@
                   </div>
                </div>
                <h4>
-                  <a href="{{URL::to('property_details/'.$t->rav_id.'')}}">
-                     <a href="{{URL::to('property_details/'.$t->rav_id.'')}}">
+                  <a href="{{URL::to('property_details/'.$t->rad_available_room_id.'')}}">
+                     <a href="{{URL::to('property_details/'.$t->rad_available_room_id.'')}}">
                        {{$t->title}}
                      </a>
                   </a>

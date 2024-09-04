@@ -53,47 +53,59 @@
                             <div class="row added_row">
                                 <div class="col-md-4">
                                     <div class="form-floating form-floating-outline mb-4">
-                                        <input type="date" value="{{ $date->rad_available_date }}" name="rad_available_date[]" class="form-control" id="basic-default-name">
-                                        <label for="basic-default-name">Available Date</label>
+                                        <input type="date" value="{{ $date->form_date }}" name="form_date" class="form-control" id="basic-default-name">
+                                        <label for="basic-default-name">Form Date</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-floating form-floating-outline mb-4">
-                                        <input type="text" value="{{ $date->rad_amount }}" name="rad_amount[]" class="form-control" id="basic-default-name">
+                                        <input type="date" value="{{ $date->to_date }}" name="to_date" class="form-control" id="basic-default-name">
+                                        <label for="basic-default-name">To Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating form-floating-outline mb-4">
+                                        <input type="text" value="{{ $date->amount }}" name="amount" class="form-control" id="basic-default-name">
                                         <label for="basic-default-name">Price</label>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                {{-- <div class="col-md-2">
                                     @if ($index == 0)
                                     <button type="button" class="btn btn-info add-more-row">Add More</button>
                                     @else
                                         <button type="button" class="btn btn-danger remove-row">Remove</button>
                                     @endif
                                     
-                                </div>
+                                </div> --}}
                             </div>
                             @endforeach
                         @else
                             <div class="row added_row">
                                 <div class="col-md-4">
                                     <div class="form-floating form-floating-outline mb-4">
-                                        <input type="date" value="{{ isset($room) ? $room->rad_available_date : '' }}" name="rad_available_date[]" class="form-control" id="basic-default-name">
-                                        <label for="basic-default-name">Available Date</label>
+                                        <input type="date" value="{{ isset($room) ? $room->form_date : '' }}" name="form_date" class="form-control" id="basic-default-name">
+                                        <label for="basic-default-name">Form Date</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-floating form-floating-outline mb-4">
-                                        <input type="text" value="{{ isset($room) ? $room->rad_amount : '' }}" name="rad_amount[]" class="form-control" id="basic-default-name">
+                                        <input type="date" value="{{ isset($room) ? $room->to_date : '' }}" name="to_date" class="form-control" id="basic-default-name">
+                                        <label for="basic-default-name">To Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating form-floating-outline mb-4">
+                                        <input type="text" value="{{ isset($room) ? $room->amount : '' }}" name="amount" class="form-control" id="basic-default-name">
                                         <label for="basic-default-name">Price</label>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                {{-- <div class="col-md-2">
                                     <button type="button" class="btn btn-info add-more-row">Add More</button>
-                                </div>
+                                </div> --}}
                             </div>
                         @endif
 
-                        <div id="dynamic-rows-container"></div>
+                        {{-- <div id="dynamic-rows-container"></div> --}}
                         
                         
                         

@@ -22,20 +22,19 @@ class RoomController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('auth'); 
-        
+        $this->middleware('auth');
     }
     public function roomamenities()
     {
         $data['title'] = 'Hotel Amenities';
-        $data['amenities'] = RoomAmenities::where('user_id',Auth::user()->id)->get();
+        $data['amenities'] = RoomAmenities::where('user_id', Auth::user()->id)->get();
         return view('admin.pages.room.amenities', $data);
     }
 
     public function amenityEdit($id = null)
     {
         $data['title'] = $id ? 'Edit Amenity' : 'Add New Amenity';
-        $data['amenities'] = RoomAmenities::where('user_id',Auth::user()->id)->get();
+        $data['amenities'] = RoomAmenities::where('user_id', Auth::user()->id)->get();
         $data['amenity'] = $id ? RoomAmenities::find($id) : null;
         return view('admin.pages.room.amenities', $data);
     }
@@ -89,7 +88,7 @@ class RoomController extends Controller
     public function roomTypes()
     {
         $data['title'] = 'Room Types';
-        $data['roomTypes'] = RoomType::where('user_id',Auth::user()->id)->get();
+        $data['roomTypes'] = RoomType::where('user_id', Auth::user()->id)->get();
         return view('admin.pages.room.roomtype', $data);
     }
 
@@ -97,7 +96,7 @@ class RoomController extends Controller
     public function roomTypeEdit($id = null)
     {
         $data['title'] = $id ? 'Edit Room Type' : 'Add New Room Type';
-        $data['roomTypes'] = RoomType::where('user_id',Auth::user()->id)->get();
+        $data['roomTypes'] = RoomType::where('user_id', Auth::user()->id)->get();
         $data['roomType'] = $id ? RoomType::find($id) : null;
         return view('admin.pages.room.roomtype', $data);
     }
@@ -151,24 +150,24 @@ class RoomController extends Controller
     public function roomList()
     {
         $data['title'] = 'Room Management';
-        $data['rooms'] = Room::where('user_id',Auth::user()->id)->get();
+        $data['rooms'] = Room::where('user_id', Auth::user()->id)->get();
         return view('admin.pages.room.list', $data);
     }
     public function addRoom()
     {
         $data['title'] = 'Add Room';
-        $data['roomTypes'] = RoomType::where('user_id',Auth::user()->id)->get();
-        $data['amenities'] = RoomAmenities::where('user_id',Auth::user()->id)->get();
+        $data['roomTypes'] = RoomType::where('user_id', Auth::user()->id)->get();
+        $data['amenities'] = RoomAmenities::where('user_id', Auth::user()->id)->get();
         return view('admin.pages.room.addRoom', $data);
     }
 
     public function edit_room($id)
     {
         $data['title'] = 'Add Room';
-        $data['room'] = Room::where('id',$id)->first();
-        $data['roomTypes'] = RoomType::where('user_id',Auth::user()->id)->get();
-        $data['amenities'] = RoomAmenities::where('user_id',Auth::user()->id)->get();
-        $data['documents'] = Documents::where('item_id',$id)->where('table_name','rooms')->get();
+        $data['room'] = Room::where('id', $id)->first();
+        $data['roomTypes'] = RoomType::where('user_id', Auth::user()->id)->get();
+        $data['amenities'] = RoomAmenities::where('user_id', Auth::user()->id)->get();
+        $data['documents'] = Documents::where('item_id', $id)->where('table_name', 'rooms')->get();
         return view('admin.pages.room.addRoom', $data);
     }
 
@@ -190,7 +189,7 @@ class RoomController extends Controller
         $room->room_size = $request->input('room_size');
         $room->max_adults = $request->input('max_adults');
         $room->max_children = $request->input('max_children');
-        $room->room_amenities = implode(',',$request->room_amenities);
+        $room->room_amenities = implode(',', $request->room_amenities);
         $room->import_url = $request->input('import_url');
         $room->status = $request->input('status');
         $room->user_id = Auth::user()->id;
@@ -206,7 +205,7 @@ class RoomController extends Controller
             $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
             $bed_room = '/upload/bed_room/' . $thumbnailName; // Adjust path as needed
             $thumbnail->move(public_path('upload/bed_room'), $thumbnailName);
-            Room::where('id',$id)->update([
+            Room::where('id', $id)->update([
                 'bed_room' => $bed_room,
             ]);
         }
@@ -216,7 +215,7 @@ class RoomController extends Controller
             $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
             $washroom = '/upload/washroom/' . $thumbnailName; // Adjust path as needed
             $thumbnail->move(public_path('upload/washroom'), $thumbnailName);
-            Room::where('id',$id)->update([
+            Room::where('id', $id)->update([
                 'washroom' => $washroom,
             ]);
         }
@@ -226,7 +225,7 @@ class RoomController extends Controller
             $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
             $kitchen = '/upload/kitchen/' . $thumbnailName; // Adjust path as needed
             $thumbnail->move(public_path('upload/kitchen'), $thumbnailName);
-            Room::where('id',$id)->update([
+            Room::where('id', $id)->update([
                 'kitchen' => $kitchen,
             ]);
         }
@@ -236,7 +235,7 @@ class RoomController extends Controller
             $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
             $balcony = '/upload/balcony/' . $thumbnailName; // Adjust path as needed
             $thumbnail->move(public_path('upload/balcony'), $thumbnailName);
-            Room::where('id',$id)->update([
+            Room::where('id', $id)->update([
                 'balcony' => $balcony,
             ]);
         }
@@ -247,56 +246,55 @@ class RoomController extends Controller
             $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
             $feature_image = '/upload/feature_image/' . $thumbnailName; // Adjust path as needed
             $thumbnail->move(public_path('upload/feature_image'), $thumbnailName);
-            Room::where('id',$id)->update([
+            Room::where('id', $id)->update([
                 'feature_image' => $feature_image,
             ]);
         }
 
         $document = $request->document;
         $document_text_name = $request->document_text_name;
-        if ( $document != null) {
-        
+        if ($document != null) {
+
             $uploadSuccess = true;
-            foreach ($document as $key=> $file) {
+            foreach ($document as $key => $file) {
                 if ($file && $file->isValid()) {
                     $milisecond = round(microtime(true) * 1000);
                     $name = $file->getClientOriginalName();
                     $actual_name = str_replace(" ", "_", $name);
                     $uploadName = $milisecond . "_" . $actual_name;
                     $file->move(public_path('upload'), $uploadName);
-        
+
                     $documentData[] = [
                         'image_name' => $uploadName,
                         'table_name' => 'rooms',
                         'item_id' => $id,
-                        'text_name' => isset($document_text_name[$key])?$document_text_name[$key]:'',
+                        'text_name' => isset($document_text_name[$key]) ? $document_text_name[$key] : '',
                     ];
                 } else {
                     // If any file is invalid, set $uploadSuccess to false
                     $uploadSuccess = false;
                 }
             }
-        
+
             // Insert all document data into the database in one go
             if ($uploadSuccess) {
                 Documents::insert($documentData);
             }
         }
 
-        
+
         $request->session()->flash('success', 'Addes success');
         return redirect()->back();
-
     }
 
     public function delete_room_images($id)
     {
-        Documents::where('id',$id)->delete();
+        Documents::where('id', $id)->delete();
     }
     public function deleteRoom($id)
     {
-        Room::where('id',$id)->delete();
-          
+        Room::where('id', $id)->delete();
+
         session()->flash('success', 'Deleted success');
         return redirect()->back();
     }
@@ -304,9 +302,9 @@ class RoomController extends Controller
     public function roomAvalibility()
     {
         $data['title'] = 'Room Avalibility Management ';
-        
+
         $roomav = DB::table('rooms_available')
-            ->select('rooms_available.*', 'hotels.title as hotel_name','rooms.name as room_name')
+            ->select('rooms_available.*', 'hotels.title as hotel_name', 'rooms.name as room_name')
             ->join('hotels', 'hotels.id', '=', 'rooms_available.hotel_id')
             ->join('rooms', 'rooms.id', '=', 'rooms_available.room_id')->orderBy('hotels.id', 'desc')->get();
         $data['roomav'] = $roomav;
@@ -324,7 +322,7 @@ class RoomController extends Controller
     public function edit_roomavailable($id)
     {
         $data['title'] = 'Add Room Avalibility';
-        $data['room'] = RoomAvailable::where('id',$id)->first();
+        $data['room'] = RoomAvailable::where('id', $id)->first();
         $data['hotels'] = Hotel::orderBy('id', 'desc')->get();
         $data['rooms'] = Room::orderBy('id', 'desc')->get();
 
@@ -337,62 +335,52 @@ class RoomController extends Controller
     public function saveRoomavailable(Request $request, $roomId = null)
     {
 
-        // dd($request->all());
-
-        // Create or retrieve the Room instance based on $roomId
+        
         $room = $roomId ? RoomAvailable::findOrFail($roomId) : new RoomAvailable();
 
         // Set attributes
         $room->hotel_id = $request->input('hotel_id');
         $room->room_id = $request->input('room_id');
-        // $room->amount = $request->input('price');
+        $room->amount = $request->input('amount');
         $room->no_of_rooms = $request->input('no_of_rooms');
         // $room->available_date = $request->input('available_date');
+        $room->form_date = $request->form_date;
+        $room->to_date = $request->to_date;
         $room->added_by = Auth::user()->id;
         // Add other fields here
 
         // Save the room
         $room->save();
 
-        // Handle available dates and prices
-        $rad_available_date = $request->rad_available_date;
-        $rad_amount = $request->rad_amount;
+        // // Handle available dates and prices
+        // $form_date = $request->form_date;
+        // $to_date = $request->to_date;
+        // $rad_amount = $request->rad_amount;
 
-        if ($rad_available_date && $rad_amount) {
-            // Delete existing dates if editing
-            RoomAvailableDate::where('rad_room_id', $room->id)->delete();
+        // RoomAvailableDate::where('rad_room_id', $room->id)->delete();
+        // $roomAvailable = new RoomAvailableDate();
+        // $roomAvailable->rad_hotel_id = $request->input('hotel_id');
+        // $roomAvailable->rad_room_id = $room->id;
+        // $roomAvailable->form_date = $form_date;
+        // $roomAvailable->to_date = $to_date;
+        // $roomAvailable->rad_amount = $rad_amount;
+        // $roomAvailable->save();
 
-            // Save new or updated dates
-            foreach ($rad_available_date as $key => $value) {
-                if (!empty($value) && !empty($rad_amount[$key])) {
-                    $roomAvailable = new RoomAvailableDate();
-                    $roomAvailable->rad_hotel_id = $request->input('hotel_id');
-                    $roomAvailable->rad_room_id = $room->id;
-                    $roomAvailable->rad_available_date = $value;
-                    $roomAvailable->rad_amount = $rad_amount[$key];
-                    $roomAvailable->save();
-                }
-            }
-        }
-
-        
-
-        if(!empty($roomId)){
+        if (!empty($roomId)) {
             $request->session()->flash('success', 'Update success');
-        }else{
-        $request->session()->flash('success', 'Addes success');
+        } else {
+            $request->session()->flash('success', 'Addes success');
         }
         return redirect()->back();
-
     }
 
-   
+
     public function deleteRoomavailable($id)
     {
         try {
             // Attempt to delete the record
             $deleted = RoomAvailable::where('id', $id)->delete();
-    
+
             if ($deleted) {
                 return Response::json([
                     'success' => true,

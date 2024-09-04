@@ -484,9 +484,6 @@ overflow:hidden; position:relative;}
 .listing-box-slider:hover{
 	cursor:pointer;
 }
-.search-list .owl-carousel .owl-item img {
-    height: 192px;
-}
 
 /* ----- Property page ------- */
 
@@ -537,7 +534,7 @@ overflow:hidden; position:relative;}
 }
 .btn-info-custom:hover{
 	border-radius: 20px;
-    background-color: #1d74ea00;
+    background-color: #fff;
     border: 1px solid #cfcfcf;
 	color:#000;
 }
@@ -672,6 +669,70 @@ border:1px solid #C3C3C3;}
 .btn-view-all:hover {
         color: #013c97;
 }
+.text-box {
+    border: 1px solid #bdbdbd;
+    padding: 15px;
+    border-radius: 15px;
+}
+.body-text-inn {
+    min-height: 150px;
+}
+.text-box h4{}
+.text-box p{}
+.refundable-text{
+	background:#FFFFFF;
+	border-radius:6px;
+	padding:15px;
+}
+.refundable-text svg {
+	margin-right: 10px;
+}
+.refundable-text h4 {
+    margin-bottom: 0;
+    font-size: 16px;
+}
+.refundable-text p{}
+.payment-page{ margin-top:15px;}
+.payment-page .form-group label {
+    position: inherit;
+    left: 25px;
+    top: 12px;
+}
+.info-text {
+    padding: 15px;
+    background: #d7e7ff;
+    color: #0d6bad;
+    border-left: 3px solid;
+    margin-top: 12px;
+    margin-bottom: 15px;
+}
+.recommended-text {
+    background-color: #238d21;
+    color: #ffffff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    width: fit-content;
+}
+.continue-booking {
+    border: 1px solid #d9d9d9;
+    background-color: #f3f3f3;
+	padding: 20px 0px;
+	margin-bottom: 20px;
+}
+.continue-booking h3{ font-size:20px;line-height: 10px;}
+.continue-booking h3 span{ font-size:12px;}
+.check-in {
+    border-bottom: 1px solid #d1d1d1;
+    border-top: 1px solid #d1d1d1;
+    padding: 15px 0px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+
+
+
+
 
 
 

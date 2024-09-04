@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [WebViewController::class, 'index'])->name('home');
 Route::get('search', [WebViewController::class, 'search']);
 Route::get('property_details/{id}', [WebViewController::class, 'property_details']);
+Route::get('payment', [WebViewController::class, 'payNow']);
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
     return "Cache is cleared";

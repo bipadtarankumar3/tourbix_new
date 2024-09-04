@@ -21,35 +21,56 @@ class WebViewController extends Controller
         $data['locationssearch']=json_encode($locationssearch);
         return view('web.pages.index',$data);
     }
-    public function search(Request $request){
-        $location_name = $request->get("location_name");
-        $search_date = $request->get("search_date");
-        $from_date='';
-        $to_date='';
-        if(!empty($search_date) && $search_date){
-            $searchd=explode('-', $search_date);
-            $from_date=date('Y-m-d',strtotime($searchd[0]));
-            $to_date=date('Y-m-d',strtotime($searchd[1]));
-        }
+public function search(Request $request)
+{
+    $location_name = $request->get("location_name");
+    $search_date = $request->get("search_date");
+    $from_date = '';
+    $to_date = '';
 
-        $no_of_travelers = $request->get("no_of_travelers");
-        $search_query = DB::table('hotels')
-            ->select('hotels.*', 'rooms_available.amount as room_amount','rooms_available.id as rav_id')
-            ->join('rooms_available', 'hotels.id', '=', 'rooms_available.hotel_id')
-            ->join('rooms', 'rooms.id', '=', 'rooms_available.room_id')
-            ->where('rooms_available.available_status', '1')
-            ->where('rooms_available.available_date', '>=', $from_date)
-            ->where('rooms_available.available_date', '<=', $to_date)
-            ->Where('hotels.location', '=', $location_name )
-            ->Where('rooms_available.no_of_rooms', '>=',  $no_of_travelers)
-            ->groupBy('hotels.id');
-        
-        
-        $search = $search_query->orderBy('hotels.id', 'desc')->get();
-        
-        $searchcount=$search->count();
-        return view('web.pages.search_list',compact('search','searchcount','no_of_travelers'));
+    if (!empty($search_date)) {
+        // Explode and trim to handle dates correctly
+        $searchd = explode('-', $search_date);
+        $from_date = date('Y-m-d', strtotime(trim($searchd[0])));
+        $to_date = date('Y-m-d', strtotime(trim($searchd[1])));
     }
+
+    $no_of_travelers = $request->get("no_of_travelers");
+
+    $search_query = DB::table('hotels')
+        ->select('hotels.*', 'rooms_available.amount as room_amount', 'rooms_available.id as rav_id')
+        ->join('rooms_available', 'hotels.id', '=', 'rooms_available.hotel_id')
+        ->join('rooms', 'rooms.id', '=', 'rooms_available.room_id')
+        ->where('rooms_available.available_status', '1')
+        ->where(function ($query) use ($from_date) {
+            $query->whereDate('rooms_available.form_date', '>=', $from_date)
+                  ->orWhereNull('rooms_available.form_date');
+        })
+        ->where(function ($query) use ($to_date) {
+            $query->whereDate('rooms_available.to_date', '<=', $to_date)
+                  ->orWhereNull('rooms_available.to_date');
+        })
+       ->where('hotels.location', '=', $location_name)
+        ->where('rooms_available.no_of_rooms', '>=', $no_of_travelers)
+        ->groupBy('hotels.id');
+  
+  //dd($location_name);
+
+    // Get the raw SQL query
+    $raw_sql_query = $search_query->toSql();
+  
+    // Execute the query to get the results
+    $search = $search_query->orderBy('hotels.id', 'desc')->get();
+  //dd( $search);
+
+    // Count the number of results
+    $searchcount = $search->count();
+
+    // Return the view with results
+    return view('web.pages.search_list', compact('search', 'searchcount', 'no_of_travelers'));
+}
+
+
     public function property_details($rav_id){
 
         $roomavailable = RoomAvailable::where('id',$rav_id)->first();
@@ -67,5 +88,11 @@ class WebViewController extends Controller
         // print_r($data['rooms']);die;
 
         return view('web.pages.property_details',$data);
+    }
+    public function payNow(){
+
+       
+
+        return view('web.pages.payment');
     }
 }

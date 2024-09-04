@@ -217,7 +217,7 @@
                 <div class="see-all mb-2"><a href="#">Price details <i class="fa fa-angle-right"></i> </a></div>
               </div>
               <div class=" col-6 pr-4 mb-3">
-                <button class="btn btn-info-custom pull-r-custom ">Reserve</button>
+                <button class="btn btn-info-custom pull-r-custom" data-toggle="modal" data-target=".bd-example-modal-lg">Reserve</button>
               </div>
             </div>
             <div class="row">
@@ -342,7 +342,7 @@
                 <div class="see-all mb-2"><a href="#">Price details <i class="fa fa-angle-right"></i> </a></div>
               </div>
               <div class=" col-6 pr-4 mb-3">
-                <button class="btn btn-info-custom pull-r-custom ">Reserve</button>
+                <button class="btn btn-info-custom pull-r-custom " data-toggle="modal" data-target=".bd-example-modal-lg">Reserve</button>
               </div>
             </div>
             <div class="row">
@@ -650,9 +650,53 @@
     </div>
   </div>
 </div>
+@endsection
 
 
-
-
-
+@section('modal')
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Your payment options</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+           <p>Fully refundable before Fri, Sep 6</p>
+          </div>
+          <div class="col-md-6">
+            <div class="text-box">
+              <p><b>Pay when you stay</b></p>
+              <div class="body-text-inn">
+              <p>. You will not be charged until your stay</p>
+              <p>. Pay the property directly in their preferred currency (INR)</p>
+              </div>
+              <h4 class="text-right">$131</h4>
+              <p class="text-right">$309 total<br>
+              includes taxes & fees</p>
+              <a href="payment.html"><button class="btn btn-info-custom pull-r-custom w-100">Pay at property</button></a>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="text-box">
+              <p><b>Pay now</b></p>
+              <div class="body-text-inn">
+              <p>. We will process your payment in your local currency</p>
+              <p>. More ways to pay: use Debit/Credit card</p>
+              <p>. You can use a valid Travelocity coupon</p>
+              </div>
+              <h4 class="text-right">$131</h4>
+              <p class="text-right">$309 total<br>
+              includes taxes & fees</p>
+              <a href="{{URL::To('payment')}}"><button class="btn btn-info-custom pull-r-custom w-100">Pay at property</button></a>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
 @endsection

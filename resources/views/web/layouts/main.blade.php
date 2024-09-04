@@ -34,6 +34,7 @@
    
     @yield('content')
     @include('web.layouts.footer')
+    @yield('modal')
 
 
     

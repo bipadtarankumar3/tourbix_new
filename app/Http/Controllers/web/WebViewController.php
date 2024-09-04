@@ -100,7 +100,7 @@ class WebViewController extends Controller
         'email'=>$request->email,
         'phone'=>$request->phone,
         'protect_stay_status'=>$request->protection,
-        'room_id '=>$request->room_id,
+        'room_id'=>$request->room_id,
         // 'check_in_datetime'=>$request->first_name,
         // 'check_out_datetime'=>$request->first_name,
         'total_price'=>100,
@@ -108,6 +108,6 @@ class WebViewController extends Controller
       return redirect('booking-status')->with('success','Booking Complete');
     }
     public function bookingStatus(Request $request){
-    return view();
+    return view('web.pages.payment_status');
     }
 }

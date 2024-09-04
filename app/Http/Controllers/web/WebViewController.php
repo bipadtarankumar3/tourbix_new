@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Location;
 use App\Models\RoomAvailable;
 use App\Models\Hotel;
@@ -89,10 +90,30 @@ public function search(Request $request)
 
         return view('web.pages.property_details',$data);
     }
-    public function payNow(){
+    public function payNow($hotel_id ,$room_id){
+        // dd($hotel_id);
+        $data['room']=Room::where('id',$room_id)->first();
+        $data['hotel']=Hotel::where('id',$hotel_id)->first();
 
-       
+        return view('web.pages.payment',$data);
+    }
+    public function bookNow(Request $request){
+    //   dd($request->all());
 
-        return view('web.pages.payment');
+      Booking::create([
+        'first_name'=>$request->first_name,
+        'last_name'=>$request->last_name,
+        'email'=>$request->email,
+        'phone'=>$request->phone,
+        'protect_stay_status'=>$request->protection,
+        'room_id '=>$request->room_id,
+        // 'check_in_datetime'=>$request->first_name,
+        // 'check_out_datetime'=>$request->first_name,
+        'total_price'=>100,
+      ]);
+      return redirect('booking-status')->with('success','Booking Complete');
+    }
+    public function bookingStatus(Request $request){
+    return view();
     }
 }

@@ -36,21 +36,56 @@
 
     <section>
         <div class="container">
-            <form class="payment-page" action="{{URL::To('book-now')}}" method="post">
-                @csrf
+            <form action="">
             <div class="row">
                 <div class="col-md-8">
                     <div class="refundable-text">
-
+                        {{-- <table>
+                            <tr>
+                                <td><i class="fa fa-lock mr-3" aria-hidden="true" style="font-size:25px;"></i></td>
+                                <td>
+                                    <h4>Sign in to book faster &nbsp; <i class="fa fa-angle-double-down"
+                                            aria-hidden="true"></i></h4>
+                                </td>
+                            </tr>
+                        </table> --}}
+                        {{-- <div class="row">
+                            <div class="col-md-6">
+                                <form class="payment-page">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="email" class="form-control pl-2" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp" placeholder="@">
+                                        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Password</label>
+                                        <input type="password" class="form-control pl-2" id="exampleInputPassword1"
+                                            placeholder="*****">
+                                    </div>
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <label class="form-check-label" for="exampleCheck1">Keep me signed in</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                                </form>
+                            </div>
+                            <div class="col-md-6" style="border-left:1px solid gray;">
+                                <button type="btn" class="btn btn-light border w-100 mb-2"><i class="fa fa-apple"
+                                        aria-hidden="true" style="font-size:25px;"></i> &nbsp; Sign in with Apple</button>
+                                <button type="btn" class="btn btn-light border w-100 mb-2"><i
+                                        class="fa fa-facebook-square" aria-hidden="true"
+                                        style="font-size:25px; color:#2E96E1;"></i> &nbsp; Sign in with Facebook</button>
+                            </div>
+                        </div> --}}
                     </div>
 
                     <div class="refundable-text mt-4">
                         <h3>Who's checking in?</h3>
-                        <p>{{ $room->name }}</p>
+                        <p>{{$room->name}}</p>
                         <p style="color: #1a7e2b;"><i class="fa fa-check" aria-hidden="true"></i> Breakfast included &nbsp;
                             <i class="fa fa-check" aria-hidden="true"></i> Free parking &nbsp; <i class="fa fa-check"
-                                aria-hidden="true"></i> Free WiFi
-                        </p>
+                                aria-hidden="true"></i> Free WiFi</p>
                         <div class="info-text">
                             <table>
                                 <tr>
@@ -64,12 +99,12 @@
                                 </tr>
                             </table>
                         </div>
-                        
+                       
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">First name *</label>
                                     <input type="email" class="form-control pl-2" id="exampleInputFirstname"
-                                        aria-describedby="emailHelp" name="first_name" placeholder="First name">
+                                        aria-describedby="emailHelp" placeholder="First name">
 
                                 </div>
                             </div>
@@ -77,14 +112,14 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Last name *</label>
                                     <input type="email" class="form-control pl-2" id="exampleInputLastname"
-                                        aria-describedby="emailHelp" name="last_name" placeholder="Last name">
+                                        aria-describedby="emailHelp" placeholder="Last name">
 
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Email address *</label>
-                                    <input type="email" name="email" class="form-control pl-2" id="exampleInputEmail2"
+                                    <input type="email" class="form-control pl-2" id="exampleInputEmail2"
                                         aria-describedby="emailHelp" placeholder="@">
                                     <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                                 </div>
@@ -94,7 +129,8 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <select class="form-control pl-2" id="exampleFormControlSelect1" style="height: auto;">
+                                    <select class="form-control pl-2" id="exampleFormControlSelect1"
+                                        style="height: auto;">
                                         <option>IND +91</option>
                                         <option>AFG +93</option>
                                         <option>ALB +355</option>
@@ -106,20 +142,20 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    <input type="number" name="phone" class="form-control pl-2" id="exampleInputMobile"
+                                    <input type="email" class="form-control pl-2" id="exampleInputMobile"
                                         aria-describedby="emailHelp" placeholder="Phone number">
 
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group form-check">
-                                    <input type="checkbox" name="alert" class="form-check-input" id="exampleCheck2">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck2">
                                     <label class="form-check-label" for="exampleCheck1">Receive text alerts about this
                                         trip. Message and data rates may apply.</label>
                                 </div>
                             </div>
                             <!--<button type="submit" class="btn btn-primary w-100">Sign in</button>-->
-                       
+                        
 
                     </div>
 
@@ -132,19 +168,14 @@
                         <p class="mb-4">Help cover your stay against the unexpected. Get coverage for:</p>
                         <div class="popular-amenities">
                             <ul>
-                                <li><img src="{{ URL::to('public/assets/web/images/i-1.png') }}" alt="" />
-                                    Cancellation protection up to 100% of stay
+                                <li><img src="{{ URL::to('public/assets/web/images/i-1.png')}}" alt="" /> Cancellation protection up to 100% of stay
                                     cost</li>
-                                <li><img src="{{ URL::to('public/assets/web/images/i-2.png') }}" alt="" />
-                                    Interruption protection up to 100% of stay
+                                <li><img src="{{ URL::to('public/assets/web/images/i-2.png')}}" alt="" /> Interruption protection up to 100% of stay
                                     cost</li>
-                                <li><img src="{{ URL::to('public/assets/web/images/i-3.png') }}" alt="" /> Emergency
-                                    evacuation up to $50,000</li>
-                                <li><img src="{{ URL::to('public/assets/web/images/i-4.png') }}" alt="" /> Medical
-                                    expenses up to $10,000 per person
+                                <li><img src="{{ URL::to('public/assets/web/images/i-3.png')}}" alt="" /> Emergency evacuation up to $50,000</li>
+                                <li><img src="{{ URL::to('public/assets/web/images/i-4.png')}}" alt="" /> Medical expenses up to $10,000 per person
                                 </li>
-                                <li><img src="{{ URL::to('public/assets/web/images/i-5.png') }}" alt="" /> Certain
-                                    hotel or meal expenses due to trip
+                                <li><img src="{{ URL::to('public/assets/web/images/i-5.png')}}" alt="" /> Certain hotel or meal expenses due to trip
                                     delay up to $200 per person</li>
                             </ul>
                         </div>
@@ -157,8 +188,8 @@
                                 <tr>
                                     <td width="85%">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="protection"
-                                                id="exampleRadios1" value="1" checked>
+                                            <input class="form-check-input" type="radio" name="exampleRadios"
+                                                id="exampleRadios1" value="option1" checked>
                                             <label class="form-check-label ml-4" for="exampleRadios1">
                                                 Yes, I want Hotel Booking Protection Plus for my trip.
                                             </label>
@@ -177,8 +208,8 @@
                                 <tr>
                                     <td width="100%">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="protection"
-                                                id="exampleRadios2" value="2" checked>
+                                            <input class="form-check-input" type="radio" name="exampleRadios"
+                                                id="exampleRadios2" value="option1" checked>
                                             <label class="form-check-label ml-4" for="exampleRadios1">
                                                 No, I'm willing to risk my $232.13 trip.
                                             </label>
@@ -193,7 +224,7 @@
                             Protection was valuable in reducing the losses to me when we had to cancel the trip.”</p>
                     </div>
 
-                    {{-- <div class="refundable-text mt-4">
+                    <div class="refundable-text mt-4">
                         <h3>Payment method</h3>
                         <p style="color: #1a7e2b;"><i class="fa fa-check" aria-hidden="true"></i> We use secure
                             transmission &nbsp; <i class="fa fa-check" aria-hidden="true"></i> We protect your personal
@@ -206,7 +237,7 @@
                             <button class="tablink" onclick="openPage('TabD', this,)">Packages</button>
                         </div>
                         <div id="TabA" class="tabcontent-inner">
-                            <img src="{{ URL::to('public/assets/web/images/app-i.png') }}" alt="" />
+                            <img src="{{ URL::to('public/assets/web/images/app-i.png')}}" alt="" />
                            
                                 <div class="form-group">
                                     <label for="exampleInputCard">Name on Card*</label>
@@ -262,7 +293,7 @@
                                         </div>
                                     </div>
                                 </div>
-                           
+                            
                         </div>
                         <div id="TabB" class="tabcontent-inner">
                             <p>Important: You will be redirected to PayPal's website to securely complete your payment.</p>
@@ -278,14 +309,14 @@
                                 Scroll down to continue to book with Affirm.</p>
                         </div>
                         <div id="TabD" class="tabcontent-inner">
-                            <img src="{{ URL::to('public/assets/web/images/app-2.png') }}" alt="" />
+                            <img src="{{ URL::to('public/assets/web/images/app-2.png')}}" alt="" />
                             <p class="mt-3">Click-to-Pay is a secure way to pay online, powered by the global payments
                                 industry.</p>
                             <p>Add cards from participating networks to simply and securely use them wherever Click-to-Pay
                                 is supported.</p>
                         </div>
 
-                    </div> --}}
+                    </div>
 
                     <div class="refundable-text mt-4">
                         <h3>Cancellation policy</h3>
@@ -330,7 +361,7 @@
                                 <div class="item"><img src="{{ URL::to('public/upload/' . $doc->image_name) }}"
                                         alt="" /></div>
                             @endforeach
-                    <input type="hidden" name="room_id" value="{{$room->id}}">
+
 
                         </div>
                         <h6>{{ $hotel->title }}</h6>
@@ -339,7 +370,7 @@
 
                             <h4><span>8.8</span>Excellent</h4>
                             <p>(244 reviews)</p>
-                            <p>{{ $room->name }}</p>
+                            <p>{{$room->name}}</p>
                             <p>Check-in: Sun, Sep 8</p>
                             <p>Check-out: Tue, Sep 10</p>
                             <p>2-night stay</p>
@@ -391,10 +422,10 @@
                     </div>
                     <div><button type="submit" class="btn btn-primary">Book Now</button></div>
                 </div>
-
+                
 
             </div>
-            </form>
+        </form>
         </div>
     </section>
 @endsection

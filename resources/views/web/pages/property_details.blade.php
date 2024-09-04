@@ -692,7 +692,8 @@
               <h4 class="text-right">$131</h4>
               <p class="text-right">$309 total<br>
               includes taxes & fees</p>
-              <a href="{{URL::To('payment')}}"><button class="btn btn-info-custom pull-r-custom w-100">Pay at property</button></a>
+            
+              <a href="{{URL::To('payment',['hotel_id'=>$roomavailable->hotel_id,'room_id'=>$roomavailable->room_id])}}"><button class="btn btn-info-custom pull-r-custom w-100">Pay at property</button></a>
             </div>
           </div>
         </div>

@@ -16,6 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('room_id');
             $table->dateTime('check_in_datetime');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->integer('phone');
+            $table->string('email');
+            $table->integer('protect_stay_status');
             $table->dateTime('check_out_datetime');
             $table->decimal('total_price', 10, 2);
             $table->enum('status', ['confirmed', 'cancelled', 'completed']);

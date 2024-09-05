@@ -38,6 +38,14 @@
 
 
         </li>
+        <li class="menu-item ">
+            <a href="{{URL::to('admin/booking/list')}}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-account-outline"></i>
+                <div>Bookings Management</div>
+            </a>
+
+
+        </li>
        
 
         <li class="menu-item ">

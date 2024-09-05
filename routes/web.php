@@ -22,7 +22,7 @@ Route::get('search', [WebViewController::class, 'search']);
 Route::get('property_details/{id}', [WebViewController::class, 'property_details']);
 Route::get('payment/{hotel_id}/{room_id}', [WebViewController::class, 'payNow']);
 Route::post('book-now', [WebViewController::class, 'bookNow']);
-Route::get('booking-status', [WebViewController::class, 'bookingStatus']);
+Route::get('booking-status/{booking_id}', [WebViewController::class, 'bookingStatus']);
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
     return "Cache is cleared";

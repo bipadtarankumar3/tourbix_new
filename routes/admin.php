@@ -33,6 +33,9 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
     Route::group(['prefix' => 'vendor', 'as' => 'vendor.'], function () {
         Route::get('list', [VendorController::class, 'vendorList']);
     });
+    Route::group(['prefix' => 'booking', 'as' => 'booking.'], function () {
+        Route::get('list', [HotelController::class, 'BookingList']);
+    });
     Route::group(['prefix' => 'location', 'as' => 'location.'], function () {
         Route::get('list', [LocationManagementController::class, 'locationList']);
         Route::group(['prefix' => 'category', 'as' => 'category.'], function () {

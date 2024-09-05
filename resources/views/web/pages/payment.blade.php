@@ -68,7 +68,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">First name *</label>
-                                    <input type="email" class="form-control pl-2" id="exampleInputFirstname"
+                                    <input type="text" class="form-control pl-2" id="exampleInputFirstname"
                                         aria-describedby="emailHelp" name="first_name" placeholder="First name">
 
                                 </div>
@@ -76,7 +76,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Last name *</label>
-                                    <input type="email" class="form-control pl-2" id="exampleInputLastname"
+                                    <input type="text" class="form-control pl-2" id="exampleInputLastname"
                                         aria-describedby="emailHelp" name="last_name" placeholder="Last name">
 
                                 </div>
@@ -123,7 +123,7 @@
 
                     </div>
 
-                    <div class="refundable-text mt-4">
+                    {{-- <div class="refundable-text mt-4">
                         <p class="recommended-text mb-3">Recommended</p>
                         <h3 class="mb-4">Protect your stay</h3>
                         <p class="mb-4">Resident of New York or Washington?<br>
@@ -191,7 +191,7 @@
                         <p class="mt-3"><i class="fa fa-user" aria-hidden="true"></i>- Mr. Rodman<br>
                             “Things happened outside of my control which caused the trip to be canceled. The Travel
                             Protection was valuable in reducing the losses to me when we had to cancel the trip.”</p>
-                    </div>
+                    </div> --}}
 
                     {{-- <div class="refundable-text mt-4">
                         <h3>Payment method</h3>
@@ -304,9 +304,13 @@
                         <table class="check-in w-100">
                             <tr>
                                 <td width="40%"><b>Check-in:</b><br>
-                                    Sun, Sep 8, 3:00 PM</td>
+                                    @if(session()->get('from_date'))
+                                    {{session()->get('from_date')}}
+                                    @endif
                                 <td width="40%"><b>Check-out:</b><br>
-                                    Tue, Sep 10, noon (2-night stay)</td>
+                                    @if(session()->get('to_date'))
+                                    {{session()->get('to_date')}}
+                                    @endif</td>
                             </tr>
                         </table>
                         <p>By clicking on the button below, I acknowledge that I have reviewed the Privacy Statement Opens
@@ -337,12 +341,33 @@
                         <div class="top-birder mt-3 pt-3"></div>
                         <div class="prop-detail-a">
 
-                            <h4><span>8.8</span>Excellent</h4>
-                            <p>(244 reviews)</p>
+                            {{-- <h4><span>8.8</span>Excellent</h4>
+                            <p>(244 reviews)</p> --}}
                             <p>{{ $room->name }}</p>
-                            <p>Check-in: Sun, Sep 8</p>
-                            <p>Check-out: Tue, Sep 10</p>
-                            <p>2-night stay</p>
+                            <p>Check-in: 
+                                @if(session()->has('from_date'))
+                                    {{ \Carbon\Carbon::parse(session()->get('from_date'))->format('D, M j') }}
+                                @else
+                                    N/A
+                                @endif
+                            </p>
+                            
+                            <p>Check-out: 
+                                @if(session()->has('to_date'))
+                                    {{ \Carbon\Carbon::parse(session()->get('to_date'))->format('D, M j') }}
+                                @else
+                                    N/A
+                                @endif
+                            </p>
+                            
+                            <p>
+                                @if(session()->has('from_date') && session()->has('to_date'))
+                                    {{ \Carbon\Carbon::parse(session()->get('from_date'))->diffInDays(\Carbon\Carbon::parse(session()->get('to_date'))) }}-night stay
+                                @else
+                                    Stay duration not available
+                                @endif
+                            </p>
+                            
 
                             <div class="top-birder mt-3 pt-3"></div>
 
@@ -357,20 +382,23 @@
                         <table class="w-100">
                             <tr>
                                 <td width="80%">
-                                    <p>1 room x 2 nights<br>
-                                        $98.36 average per night</p>
+                                    <p>1 room x  @if(session()->has('from_date') && session()->has('to_date'))
+                                        {{ \Carbon\Carbon::parse(session()->get('from_date'))->diffInDays(\Carbon\Carbon::parse(session()->get('to_date'))) }}-night stay
+                                    @endif<br>
+                                        {{-- $98.36 average per night</p> --}}
                                 </td>
                                 <td width="20%">
-                                    <p><b> $196.72</b></p>
+                                    <p><b>₹{{$totalAmount}}</b></p>
+                                    <input type="hidden" value="{{$totalAmount}}" name="amount">
                                 </td>
                             </tr>
                             <tr>
-                                <td width="80%">
+                                {{-- <td width="80%">
                                     <p>Taxes and fees</p>
                                 </td>
                                 <td width="20%">
                                     <p><b>$35.41</b></p>
-                                </td>
+                                </td> --}}
                             </tr>
                         </table>
 
@@ -382,7 +410,7 @@
                                     <h5>Total</h5>
                                 </td>
                                 <td width="20%">
-                                    <h5>$232.13</h5>
+                                    <h5>₹{{$totalAmount}}</h5>
                                 </td>
                             </tr>
                         </table>

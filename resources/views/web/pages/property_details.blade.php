@@ -328,49 +328,42 @@
                 <td>+ $21</td>
               </tr> --}}
             </table>
-            <h3 class="pri mt-4">₹{{$room->price}} <br> <span>₹{{$room->price}} total</span></h3>
+            <h3 class="pri mt-4">₹{{$roomavailable->amount}} <br> <span>₹{{$roomavailable->amount}} total</span></h3>
             <p class="left-for">includes taxes & fees <span>We have 5 left</span></p>
             <div class="row">
               <div class=" col-6">
                 <div class="see-all mb-2"><a href="#">Price details <i class="fa fa-angle-right"></i> </a></div>
               </div>
               <div class=" col-6 pr-4 mb-3">
-                <button class="btn btn-info-custom pull-r-custom " data-toggle="modal" data-target=".bd-example-modal-lg">Reserve</button>
+                <button class="btn btn-info-custom pull-r-custom" data-toggle="modal" data-target=".bd-example-modal-lg">Reserve</button>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12 pl-1">
                 <div class="border-1 mb-2"></div>
                 <div class="owl-product-date owl-carousel owl-theme">
-                  <div class="item">
-                    <table class="w-100">
-
-                      
-                      <tr>
-                        @foreach ($room->availableDates as $date)
-                        @php
-                            $dateObj = new \DateTime($date->rad_available_date); // Adjust 'rad_available_date' to your actual date column name
-                            $formattedDate = $dateObj->format('D') . ' <br> ' . $dateObj->format('M j'); // Format as "SUN <br> Jul 14"
-                        @endphp
-                        <td>
+                  @foreach ($room->availableDates as $date)
+                    @php
+                      $dateObj = new \DateTime($date->rad_available_date); // Adjust 'rad_available_date' to your actual date column name
+                      $formattedDate = $dateObj->format('D') . ' <br> ' . $dateObj->format('M j'); // Format as "SUN <br> Jul 14"
+                    @endphp
+                    <div class="item">
+                      <table class="w-100">
+                        <tr>
+                          <td>
                             <span>{!! $formattedDate !!}</span>
-                        </td>
-                    @endforeach
-                    
-                      </tr>
-                      <tr>
-                        @foreach ($room->availableDates as $doc)
-                        <td>
-                          <p class="ammo"><span>₹{{$date->rad_amount}}</span></p>
-                        </td>
-                        @endforeach
-                      </tr>
-                      
-
-                    </table>
-                  </div>
-                 
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <p class="ammo"><span>₹{{$date->rad_amount}}</span></p>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  @endforeach
                 </div>
+                
               </div>
             </div>
           </div>
@@ -668,8 +661,8 @@
               <p>. You will not be charged until your stay</p>
               <p>. Pay the property directly in their preferred currency (INR)</p>
               </div>
-              <h4 class="text-right">$131</h4>
-              <p class="text-right">$309 total<br>
+              <h4 class="text-right">₹{{$totalAmount}}</h4>
+              <p class="text-right">₹{{$totalAmount}} total<br>
               includes taxes & fees</p>
               <a href="payment.html"><button class="btn btn-info-custom pull-r-custom w-100">Pay at property</button></a>
             </div>
@@ -682,11 +675,11 @@
               <p>. More ways to pay: use Debit/Credit card</p>
               <p>. You can use a valid Travelocity coupon</p>
               </div>
-              <h4 class="text-right">$131</h4>
-              <p class="text-right">$309 total<br>
+              <h4 class="text-right">₹{{$totalAmount}}</h4>
+              <p class="text-right">₹{{$totalAmount}} total<br>
               includes taxes & fees</p>
             
-              <a href="{{URL::To('payment',['hotel_id'=>$roomavailable->hotel_id,'room_id'=>$roomavailable->room_id])}}"><button class="btn btn-info-custom pull-r-custom w-100">Pay at property</button></a>
+              <a href="{{URL::To('payment',['hotel_id'=>$roomavailable->hotel_id,'room_id'=>$roomavailable->room_id])}}"><button class="btn btn-info-custom pull-r-custom w-100">Pay Now</button></a>
             </div>
           </div>
         </div>

@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\ExperianceController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\RoomController;
 use App\Http\Controllers\admin\EnquiryController;
+use App\Http\Controllers\admin\ExpriencePackageController;
 
 Route::get('login', [AdminAuthController::class, 'login'])->name('login');
 Route::get('back-to-admin', [AdminAuthController::class, 'backToAdmin']);
@@ -164,6 +165,18 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
         Route::post('attribute/add-action-attribute', [ExperianceController::class, 'attributeAddAction']);
         Route::get('attribute/edit/{id}', [ExperianceController::class, 'attributeEdit']);
         Route::get('attribute/delete/{id}', [ExperianceController::class, 'attributeDelete']);
+       
+    });
+    Route::group(['prefix' => 'experiance-package', 'as' => 'experiance-package.'], function () {
+    
+        Route::get('list', [ExpriencePackageController::class, 'list']);
+        Route::post('add-action-package', [ExpriencePackageController::class, 'AddAction']);
+        Route::get('edit/{id}', [ExpriencePackageController::class, 'edit']);
+        Route::post('update-action-package/{id}', [ExpriencePackageController::class, 'updateAction']);
+        Route::get('delete/{id}', [ExpriencePackageController::class, 'delete']);
+
+
+       
        
     });
 });

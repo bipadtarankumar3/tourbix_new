@@ -40,11 +40,9 @@
                 @csrf
             <div class="row">
                 <div class="col-md-8">
-                    <div class="refundable-text">
+                    
 
-                    </div>
-
-                    <div class="refundable-text mt-4">
+                    <div class="refundable-text ">
                         <h3>Who's checking in?</h3>
                         <p>{{ $room->name }}</p>
                         <p style="color: #1a7e2b;"><i class="fa fa-check" aria-hidden="true"></i> Breakfast included &nbsp;
@@ -64,8 +62,10 @@
                                 </tr>
                             </table>
                         </div>
-                        
-                            <div class="col-md-6">
+                      
+                      
+                      <div class="row">
+                        	<div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">First name *</label>
                                     <input type="text" class="form-control pl-2" id="exampleInputFirstname"
@@ -118,6 +118,9 @@
                                         trip. Message and data rates may apply.</label>
                                 </div>
                             </div>
+                      </div>
+                        
+                            
                             <!--<button type="submit" class="btn btn-primary w-100">Sign in</button>-->
                        
 
@@ -330,6 +333,7 @@
                 <div class="col-md-4">
                     <div class="refundable-text">
                         <div class="owl-product-list owl-carousel owl-theme">
+                        
                             @foreach ($room->documents as $doc)
                                 <div class="item"><img src="{{ URL::to('public/upload/' . $doc->image_name) }}"
                                         alt="" /></div>

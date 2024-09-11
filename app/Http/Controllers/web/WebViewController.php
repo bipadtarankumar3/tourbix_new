@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 class WebViewController extends Controller
 {
     public function index(){
+      
         $data['locations']=Location::orderBy('id','desc')->get();
         $locationssearch=Location::orderBy('id','desc')->pluck('location_name')->toArray();
         $data['locationssearch']=json_encode($locationssearch);

@@ -16,15 +16,29 @@
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2 text-muted">Booking Details</h6>
                     <ul class="list-unstyled">
-                        <li><strong>Booking ID:</strong> 123456</li>
-                        <li><strong>Name:</strong> John Doe</li>
-                        <li><strong>Email:</strong> john.doe@example.com</li>
-                        <li><strong>Mobile:</strong> +1 234 567 890</li>
-                        <li><strong>Room ID:</strong> 789</li>
+                        <li><strong>Booking ID:</strong>{{$bookingDetails->booking_id}}</li>
+                        <li><strong>Name:</strong> {{$bookingDetails->first_name}} {{$bookingDetails->last_name}}</li>
+                        <li><strong>Email:</strong> {{$bookingDetails->email}}</li>
+                        <li><strong>Mobile:</strong> +91 {{$bookingDetails->phone}}</li>
+                        {{-- <li><strong>Room ID:</strong> 789</li>
                         <li><strong>Insurance:</strong> Yes</li>
-                        <li><strong>Payment Method:</strong> Credit Card</li>
-                        <li><strong>Amount Paid:</strong> $199.99</li>
-                        <li><strong>Booking Date:</strong> September 5, 2024, 3:00 pm</li>
+                        <li><strong>Payment Method:</strong> Credit Card</li> --}}
+                        <li><strong>Amount Paid:</strong>{{$bookingDetails->total_price}} </li>
+                        <li><strong>Booking Date:</strong> {{ \Carbon\Carbon::parse($bookingDetails->created_at)->format('F j, Y, g:i a') }}</li>
+                        <li> <strong>Check-in: </strong> 
+                            @if(session()->has('from_date'))
+                                {{ \Carbon\Carbon::parse(session()->get('from_date'))->format('D, M j') }}
+                            @else
+                                N/A
+                            @endif
+                      
+                        
+                        <strong>Check-out: </strong>
+                            @if(session()->has('to_date'))
+                                {{ \Carbon\Carbon::parse(session()->get('to_date'))->format('D, M j') }}
+                            @else
+                                N/A
+                            @endif</li>
                     </ul>
                 </div>
                 <div class="card-footer text-center">

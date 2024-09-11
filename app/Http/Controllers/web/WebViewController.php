@@ -10,13 +10,15 @@ use App\Models\Hotel;
 use App\Models\HotelSaraunding;
 use App\Models\Room;
 use App\Models\RoomAmenities;
+use App\Models\RoomAvailableDate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Str;
 
 class WebViewController extends Controller
 {
     public function index(){
+      
         $data['locations']=Location::orderBy('id','desc')->get();
         $locationssearch=Location::orderBy('id','desc')->pluck('location_name')->toArray();
         $data['locationssearch']=json_encode($locationssearch);
@@ -34,6 +36,8 @@ class WebViewController extends Controller
             $searchd = explode('-', $search_date);
             $from_date = date('Y-m-d', strtotime(trim($searchd[0])));
             $to_date = date('Y-m-d', strtotime(trim($searchd[1])));
+            $request->session()->put('from_date',  $from_date);
+            $request->session()->put('to_date',  $to_date);
         }
     
         $no_of_travelers = $request->get("no_of_travelers");
@@ -79,21 +83,38 @@ class WebViewController extends Controller
 
         $locations=Location::orderBy('id','desc')->get();
         $data['surrounding']=HotelSaraunding::where('hotel_id',$roomavailable->hotel_id)->orderBy('id','desc')->get();
-        //print_r($hotel);
-        // print_r($data['rooms']);die;
+        $from_date = session()->get('from_date');
+        $to_date = session()->get('to_date');
+        
+        $data['availableRooms'] = RoomAvailableDate::whereDate('rad_available_date', '>=', $from_date)
+            ->whereDate('rad_available_date', '<=', $to_date)
+            ->get();
+        
+            $data['totalAmount'] = $data['availableRooms']->sum('rad_amount');
 
         return view('web.pages.property_details',$data);
     }
     public function payNow($hotel_id ,$room_id){
         // dd($hotel_id);
+
+        $from_date = session()->get('from_date');
+        $to_date = session()->get('to_date');
+        
+        $data['availableRooms'] = RoomAvailableDate::whereDate('rad_available_date', '>=', $from_date)
+            ->whereDate('rad_available_date', '<=', $to_date)
+            ->get();
+        
+            $data['totalAmount'] = $data['availableRooms']->sum('rad_amount');
+        // dd( $data['totalAmount']);
         $data['room']=Room::where('id',$room_id)->first();
         $data['hotel']=Hotel::where('id',$hotel_id)->first();
 
         return view('web.pages.payment',$data);
     }
     public function bookNow(Request $request){
-    //   dd($request->all());
-
+        $from_date = session()->get('from_date');
+        $to_date = session()->get('to_date');
+        $booking_id = Str::upper(Str::random(8));
       Booking::create([
         'first_name'=>$request->first_name,
         'last_name'=>$request->last_name,
@@ -101,13 +122,16 @@ class WebViewController extends Controller
         'phone'=>$request->phone,
         'protect_stay_status'=>$request->protection,
         'room_id'=>$request->room_id,
-        // 'check_in_datetime'=>$request->first_name,
-        // 'check_out_datetime'=>$request->first_name,
-        'total_price'=>100,
+        'check_in_datetime'=> $from_date,
+        'check_out_datetime'=>$to_date,
+        'total_price'=>$request->amount,
+        'booking_id'=>$booking_id,
       ]);
-      return redirect('booking-status')->with('success','Booking Complete');
+      return redirect('booking-status/'.$booking_id)->with('success', 'Booking Complete');
+
     }
-    public function bookingStatus(Request $request){
-    return view('web.pages.payment_status');
+    public function bookingStatus(Request $request ,$booking_id){
+        $bookingDetails=Booking::where('booking_id',$booking_id)->first();
+    return view('web.pages.payment_status',compact('bookingDetails'));
     }
 }

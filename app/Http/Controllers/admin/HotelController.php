@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Documents;
 use App\Models\Facility;
 use App\Models\Hotel;
@@ -54,6 +55,13 @@ function single_files_upload($file, $id, $table_name, $document_type)
     return false; // Indicate failure to upload
 }
 
+
+public function BookingList(){
+    $bookings=Booking::orderBy('id','desc')->get();
+    // dd($bookings);
+
+    return view('admin.pages.booking.list',compact('bookings'));
+}
 function multiple_files_upload($files, $id, $table_name, $document_type)
 {
     $uploadSuccess = true;

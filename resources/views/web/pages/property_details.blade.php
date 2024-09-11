@@ -328,14 +328,14 @@
                 <td>+ $21</td>
               </tr> --}}
             </table>
-            <h3 class="pri mt-4">₹{{$room->price}} <br> <span>₹{{$room->price}} total</span></h3>
+            <h3 class="pri mt-4">₹{{$roomavailable->amount}} <br> <span>₹{{$roomavailable->amount}} total</span></h3>
             <p class="left-for">includes taxes & fees <span>We have 5 left</span></p>
             <div class="row">
               <div class=" col-6">
                 <div class="see-all mb-2"><a href="#">Price details <i class="fa fa-angle-right"></i> </a></div>
               </div>
               <div class=" col-6 pr-4 mb-3">
-                <button class="btn btn-info-custom pull-r-custom " data-toggle="modal" data-target=".bd-example-modal-lg">Reserve</button>
+                <button class="btn btn-info-custom pull-r-custom" data-toggle="modal" data-target=".bd-example-modal-lg">Reserve</button>
               </div>
             </div>
             <div class="row">
@@ -363,6 +363,7 @@
                     </div>
                   @endforeach
                 </div>
+                
               </div>
             </div>
           </div>
@@ -660,8 +661,8 @@
               <p>. You will not be charged until your stay</p>
               <p>. Pay the property directly in their preferred currency (INR)</p>
               </div>
-              <h4 class="text-right">$131</h4>
-              <p class="text-right">$309 total<br>
+              <h4 class="text-right">₹{{$totalAmount}}</h4>
+              <p class="text-right">₹{{$totalAmount}} total<br>
               includes taxes & fees</p>
               <a href="payment.html"><button class="btn btn-info-custom pull-r-custom w-100">Pay at property</button></a>
             </div>
@@ -674,11 +675,11 @@
               <p>. More ways to pay: use Debit/Credit card</p>
               <p>. You can use a valid Travelocity coupon</p>
               </div>
-              <h4 class="text-right">$131</h4>
-              <p class="text-right">$309 total<br>
+              <h4 class="text-right">₹{{$totalAmount}}</h4>
+              <p class="text-right">₹{{$totalAmount}} total<br>
               includes taxes & fees</p>
             
-              <a href="{{URL::To('payment',['hotel_id'=>$roomavailable->hotel_id,'room_id'=>$roomavailable->room_id])}}"><button class="btn btn-info-custom pull-r-custom w-100">Pay at property</button></a>
+              <a href="{{URL::To('payment',['hotel_id'=>$roomavailable->hotel_id,'room_id'=>$roomavailable->room_id])}}"><button class="btn btn-info-custom pull-r-custom w-100">Pay Now</button></a>
             </div>
           </div>
         </div>

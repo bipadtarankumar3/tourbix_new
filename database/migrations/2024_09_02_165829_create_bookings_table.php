@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('room_id');
             $table->dateTime('check_in_datetime');
             $table->string('first_name');
+            $table->string('booking_id');
             $table->string('last_name');
             $table->integer('phone');
             $table->string('email');

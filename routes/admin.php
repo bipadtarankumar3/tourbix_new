@@ -170,6 +170,7 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
     Route::group(['prefix' => 'experiance-package', 'as' => 'experiance-package.'], function () {
     
         Route::get('list', [ExpriencePackageController::class, 'list']);
+        Route::get('add', [ExpriencePackageController::class, 'add']);
         Route::post('add-action-package', [ExpriencePackageController::class, 'AddAction']);
         Route::get('edit/{id}', [ExpriencePackageController::class, 'edit']);
         Route::post('update-action-package/{id}', [ExpriencePackageController::class, 'updateAction']);

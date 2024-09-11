@@ -13,6 +13,11 @@ class ExpriencePackageController extends Controller
         $lists = ExpriencePackage::all();
         return view('admin.pages.exprience_packages.list', compact('lists'));
     }
+    public function add()
+    {
+        $lists = ExpriencePackage::all();
+        return view('admin.pages.exprience_packages.add', compact('lists'));
+    }
 
     public function AddAction(Request $request){
         $request->validate([
@@ -45,7 +50,7 @@ class ExpriencePackageController extends Controller
     {
         $lists = ExpriencePackage::all();
         $package = ExpriencePackage::findOrFail($id);
-        return view('admin.pages.exprience_packages.list', compact('package','lists'));
+        return view('admin.pages.exprience_packages.add', compact('package','lists'));
     }
 
     public function destroy($id)

@@ -6,40 +6,15 @@
     {{ Request::segment(2) . '/' . Request::segment(3) }}
 </h6>
 <div class="row">
-    <div class="col-md-3">
+   
+    <div class="col-md-12">
       <div class="card">
-          <h4 class="card-header">Add Experience Package</h4>
           <div class="card-body">
-            <form action="{{ isset($package) ? URL::To('admin/experiance-package/update-action-package/' . $package->id) : URL::To('admin/experiance-package/add-action-package') }}" method="post">
-              @csrf
-           
-              <input type="hidden" name="experience_package" value="{{ isset($package) ? 'update' : 'add' }}">
-              <input type="hidden" name="experience_package_id" value="{{ isset($package) ? $package->id : '' }}">
+            <div class="float-right my-2 text-right" style="text-align: right">
+              <a href="{{URL::to('admin/experiance-package/add')}}"><button type="button" class="btn btn-warning">Add Exprience</button></a>
+              {{-- <a href="{{URL::to('admin/room/avalibility')}}"><button type="button" class="btn btn-success">Avalibility</button></a> --}}
               
-              <div class="form-group">
-                  <label for="title">Title</label>
-                  <input type="text" placeholder="Package Title" name="title" value="{{ isset($package) ? $package->title : '' }}" class="form-control">
-              </div>
-
-              <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea placeholder="Package Description" name="description" class="form-control">{{ isset($package) ? $package->description : '' }}</textarea>
-              </div>
-
-              <div class="form-group">
-                  <label for="amount">Amount</label>
-                  <input type="number" step="0.01" placeholder="Amount" name="amount" value="{{ isset($package) ? $package->amount : '' }}" class="form-control">
-              </div>
-
-              <button class="btn btn-primary mt-2" type="submit">{{ isset($package) ? 'Update' : 'Add New' }}</button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-9">
-      <div class="card">
-          <div class="card-body">
+          </div>
           <div class="table-responsive text-nowrap">
             <table class="table" id="zero_config">
               <thead>

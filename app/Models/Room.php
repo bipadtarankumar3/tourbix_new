@@ -19,7 +19,7 @@ class Room extends Model
 
     public function availableDates()
     {
-        return $this->hasMany(RoomAvailableDate::class, 'rad_room_id');
+        return $this->hasMany(RoomAvailableDate::class, 'rad_room_id')->where('rad_available_status', '=', 'YES');
     }
 
     public function documents()

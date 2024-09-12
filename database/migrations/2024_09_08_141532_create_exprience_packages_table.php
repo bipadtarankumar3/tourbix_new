@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('exprience_packages', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('month');
+            $table->text('feature_image');
             $table->text('description');
+            $table->integer('created_by');
             $table->decimal('amount', 10, 2);
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Experiance;
 use App\Models\experianceAttribute;
 use App\Models\experianceCategory;
 
@@ -23,6 +24,66 @@ class ExperianceController extends Controller
          $this->middleware('auth'); 
         
     }
+
+    //----------------- Experiance  ------------------
+    public function list()
+    {
+        $lists = Experiance::all();
+        return view('admin.pages.common_experiance.list', compact('lists'));
+    }
+    public function add()
+    {
+        $lists = Experiance::all();
+        return view('admin.pages.common_experiance.add', compact('lists'));
+    }
+
+    public function AddAction(Request $request){
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'amount' => 'required|numeric',
+        ]);
+
+        
+
+       
+            Experiance::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'amount' => $request->amount,
+            ]);
+            return redirect('admin/experiance/list')->with('success', 'Experience Package created successfully.');
+       
+    }
+    public function updateAction(Request $request,$id){
+      
+            Experiance::where('id',$id)->Update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'amount' => $request->amount,
+            ]);
+            return redirect()->with('success', 'Experience Package created successfully.');
+     
+    }
+
+    public function edit($id)
+    {
+        $lists = Experiance::all();
+        $package = Experiance::findOrFail($id);
+        return view('admin.pages.common_experiance.add', compact('package','lists'));
+    }
+
+    public function destroy($id)
+    {
+        $package = Experiance::findOrFail($id);
+        $package->delete();
+
+        return redirect('admin/experiance/list')->with('success', 'Experience Package deleted successfully.');
+    }
+    //----------------- Experiance End ------------------
+
+
+
         //------------ Tour -------------------------------------
         public function experianceList(){
             $data['title']='Experiance List';

@@ -167,7 +167,7 @@
 
             <ul class="menu-sub">
                 <li class="menu-item ">
-                    <a href="{{URL::To('admin/experiance-package/list')}}" class="menu-link">
+                    <a href="{{URL::To('admin/experiance/list')}}" class="menu-link">
                        
                         <div>List</div>
                     </a>
@@ -175,7 +175,7 @@
                 <li class="menu-item ">
                     <a href="{{URL::To('admin/experiance-package/list')}}" class="menu-link">
                        
-                        <div>List2</div>
+                        <div>Package List</div>
                     </a>
                 </li>
                 {{-- <li class="menu-item ">

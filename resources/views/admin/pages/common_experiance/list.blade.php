@@ -36,8 +36,8 @@
                       <td>{{ $pkg->amount }}</td>
                       <td>{{ $pkg->created_at }}</td>
                       <td>
-                          <a href="{{ URL::to('admin/experiance-package/edit', $pkg->id) }}"><i class="fa fa-solid fa-pen-to-square"></i></a>
-                          <a href="{{ URL::to('admin/experiance-package/delete', $pkg->id) }}" onclick="deleteConfirmation(event)"><i class="fa fa-solid fa-trash"></i></a>
+                          <a href="{{ URL::to('admin/experiance/edit', $pkg->id) }}"><i class="fa fa-solid fa-pen-to-square"></i></a>
+                          <a href="{{ URL::to('admin/experiance/delete', $pkg->id) }}" onclick="deleteConfirmation(event)"><i class="fa fa-solid fa-trash"></i></a>
                       </td>
                   </tr>
                 @endforeach

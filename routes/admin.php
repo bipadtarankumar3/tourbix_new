@@ -150,7 +150,18 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
     });
 
     Route::group(['prefix' => 'experiance', 'as' => 'experiance.'], function () {
-        Route::get('list', [ExperianceController::class, 'experianceList']);
+
+
+            
+        Route::get('list', [ExperianceController::class, 'list']);
+        Route::get('add', [ExperianceController::class, 'add']);
+        Route::post('add-action-package', [ExperianceController::class, 'AddAction']);
+        Route::get('edit/{id}', [ExperianceController::class, 'edit']);
+        Route::post('update-action-package/{id}', [ExperianceController::class, 'updateAction']);
+        Route::get('delete/{id}', [ExperianceController::class, 'delete']);
+
+        
+        Route::get('tour-list', [ExperianceController::class, 'experianceList']);
         Route::get('add-new-tour', [ExperianceController::class, 'addNewTour']);
         Route::post('submit-tour-form', [ExperianceController::class, 'submit_tour_form']);
 
@@ -167,6 +178,10 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
         Route::get('attribute/delete/{id}', [ExperianceController::class, 'attributeDelete']);
        
     });
+
+
+
+
     Route::group(['prefix' => 'experiance-package', 'as' => 'experiance-package.'], function () {
     
         Route::get('list', [ExpriencePackageController::class, 'list']);

@@ -278,7 +278,7 @@ class ExperianceController extends Controller
         $year = $year_month[0];
         $month = $year_month[1];
 
-        $ExperianceAvailableCheck = ExperianceAvailable::where('exp_experiance_id',$experiance_id)->where('exp_available_month',$year_month)->first();
+        $ExperianceAvailableCheck = ExperianceAvailable::where('exp_experiance_id',$experiance_id)->where('exp_available_month',$request->input('month'))->first();
 
         if ($ExperianceAvailableCheck) {
             return response()->json([

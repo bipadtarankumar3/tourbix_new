@@ -156,11 +156,13 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
         Route::get('list', [ExperianceController::class, 'list']);
         Route::get('add', [ExperianceController::class, 'add']);
         Route::post('add-action-package/{id?}', [ExperianceController::class, 'AddAction']);
+        Route::post('update-action-package/{id?}', [ExperianceController::class, 'UpdateAction']);
         Route::get('edit/{id}', [ExperianceController::class, 'edit']);
-        Route::post('update-action-package/{id}', [ExperianceController::class, 'updateAction']);
         Route::get('delete/{id}', [ExperianceController::class, 'delete']);
-
         Route::get('delete_room_images/{id?}', [ExperianceController::class, 'delete_exp_images']);
+        Route::get('add_experiance_available/{expriance_id?}', [ExperianceController::class, 'add_experiance_available']);
+        Route::post('add_experiance_update_availability', [ExperianceController::class, 'add_experiance_update_availability']);
+        Route::post('update_experiance_available_month', [ExperianceController::class, 'update_experiance_available_month']);
 
         
         Route::get('tour-list', [ExperianceController::class, 'experianceList']);

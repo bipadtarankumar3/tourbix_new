@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nulllable();
             $table->text('thumbnail')->nulllable();
             $table->decimal('amount', 10, 2);
+            $table->string('month')->nulllable();
             $table->string('status')->nulllable();
             $table->timestamps();
         });

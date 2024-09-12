@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Experiance;
+use App\Models\ExperianceAvailable;
 use App\Models\experianceAttribute;
 use App\Models\experianceCategory;
 use Illuminate\Support\Str;
@@ -16,6 +17,8 @@ use App\Models\TourContent;
 
 use Illuminate\Http\Request;
 use Auth;
+
+use DateTime;
 
 
 class ExperianceController extends Controller
@@ -47,14 +50,17 @@ class ExperianceController extends Controller
         ]);
         // dd($request->all());
        
+        $year_month = explode('-', $request->input('month'));
+        $year = $year_month[0];
+        $month = $year_month[1];
            
-            $exp = $exprienceId ? Experiance::findOrFail($exprienceId) : new Experiance();
+        $exp = $exprienceId ? Experiance::findOrFail($exprienceId) : new Experiance();
 
         // Set attributes
         $exp->title = $request->input('title');
         $exp->description = $request->input('description');
         $exp->amount = $request->input('amount');
-       
+        $exp->month = $request->input('month');
         $exp->save();
 
         $id = $exp->id;
@@ -102,19 +108,116 @@ class ExperianceController extends Controller
                 Documents::insert($documentData);
             }
         }
-            return redirect('admin/experiance/list')->with('success', 'Experience Package created successfully.');
+
+                
+        // Create a DateTime object for the first day of the given month
+        $startDate = new DateTime("$year-$month-01");
+        // Clone the DateTime object and set it to the first day of the next month
+        $endDate = clone $startDate;
+
+        $endDate->modify('first day of next month');
+        
+        // Initialize an array to store all dates in the month
+        $dates = [];
+        while ($startDate < $endDate) {
+            $dates[] = $startDate->format('Y-m-d');
+            $startDate->modify('+1 day');
+        }
+
+        foreach ($dates as $date) {
+            
+            $ExperianceAvailable = new ExperianceAvailable();
+            $ExperianceAvailable->exp_experiance_id = $exp->id;
+            $ExperianceAvailable->exp_amount = $request->input('amount');
+            $ExperianceAvailable->exp_available_date = $date;
+            $ExperianceAvailable->exp_available_month =$request->input('month');
+            $ExperianceAvailable->exp_available_status = 'available';
+            $ExperianceAvailable->save();
+        }
+
+        return redirect('admin/experiance/add_experiance_available/'.$exp->id)->with('success', 'Experience Package created successfully.');
        
     }
-    public function updateAction(Request $request,$id){
-      
-            Experiance::where('id',$id)->Update([
-                'title' => $request->title,
-                'description' => $request->description,
-                'amount' => $request->amount,
+
+    public function UpdateAction(Request $request, $exprienceId = null){
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'amount' => 'required|numeric',
+        ]);
+        // dd($request->all());
+    
+           
+        $exp = $exprienceId ? Experiance::findOrFail($exprienceId) : new Experiance();
+
+        // Set attributes
+        $exp->title = $request->input('title');
+        $exp->description = $request->input('description');
+        $exp->amount = $request->input('amount');
+        $exp->save();
+
+        $id = $exp->id;
+
+       
+
+
+        if ($request->hasFile('feature_image')) {
+            $thumbnail = $request->file('feature_image');
+            $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
+            $feature_image = '/upload/feature_image/' . $thumbnailName; // Adjust path as needed
+            $thumbnail->move(public_path('upload/feature_image'), $thumbnailName);
+            Experiance::where('id', $id)->update([
+                'thumbnail' => $feature_image,
             ]);
-            return redirect('admin/experiance/list')->with('success', 'Experience Package created successfully.');
-     
+        }
+
+        $document = $request->document;
+        $document_text_name = $request->document_text_name;
+        if ($document != null) {
+
+            $uploadSuccess = true;
+            foreach ($document as $key => $file) {
+                if ($file && $file->isValid()) {
+                    $milisecond = round(microtime(true) * 1000);
+                    $name = $file->getClientOriginalName();
+                    $actual_name = str_replace(" ", "_", $name);
+                    $uploadName = $milisecond . "_" . $actual_name;
+                    $file->move(public_path('upload'), $uploadName);
+
+                    $documentData[] = [
+                        'image_name' => $uploadName,
+                        'table_name' => 'experiances',
+                        'item_id' => $id,
+                        'text_name' => isset($document_text_name[$key]) ? $document_text_name[$key] : '',
+                    ];
+                } else {
+                    // If any file is invalid, set $uploadSuccess to false
+                    $uploadSuccess = false;
+                }
+            }
+
+            // Insert all document data into the database in one go
+            if ($uploadSuccess) {
+                Documents::insert($documentData);
+            }
+        }
+
+
+        return redirect('admin/experiance/list')->with('success', 'Experience Package created successfully.');
+       
     }
+
+
+    // public function updateAction(Request $request,$id){
+      
+    //         Experiance::where('id',$id)->Update([
+    //             'title' => $request->title,
+    //             'description' => $request->description,
+    //             'amount' => $request->amount,
+    //         ]);
+    //         return redirect('admin/experiance/list')->with('success', 'Experience Package created successfully.');
+     
+    // }
 
     public function edit($id)
     {
@@ -134,6 +237,93 @@ class ExperianceController extends Controller
 
         return redirect('admin/experiance/list')->with('success', 'Experience Package deleted successfully.');
     }
+
+    
+    public function add_experiance_available($id)
+    {
+        $data['lists'] = Experiance::all();
+        $data['Experiance'] = Experiance::findOrFail($id);
+        $data['documents'] = Documents::where('item_id', $id)->where('table_name', 'rooms')->get();
+        $data['ExperianceAvailable'] = ExperianceAvailable::where('exp_experiance_id', $id)->get();
+        return view('admin.pages.common_experiance.add_experiance_available',$data);
+    }
+
+    
+    public function add_experiance_update_availability(Request $request)
+    {
+        $id = $request->input('id');
+        $amount = $request->input('amount');
+        $status = $request->input('status');
+
+        $availability = ExperianceAvailable::find($id);  // Find by ID
+        if ($availability) {
+            $availability->exp_amount = $amount;
+            $availability->exp_available_status = $status;
+            $availability->save();
+
+            return response()->json([
+                'success' => true,
+                'amount' => $amount,
+                'status' => $status
+            ]);
+        }
+
+        return response()->json(['success' => false], 404);
+    }
+
+    public function update_experiance_available_month(Request $request)
+    {
+        $year_month = explode('-', $request->input('month'));
+        $experiance_id = $request->input('experiance_id');
+        $year = $year_month[0];
+        $month = $year_month[1];
+
+        $ExperianceAvailableCheck = ExperianceAvailable::where('exp_experiance_id',$experiance_id)->where('exp_available_month',$year_month)->first();
+
+        if ($ExperianceAvailableCheck) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Already inseted',
+            ]);
+        }
+           
+        $exp = Experiance::findOrFail($experiance_id);
+        $exp->month = $request->input('month');
+        $exp->save();
+
+        $id = $exp->id;
+                
+        // Create a DateTime object for the first day of the given month
+        $startDate = new DateTime("$year-$month-01");
+        // Clone the DateTime object and set it to the first day of the next month
+        $endDate = clone $startDate;
+
+        $endDate->modify('first day of next month');
+        
+        // Initialize an array to store all dates in the month
+        $dates = [];
+        while ($startDate < $endDate) {
+            $dates[] = $startDate->format('Y-m-d');
+            $startDate->modify('+1 day');
+        }
+
+        foreach ($dates as $date) {
+            
+            $ExperianceAvailable = new ExperianceAvailable();
+            $ExperianceAvailable->exp_experiance_id = $exp->id;
+            $ExperianceAvailable->exp_amount = $exp->amount;
+            $ExperianceAvailable->exp_available_date = $date;
+            $ExperianceAvailable->exp_available_month =$request->input('month');
+            $ExperianceAvailable->exp_available_status = 'available';
+            $ExperianceAvailable->save();
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Updated',
+        ]);
+    }
+
+
     //----------------- Experiance End ------------------
 
 

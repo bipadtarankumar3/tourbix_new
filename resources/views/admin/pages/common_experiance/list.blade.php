@@ -38,6 +38,8 @@
                       <td>
                           <a href="{{ URL::to('admin/experiance/edit', $pkg->id) }}"><i class="fa fa-solid fa-pen-to-square"></i></a>
                           <a href="{{ URL::to('admin/experiance/delete', $pkg->id) }}" onclick="deleteConfirmation(event)"><i class="fa fa-solid fa-trash"></i></a>
+                          <a href="{{ URL::to('admin/experiance/add_experiance_available', $pkg->id) }}" ><i class="fa-solid fa-pen"></i></a>
+                          {{-- <a href="{{ URL::to('admin/experiance/edit_experiance_available', $pkg->id) }}" ><i class="fa-solid fa-pen-nib"></i></a> --}}
                       </td>
                   </tr>
                 @endforeach

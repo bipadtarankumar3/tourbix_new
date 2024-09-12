@@ -6,7 +6,7 @@
         <div class="card">
             <h4 class="card-header">Add Experience</h4>
             <div class="card-body">
-              <form action="{{ isset($package) ? URL::To('admin/experiance/add-action-package/' . $package->id) : URL::To('admin/experiance/add-action-package') }}" method="post" enctype="multipart/form-data">
+              <form action="{{ isset($package) ? URL::To('admin/experiance/update-action-package/' . $package->id) : URL::To('admin/experiance/add-action-package') }}" method="post" enctype="multipart/form-data">
                 @csrf
              
                 <input type="hidden" name="experience_package" value="{{ isset($package) ? 'update' : 'add' }}">
@@ -29,8 +29,17 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="amount">Amount</label>
-                    <input type="number" step="0.01" placeholder="Amount" name="amount" value="{{ isset($package) ? $package->amount : '' }}" class="form-control">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="amount">Amount</label>
+                            <input type="number" step="0.01" placeholder="Amount" name="amount" value="{{ isset($package) ? $package->amount : '' }}" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="amount">Month</label>
+                            <input type="month" name="month" value="{{ isset($package) ? $package->month : '' }}" class="form-control">
+                        </div>
+                    </div>
+                    
                 </div>
 
                 <div class="row my-4">

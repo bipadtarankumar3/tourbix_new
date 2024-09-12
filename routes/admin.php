@@ -171,12 +171,12 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
     
         Route::get('list', [ExpriencePackageController::class, 'list']);
         Route::get('add', [ExpriencePackageController::class, 'add']);
-        Route::post('add-action-package', [ExpriencePackageController::class, 'AddAction']);
+        Route::post('add-action-package/{id?}', [ExpriencePackageController::class, 'AddAction']);
         Route::get('edit/{id}', [ExpriencePackageController::class, 'edit']);
         Route::post('update-action-package/{id}', [ExpriencePackageController::class, 'updateAction']);
         Route::get('delete/{id}', [ExpriencePackageController::class, 'delete']);
 
-
+        Route::get('delete_room_images/{id?}', [ExpriencePackageController::class, 'delete_exp_images']);
        
        
     });

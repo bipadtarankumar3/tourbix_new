@@ -6,7 +6,7 @@
         <div class="card">
             <h4 class="card-header">Add Experience Package</h4>
             <div class="card-body">
-              <form action="{{ isset($package) ? URL::To('admin/experiance-package/update-action-package/' . $package->id) : URL::To('admin/experiance-package/add-action-package') }}" method="post">
+              <form action="{{ isset($package) ? URL::To('admin/experiance-package/add-action-package/' . $package->id) : URL::To('admin/experiance-package/add-action-package') }}" method="post" enctype="multipart/form-data">
                 @csrf
              
                 <input type="hidden" name="experience_package" value="{{ isset($package) ? 'update' : 'add' }}">
@@ -43,7 +43,7 @@
                                     </td>
                                 </tr>
 
-                                @if(isset($room))
+                                @if(isset($package))
                                 @foreach ($documents as $image)
                                 <tr>
                                     <td>
@@ -122,7 +122,7 @@
 
         $.ajax({
             type: "GET",
-            url: "{{URL::to('admin/room/delete_room_images/')}}" + "/" + id, // where you wanna post
+            url: "{{URL::to('admin/experiance-package/delete_room_images/')}}" + "/" + id, // where you wanna post
             data: {
                 'id': ''
             },

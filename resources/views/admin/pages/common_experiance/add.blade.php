@@ -6,7 +6,7 @@
         <div class="card">
             <h4 class="card-header">Add Experience</h4>
             <div class="card-body">
-              <form action="{{ isset($package) ? URL::To('admin/experiance/update-action-package/' . $package->id) : URL::To('admin/experiance/add-action-package') }}" method="post">
+              <form action="{{ isset($package) ? URL::To('admin/experiance/add-action-package/' . $package->id) : URL::To('admin/experiance/add-action-package') }}" method="post" enctype="multipart/form-data">
                 @csrf
              
                 <input type="hidden" name="experience_package" value="{{ isset($package) ? 'update' : 'add' }}">
@@ -24,8 +24,8 @@
                 <div class="form-floating form-floating-outline mb-4  mt-4">
                     <input type="file" name="feature_image" class="form-control" id="basic-default-name" placeholder="Feature Image">
                     <label for="basic-default-name">Feature Image</label>
-                    @if(isset($room) && $room->feature_image)
-                    <img src="{{ URL::to('public/'.$room->feature_image) }}" alt="Feature Image" width="100">
+                    @if(isset($package) && $package->thumbnail)
+                    <img src="{{ URL::to('public/'.$package->thumbnail) }}" alt="Feature Image" width="100">
                     @endif
                 </div>
                 <div class="form-group">
@@ -55,7 +55,7 @@
                                     </td>
                                 </tr>
 
-                                @if(isset($room))
+                                @if(isset($package))
                                 @foreach ($documents as $image)
                                 <tr>
                                     <td>
@@ -82,7 +82,7 @@
                 
   
                 <button class="btn btn-primary mt-2" type="submit">{{ isset($package) ? 'Update' : 'Submit' }}</button>
-                <a href="{{URL::to('admin/common-experiance/list')}}">
+                <a href="{{URL::to('admin/experiance/list')}}">
                     <button class="btn btn-success mt-2" type="button">Back</button>
 
                 </a>
@@ -128,7 +128,7 @@
 
         $.ajax({
             type: "GET",
-            url: "{{URL::to('admin/room/delete_room_images/')}}" + "/" + id, // where you wanna post
+            url: "{{URL::to('admin/experiance-package/delete_room_images/')}}" + "/" + id, // where you wanna post
             data: {
                 'id': ''
             },

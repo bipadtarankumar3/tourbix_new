@@ -155,10 +155,12 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
             
         Route::get('list', [ExperianceController::class, 'list']);
         Route::get('add', [ExperianceController::class, 'add']);
-        Route::post('add-action-package', [ExperianceController::class, 'AddAction']);
+        Route::post('add-action-package/{id?}', [ExperianceController::class, 'AddAction']);
         Route::get('edit/{id}', [ExperianceController::class, 'edit']);
         Route::post('update-action-package/{id}', [ExperianceController::class, 'updateAction']);
         Route::get('delete/{id}', [ExperianceController::class, 'delete']);
+
+        Route::get('delete_room_images/{id?}', [ExperianceController::class, 'delete_exp_images']);
 
         
         Route::get('tour-list', [ExperianceController::class, 'experianceList']);

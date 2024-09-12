@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Experiance;
 use App\Models\experianceAttribute;
 use App\Models\experianceCategory;
+use Illuminate\Support\Str;
+use App\Models\Documents;
 
 use App\Models\Tour;
 use App\Models\Surrounding;
@@ -37,21 +39,69 @@ class ExperianceController extends Controller
         return view('admin.pages.common_experiance.add', compact('lists'));
     }
 
-    public function AddAction(Request $request){
+    public function AddAction(Request $request, $exprienceId = null){
         $request->validate([
             'title' => 'required',
             'description' => 'required',
             'amount' => 'required|numeric',
         ]);
+        // dd($request->all());
+       
+           
+            $exp = $exprienceId ? Experiance::findOrFail($exprienceId) : new Experiance();
 
-        
+        // Set attributes
+        $exp->title = $request->input('title');
+        $exp->description = $request->input('description');
+        $exp->amount = $request->input('amount');
+       
+        $exp->save();
+
+        $id = $exp->id;
 
        
-            Experiance::create([
-                'title' => $request->title,
-                'description' => $request->description,
-                'amount' => $request->amount,
+
+
+        if ($request->hasFile('feature_image')) {
+            $thumbnail = $request->file('feature_image');
+            $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
+            $feature_image = '/upload/feature_image/' . $thumbnailName; // Adjust path as needed
+            $thumbnail->move(public_path('upload/feature_image'), $thumbnailName);
+            Experiance::where('id', $id)->update([
+                'thumbnail' => $feature_image,
             ]);
+        }
+
+        $document = $request->document;
+        $document_text_name = $request->document_text_name;
+        if ($document != null) {
+
+            $uploadSuccess = true;
+            foreach ($document as $key => $file) {
+                if ($file && $file->isValid()) {
+                    $milisecond = round(microtime(true) * 1000);
+                    $name = $file->getClientOriginalName();
+                    $actual_name = str_replace(" ", "_", $name);
+                    $uploadName = $milisecond . "_" . $actual_name;
+                    $file->move(public_path('upload'), $uploadName);
+
+                    $documentData[] = [
+                        'image_name' => $uploadName,
+                        'table_name' => 'experiances',
+                        'item_id' => $id,
+                        'text_name' => isset($document_text_name[$key]) ? $document_text_name[$key] : '',
+                    ];
+                } else {
+                    // If any file is invalid, set $uploadSuccess to false
+                    $uploadSuccess = false;
+                }
+            }
+
+            // Insert all document data into the database in one go
+            if ($uploadSuccess) {
+                Documents::insert($documentData);
+            }
+        }
             return redirect('admin/experiance/list')->with('success', 'Experience Package created successfully.');
        
     }
@@ -62,17 +112,21 @@ class ExperianceController extends Controller
                 'description' => $request->description,
                 'amount' => $request->amount,
             ]);
-            return redirect()->with('success', 'Experience Package created successfully.');
+            return redirect('admin/experiance/list')->with('success', 'Experience Package created successfully.');
      
     }
 
     public function edit($id)
     {
-        $lists = Experiance::all();
-        $package = Experiance::findOrFail($id);
-        return view('admin.pages.common_experiance.add', compact('package','lists'));
+        $data['lists'] = Experiance::all();
+        $data['package'] = Experiance::findOrFail($id);
+        $data['documents'] = Documents::where('item_id', $id)->where('table_name', 'rooms')->get();
+        return view('admin.pages.common_experiance.add',$data);
     }
-
+    public function delete_exp_images($id)
+    {
+        Documents::where('id', $id)->delete();
+    }
     public function destroy($id)
     {
         $package = Experiance::findOrFail($id);

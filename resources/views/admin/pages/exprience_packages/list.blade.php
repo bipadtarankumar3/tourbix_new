@@ -11,7 +11,7 @@
       <div class="card">
           <div class="card-body">
             <div class="float-right my-2 text-right" style="text-align: right">
-              <a href="{{URL::to('admin/experiance/add')}}"><button type="button" class="btn btn-warning">Add Exprience</button></a>
+              <a href="{{URL::to('admin/experiance-package/add')}}"><button type="button" class="btn btn-warning">Add Package</button></a>
               {{-- <a href="{{URL::to('admin/room/avalibility')}}"><button type="button" class="btn btn-success">Avalibility</button></a> --}}
               
           </div>

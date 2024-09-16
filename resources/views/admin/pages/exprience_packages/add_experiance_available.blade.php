@@ -103,13 +103,13 @@
                 @foreach($ExperianceAvailable as $data)
                 {
                     id: '{{ $data->id }}',
-                    title: '{{ $data->exp_available_status === "available" ? "Available - ₹" . $data->exp_amount : "Not Available - ₹" . $data->exp_amount }}',
-                    start: '{{ $data->exp_available_date }}',
+                    title: '{{ $data->exprience_package_available_status === "available" ? "Available - ₹" . $data->exprience_package_amount : "Not Available - ₹" . $data->exprience_package_amount }}',
+                    start: '{{ $data->exprience_package_available_date }}',
                     allDay: true,
-                    color: '{{ $data->exp_available_status === "available" ? "#28a745" : "#dc3545" }}', // Green for available, Red for not available
+                    color: '{{ $data->exprience_package_available_status === "available" ? "#28a745" : "#dc3545" }}', // Green for available, Red for not available
                     extendedProps: {
-                        amount: '{{ $data->exp_amount }}',
-                        status: '{{ $data->exp_available_status }}'
+                        amount: '{{ $data->exprience_package_amount }}',
+                        status: '{{ $data->exprience_package_available_status }}'
                     }
                 },
                 @endforeach
@@ -136,7 +136,7 @@
                     e.preventDefault();
 
                     var data = new FormData(e.target);
-                    fetch("{{ URL::to('/admin/experiance/add_experiance_update_availability') }}", {
+                    fetch("{{ URL::to('/admin/experiance-package/add_experiance_package_update_availability') }}", {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -180,7 +180,7 @@
             var experiance_id = $('.experiance_id').val();
             
             // Perform AJAX request with the current month
-            fetch("{{ URL::to('/admin/experiance/update_experiance_available_month') }}", {
+            fetch("{{ URL::to('/admin/experiance-package/update_experiance_package_available_month') }}", {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',

@@ -201,6 +201,7 @@ Route::put('/admin/password/update', [AdminAuthController::class, 'updatePasswor
 
 
         Route::get('delete_room_images/{id?}', [ExpriencePackageController::class, 'delete_exp_images']);
+        Route::get('delete_experiance_package/{id?}', [ExpriencePackageController::class, 'delete_experiance_package']);
        
        
     });

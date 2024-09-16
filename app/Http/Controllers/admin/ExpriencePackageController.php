@@ -251,7 +251,7 @@ class ExpriencePackageController extends Controller
     {
         Documents::where('id', $id)->delete();
     }
-    public function destroy($id)
+    public function delete_experiance_package($id)
     {
         $package = ExpriencePackage::findOrFail($id);
         $package->delete();

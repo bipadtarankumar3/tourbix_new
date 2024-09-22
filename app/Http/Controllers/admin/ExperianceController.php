@@ -9,7 +9,7 @@ use App\Models\experianceAttribute;
 use App\Models\experianceCategory;
 use Illuminate\Support\Str;
 use App\Models\Documents;
-
+use App\Models\Location;
 use App\Models\Tour;
 use App\Models\Surrounding;
 use App\Models\TourAttribute;
@@ -38,8 +38,13 @@ class ExperianceController extends Controller
     }
     public function add()
     {
-        $lists = Experiance::all();
-        return view('admin.pages.common_experiance.add', compact('lists'));
+        $data['locations']=Location::orderBy('id','desc')->get();
+        $data['categories']=experianceCategory::orderBy('id','desc')->get();
+        $list=experianceAttribute::orderBy('id','desc')->get();
+        $data['top_features']=$list->where('attribute_type','top_feature');
+        $data['travel_style']=$list->where('attribute_type','travel_style');
+        $data['lists'] = Experiance::all();
+        return view('admin.pages.common_experiance.add', $data);
     }
 
     public function AddAction(Request $request, $exprienceId = null){
@@ -48,14 +53,17 @@ class ExperianceController extends Controller
             'description' => 'required',
             'amount' => 'required|numeric',
         ]);
-        // dd($request->all());
+        dd($request->all());
        
         $year_month = explode('-', $request->input('month'));
         $year = $year_month[0];
         $month = $year_month[1];
            
         $exp = $exprienceId ? Experiance::findOrFail($exprienceId) : new Experiance();
-
+        $exp->location_id = $request->input('location_id');
+        $exp->category_id = $request->input('category_id');
+        $exp->experiance_attribute_features_id = $request->input('top_feature_id');
+        $exp->experiance_attribute_style_id = $request->input('travel_style_id');
         // Set attributes
         $exp->title = $request->input('title');
         $exp->description = $request->input('description');
@@ -154,6 +162,10 @@ class ExperianceController extends Controller
         $exp->title = $request->input('title');
         $exp->description = $request->input('description');
         $exp->amount = $request->input('amount');
+        $exp->location_id = $request->input('location_id');
+        $exp->category_id = $request->input('category_id');
+        $exp->experiance_attribute_features_id = $request->input('top_feature_id');
+        $exp->experiance_attribute_style_id = $request->input('travel_style_id');
         $exp->save();
 
         $id = $exp->id;
@@ -221,6 +233,11 @@ class ExperianceController extends Controller
 
     public function edit($id)
     {
+        $data['locations']=Location::orderBy('id','desc')->get();
+        $data['categories']=experianceCategory::orderBy('id','desc')->get();
+        $list=experianceAttribute::orderBy('id','desc')->get();
+        $data['top_features']=$list->where('attribute_type','top_feature');
+        $data['travel_style']=$list->where('attribute_type','travel_style');
         $data['lists'] = Experiance::all();
         $data['package'] = Experiance::findOrFail($id);
         $data['documents'] = Documents::where('item_id', $id)->where('table_name', 'rooms')->get();

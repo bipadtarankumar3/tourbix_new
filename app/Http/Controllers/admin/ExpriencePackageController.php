@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Documents;
 use App\Models\Experiance;
+use App\Models\experianceAttribute;
 use App\Models\ExperianceAvailable;
+use App\Models\experianceCategory;
 use App\Models\ExpriencePackageAvailableDay;
 use App\Models\ExpriencePackageDay;
-
+use App\Models\Location;
 use DateTime;
 class ExpriencePackageController extends Controller
 {
@@ -23,13 +25,19 @@ class ExpriencePackageController extends Controller
     }
     public function add()
     {
+        $data['locations']=Location::orderBy('id','desc')->get();
+        $data['categories']=experianceCategory::orderBy('id','desc')->get();
+        $list=experianceAttribute::orderBy('id','desc')->get();
+        $data['top_features']=$list->where('attribute_type','top_feature');
+        $data['facilities']=$list->where('attribute_type','facilities');
+        $data['travel_style']=$list->where('attribute_type','travel_style');
         $data['expriences']=Experiance::all();
         $data['lists'] = ExpriencePackage::all();
         return view('admin.pages.exprience_packages.add',$data);
     }
 
     public function AddAction(Request $request, $exprienceId = null){
-
+// dd($request->all());
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -38,10 +46,17 @@ class ExpriencePackageController extends Controller
         $year_month = explode('-', $request->input('month'));
         $year = $year_month[0];
         $month = $year_month[1];
-       
-           
-            $exp = $exprienceId ? ExpriencePackage::findOrFail($exprienceId) : new ExpriencePackage();
+        $facilities = $request->input('facilitie_id'); 
 
+        // Implode the array into a comma-separated string
+        $facilitiesString = implode(',', $facilities);
+        //    dd( $facilitiesString);
+            $exp = $exprienceId ? ExpriencePackage::findOrFail($exprienceId) : new ExpriencePackage();
+            $exp->experiance_attribute_facilities_id = $facilitiesString;
+            $exp->location_id = $request->input('location_id');
+            $exp->category_id = $request->input('category_id');
+            $exp->experiance_attribute_features_id = $request->input('top_feature_id');
+            $exp->experiance_attribute_style_id = $request->input('travel_style_id');
         // Set attributes
         $exp->title = $request->input('title');
         $exp->description = $request->input('description');
@@ -240,6 +255,12 @@ class ExpriencePackageController extends Controller
 
     public function edit($id)
     {
+        $data['locations']=Location::orderBy('id','desc')->get();
+        $data['categories']=experianceCategory::orderBy('id','desc')->get();
+        $list=experianceAttribute::orderBy('id','desc')->get();
+        $data['top_features']=$list->where('attribute_type','top_feature');
+        $data['facilities']=$list->where('attribute_type','facilities');
+        $data['travel_style']=$list->where('attribute_type','travel_style');
         $data['expriences']=Experiance::all();
         $data['lists'] = ExpriencePackage::all();
         $data['package'] = ExpriencePackage::findOrFail($id);

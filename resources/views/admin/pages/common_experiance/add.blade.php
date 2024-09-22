@@ -28,6 +28,60 @@
                     <img src="{{ URL::to('public/'.$package->thumbnail) }}" alt="Feature Image" width="100">
                     @endif
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="basic-default-name">Location</label>
+                        <select name="location_id" id="" class="form-control">
+                            @foreach ($locations as $location)
+                                <option value="{{ $location->id }}"
+                                    @if (isset($package) && $package->location_id == $location->id) selected @endif>
+                                    {{ $location->location_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label for="basic-default-name">Tour Type</label>
+                        <select name="category_id" id="" class="form-control">
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    @if (isset($package) && $package->category_id == $category->id) selected @endif>
+                                    {{ $category->category_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="basic-default-name">Top Features</label>
+                        <select name="top_feature_id" id="" class="form-control">
+                            @foreach ($top_features as $top_feature)
+                                <option value="{{ $top_feature->id }}"
+                                    @if (isset($package) && $package->experiance_attribute_features_id == $top_feature->id) selected @endif>
+                                    {{ $top_feature->attribute_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label for="basic-default-name">Travel Style</label>
+                        <select name="travel_style_id" id="" class="form-control">
+                            @foreach ($travel_style as $travel_styl)
+                                <option value="{{ $travel_styl->id }}"
+                                    @if (isset($package) && $package->experiance_attribute_style_id == $travel_styl->id) selected @endif>
+                                    {{ $travel_styl->attribute_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                
+                 
+                </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">

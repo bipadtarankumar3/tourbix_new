@@ -34,17 +34,88 @@
                                     width="100">
                             @endif
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="basic-default-name">Location</label>
+                                <select name="location_id" id="" class="form-control">
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->id }}"
+                                            @if (isset($package) && $package->location_id == $location->id) selected @endif>
+                                            {{ $location->location_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        
+                            <div class="col-md-6">
+                                <label for="basic-default-name">Tour Type</label>
+                                <select name="category_id" id="" class="form-control">
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}"
+                                            @if (isset($package) && $package->category_id == $category->id) selected @endif>
+                                            {{ $category->category_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="basic-default-name">Top Features</label>
+                                <select name="top_feature_id" id="" class="form-control">
+                                    @foreach ($top_features as $top_feature)
+                                        <option value="{{ $top_feature->id }}"
+                                            @if (isset($package) && $package->experiance_attribute_features_id == $top_feature->id) selected @endif>
+                                            {{ $top_feature->attribute_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        
+                            <div class="col-md-4">
+                                <label for="basic-default-name">Travel Style</label>
+                                <select name="travel_style_id" id="" class="form-control">
+                                    @foreach ($travel_style as $travel_styl)
+                                        <option value="{{ $travel_styl->id }}"
+                                            @if (isset($package) && $package->experiance_attribute_style_id == $travel_styl->id) selected @endif>
+                                            {{ $travel_styl->attribute_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        
+                            <div class="col-md-4">
+                                @if (isset($package))
+                                    @php
+                                        // Explode the comma-separated string into an array if $package exists
+                                        $selectedFacilities = explode(',', $package->experiance_attribute_facilities_id);
+                                    @endphp
+                                @endif
+                                <label for="basic-default-name">Facilities</label>
+                                <select name="facilitie_id[]" id="facilities-select" class="form-control select2" multiple>
+                                    @foreach ($facilities as $facilitie)
+                                        <option value="{{ $facilitie->id }}"
+                                            @if (isset($package) && in_array($facilitie->id, $selectedFacilities)) selected @endif>
+                                            {{ $facilitie->attribute_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        
                         <div class="form-group">
                             <div class="row">
-                        <div class="col-md-6">
-                            <label for="amount">Amount</label>
-                            <input type="number" step="0.01" placeholder="Amount" name="amount"
-                                value="{{ isset($package) ? $package->amount : '' }}" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="amount">Month</label>
-                            <input type="month" name="month" value="{{ isset($package) ? $package->month : '' }}" class="form-control">
-                        </div>
+                                <div class="col-md-6">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" step="0.01" placeholder="Amount" name="amount"
+                                        value="{{ isset($package) ? $package->amount : '' }}" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="amount">Month</label>
+                                    <input type="month" name="month"
+                                        value="{{ isset($package) ? $package->month : '' }}" class="form-control">
+                                </div>
                             </div>
                         </div>
                         <div class="row my-4">
@@ -76,7 +147,8 @@
                                             @foreach ($documents as $image)
                                                 <tr>
                                                     <td>
-                                                        <input type="hidden" name="image_id[]" value="{{ $image->id }}">
+                                                        <input type="hidden" name="image_id[]"
+                                                            value="{{ $image->id }}">
                                                         <input type="text" readonly name="document_text_name_update[]"
                                                             class="form-control" value="{{ $image->text_name }}">
                                                     </td>
@@ -120,9 +192,10 @@
                                             <td>
                                                 <select name="exprience_id[]" id="" class="form-control">
                                                     @foreach ($expriences as $exprience)
-                                                    <option value="{{$exprience->id}}">{{$exprience->title}}</option>
+                                                        <option value="{{ $exprience->id }}">{{ $exprience->title }}
+                                                        </option>
                                                     @endforeach
-                                                 
+
                                                 </select>
                                             </td>
                                             <td><input type="text" name="package_description[]" class="form-control">
@@ -136,25 +209,32 @@
 
                                         @if (isset($exp_pack_days))
                                             @foreach ($exp_pack_days as $exp_pack_day)
-                                            <tr>
-                                                <td><input type="text" name="package_day[]" value="{{$exp_pack_day->package_day}}" class="form-control"
-                                                        placeholder="Example Day 1"></td>
-                                                <td>
-                                                    <select name="exprience_id[]" id="" class="form-control">
-                                                        @foreach ($expriences as $exprience)
-                                                        <option value="@if($exp_pack_day->exprience_id==$exprience->id) selected @endif {{$exprience->id}}">{{$exprience->title}}</option>
-                                                        @endforeach
-                                                     
-                                                    </select>
-                                                </td>
-                                                <td><input type="text" name="package_description[]" value="{{$exp_pack_day->package_description}}" class="form-control">
-                                                </td>
-                                                <td>
-                                                    <button onclick="remove_row_with_data(this,'{{ $exp_pack_day->id }}')"
-                                                        class="btn btn-danger waves-effect waves-light"><i
-                                                            class="fa-solid fa-trash"></i></button>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td><input type="text" name="package_day[]"
+                                                            value="{{ $exp_pack_day->package_day }}" class="form-control"
+                                                            placeholder="Example Day 1"></td>
+                                                    <td>
+                                                        <select name="exprience_id[]" id=""
+                                                            class="form-control">
+                                                            @foreach ($expriences as $exprience)
+                                                                <option
+                                                                    value="@if ($exp_pack_day->exprience_id == $exprience->id) selected @endif {{ $exprience->id }}">
+                                                                    {{ $exprience->title }}</option>
+                                                            @endforeach
+
+                                                        </select>
+                                                    </td>
+                                                    <td><input type="text" name="package_description[]"
+                                                            value="{{ $exp_pack_day->package_description }}"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td>
+                                                        <button
+                                                            onclick="remove_row_with_data(this,'{{ $exp_pack_day->id }}')"
+                                                            class="btn btn-danger waves-effect waves-light"><i
+                                                                class="fa-solid fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         @endif
                                     </tbody>
@@ -176,6 +256,14 @@
         </div>
 
     </div>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Select facilities", // Optional: Add a placeholder
+                allowClear: true
+            });
+        });
+    </script>
     <script>
         // Initialize CKEditor
         ClassicEditor
@@ -214,7 +302,7 @@
                                    <td>
                                                 <select name="exprience_id[]" id="" class="form-control">
                                                     @foreach ($expriences as $exprience)
-                                                    <option value="{{$exprience->id}}">{{$exprience->title}}</option>
+                                                    <option value="{{ $exprience->id }}">{{ $exprience->title }}</option>
                                                     @endforeach
                                                  
                                                 </select>

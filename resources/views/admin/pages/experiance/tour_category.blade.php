@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-3">
       <div class="card">
-          <h4 class="card-header">Add Category</h4>
+          <h4 class="card-header">Add Tour Category</h4>
           <div class="card-body">
             <form action="{{ URL::To('admin/experiance/category/add-action-category')}}" method="post">
               @csrf
@@ -19,11 +19,7 @@
                   <label for="name">Name</label>
                   <input type="text" placeholder="Category Name" name="category_name" value="{{ isset($category) ? $category->category_name : '' }}" class="form-control">
               </div>
-              <div class="form-group">
-                  <label for="name">Icon Class</label>
-                  <input type="text" placeholder="Icon Class" name="icon_class" class="form-control" value="{{ isset($category) ? $category->icon_class : '' }}">
-
-              </div>
+            
 
               <button class="btn btn-primary mt-2" type="submit">{{ isset($category) ? 'Update' : 'Add New' }}</button>
           </form>

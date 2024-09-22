@@ -147,12 +147,96 @@ class ExpriencePackageController extends Controller
     }
     public function add_experiance_package_available($id)
     {
-        $data['lists'] = Experiance::all();
-        $data['Experiance'] = Experiance::findOrFail($id);
+
+        // dd($id);
+
+        $data['lists'] = ExpriencePackage::all();
+        $data['Experiance'] = ExpriencePackage::findOrFail($id);
         $data['documents'] = Documents::where('item_id', $id)->where('table_name', 'rooms')->get();
-        $data['ExperianceAvailable'] = ExperianceAvailable::where('exp_experiance_id', $id)->get();
-        return view('admin.pages.common_experiance.add_experiance_available',$data);
+        $data['ExperianceAvailable'] = ExpriencePackageAvailableDay::where('exprience_package_id', $id)->get();
+
+        // dd($data['ExperianceAvailable'] );
+
+        return view('admin.pages.exprience_packages.add_experiance_available',$data);
     }
+
+
+        
+    public function add_experiance_package_update_availability(Request $request)
+    {
+        $id = $request->input('id');
+        $amount = $request->input('amount');
+        $status = $request->input('status');
+
+        $availability = ExpriencePackageAvailableDay::find($id);  // Find by ID
+        if ($availability) {
+            $availability->exprience_package_amount = $amount;
+            $availability->exprience_package_available_status = $status;
+            $availability->save();
+
+            return response()->json([
+                'success' => true,
+                'amount' => $amount,
+                'status' => $status
+            ]);
+        }
+
+        return response()->json(['success' => false], 404);
+    }
+
+    public function update_experiance_package_available_month(Request $request)
+    {
+        $year_month = explode('-', $request->input('month'));
+        $experiance_id = $request->input('experiance_id');
+        $year = $year_month[0];
+        $month = $year_month[1];
+
+        $ExperianceAvailableCheck = ExpriencePackageAvailableDay::where('exprience_package_id',$experiance_id)->where('exprience_package_available_month',$request->input('month'))->first();
+
+        if ($ExperianceAvailableCheck) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Already inseted',
+            ]);
+        }
+           
+        $exp = ExpriencePackage::findOrFail($experiance_id);
+        $exp->month = $request->input('month');
+        $exp->save();
+
+        $id = $exp->id;
+                
+        // Create a DateTime object for the first day of the given month
+        $startDate = new DateTime("$year-$month-01");
+        // Clone the DateTime object and set it to the first day of the next month
+        $endDate = clone $startDate;
+
+        $endDate->modify('first day of next month');
+        
+        // Initialize an array to store all dates in the month
+        $dates = [];
+        while ($startDate < $endDate) {
+            $dates[] = $startDate->format('Y-m-d');
+            $startDate->modify('+1 day');
+        }
+
+        foreach ($dates as $date) {
+            
+            $ExpriencePackageAvailableDay = new ExpriencePackageAvailableDay();
+            $ExpriencePackageAvailableDay->exprience_package_id = $exp->id;
+            $ExpriencePackageAvailableDay->exprience_package_amount = $exp->amount;
+            $ExpriencePackageAvailableDay->exprience_package_available_date = $date;
+            $ExpriencePackageAvailableDay->exprience_package_available_month =$request->input('month');
+            $ExpriencePackageAvailableDay->exprience_package_available_status = 'available';
+            $ExpriencePackageAvailableDay->save();
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Updated',
+        ]);
+    }
+
+
 
     public function edit($id)
     {
@@ -167,7 +251,7 @@ class ExpriencePackageController extends Controller
     {
         Documents::where('id', $id)->delete();
     }
-    public function destroy($id)
+    public function delete_experiance_package($id)
     {
         $package = ExpriencePackage::findOrFail($id);
         $package->delete();

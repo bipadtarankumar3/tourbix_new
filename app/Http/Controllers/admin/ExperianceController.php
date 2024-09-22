@@ -539,14 +539,14 @@ class ExperianceController extends Controller
             // Validate the incoming request data
             $validatedData = $request->validate([
                 'category_name' => 'required|string|max:255',
-                'icon_class' => 'required|string|max:255'
+               
             ]);
     
             if ($request->experiance_category == 'add') {
                 // Create a new location record
                 experianceCategory::create([
                     'category_name' => $validatedData['category_name'],
-                    'icon_class' => $validatedData['icon_class'],
+                   
                     'user_id' => Auth::user()->id,
                     'added_by' => Auth::user()->id,
                     'status' => 1
@@ -560,7 +560,7 @@ class ExperianceController extends Controller
                // Create a new location record
                 experianceCategory::where('id',$request->experiance_category_id)->update([
                     'category_name' => $validatedData['category_name'],
-                    'icon_class' => $validatedData['icon_class'],
+                 
                     'status' =>1
                     // Add any additional fields here if needed
                 ]);

@@ -188,7 +188,7 @@
                     <a href="{{URL::to('admin/experiance/add-new-tour')}}" class="menu-link">
                         <div>Add New Tour </div>
                     </a>
-                </li>
+                </li> --}}
                 <li class="menu-item ">
                     <a href="{{URL::to('admin/experiance/category')}}" class="menu-link">
                         <div>Categories</div>
@@ -198,7 +198,7 @@
                     <a href="{{URL::to('admin/experiance/attributes')}}" class="menu-link">
                         <div>Attributes</div>
                     </a>
-                </li> --}}
+                </li>
                 {{-- <li class="menu-item ">
                     <a href="#" class="menu-link">
                         <div>Avaliblity</div>

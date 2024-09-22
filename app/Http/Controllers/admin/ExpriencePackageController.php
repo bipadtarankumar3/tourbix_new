@@ -79,7 +79,7 @@ class ExpriencePackageController extends Controller
 
                     $documentData[] = [
                         'image_name' => $uploadName,
-                        'table_name' => 'rooms',
+                        'table_name' => 'exprience',
                         'item_id' => $id,
                         'text_name' => isset($document_text_name[$key]) ? $document_text_name[$key] : '',
                     ];

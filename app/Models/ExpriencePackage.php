@@ -9,4 +9,10 @@ class ExpriencePackage extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function documents()
+    {
+        return $this->hasMany(Documents::class, 'item_id')
+        ->where('table_name', 'exprience');
+    }
 }

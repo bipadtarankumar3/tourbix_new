@@ -4,6 +4,8 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Experiance;
+use App\Models\ExpriencePackage;
 use App\Models\Location;
 use App\Models\RoomAvailable;
 use App\Models\Hotel;
@@ -11,6 +13,7 @@ use App\Models\HotelSaraunding;
 use App\Models\Room;
 use App\Models\RoomAmenities;
 use App\Models\RoomAvailableDate;
+use App\Models\TourExprienceBooking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -20,9 +23,38 @@ class WebViewController extends Controller
     public function index(){
       
         $data['locations']=Location::orderBy('id','desc')->get();
+        $data['expriences']=Experiance::orderBy('id','desc')->get();
         $locationssearch=Location::orderBy('id','desc')->pluck('location_name')->toArray();
         $data['locationssearch']=json_encode($locationssearch);
         return view('web.pages.index',$data);
+    }
+    public function toursPage(){
+      
+        
+        $data['tours']=ExpriencePackage::orderBy('id','desc')->get();
+        
+        return view('web.pages.tours',$data);
+    }
+    public function expriencesPage(){
+      
+        
+        $data['tours']=Experiance::orderBy('id','desc')->get();
+        
+        return view('web.pages.expriences',$data);
+    }
+    public function tourDetails($id){
+      
+        
+        $data['tour']=ExpriencePackage::where('id',$id)->first();
+        
+        return view('web.pages.toursDetails',$data);
+    }
+    public function exprienceDetails($id){
+      
+        
+        $data['tour']=Experiance::where('id',$id)->first();
+        
+        return view('web.pages.exprienceDetails',$data);
     }
     public function search(Request $request)
     {
@@ -130,8 +162,44 @@ class WebViewController extends Controller
       return redirect('booking-status/'.$booking_id)->with('success', 'Booking Complete');
 
     }
+    public function tourBookNow(Request $request){
+      
+        $booking_id = Str::upper(Str::random(8));
+        TourExprienceBooking::create([
+        'first_name'=>$request->first_name,
+        'last_name'=>$request->last_name,
+        'email'=>$request->email,
+        'phone'=>$request->phone,
+        'tour_exp_id'=>$request->tour_exp_id,
+        'type'=>"tour",
+        'total_price'=>$request->amount,
+        'booking_id'=>$booking_id,
+      ]);
+      return redirect('tour-exprience-booking-status/'.$booking_id)->with('success', 'Booking Complete');
+
+    }
+    public function expBookNow(Request $request){
+      
+        $booking_id = Str::upper(Str::random(8));
+        TourExprienceBooking::create([
+        'first_name'=>$request->first_name,
+        'last_name'=>$request->last_name,
+        'email'=>$request->email,
+        'phone'=>$request->phone,
+        'tour_exp_id'=>$request->room_id,
+        'type'=>"exprience",
+        'total_price'=>$request->amount,
+        'booking_id'=>$booking_id,
+      ]);
+      return redirect('tour-exprience-booking-status/'.$booking_id)->with('success', 'Booking Complete');
+
+    }
     public function bookingStatus(Request $request ,$booking_id){
         $bookingDetails=Booking::where('booking_id',$booking_id)->first();
     return view('web.pages.payment_status',compact('bookingDetails'));
+    }
+    public function TourExpbookingStatus(Request $request ,$booking_id){
+        $bookingDetails=TourExprienceBooking::where('booking_id',$booking_id)->first();
+    return view('web.pages.TourExp_payment_status',compact('bookingDetails'));
     }
 }

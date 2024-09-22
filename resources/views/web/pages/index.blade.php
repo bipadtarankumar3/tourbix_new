@@ -26,27 +26,28 @@
 
                             <div class="col-md-12">
                                 <div id="TabA" class="tabcontent-inner">
-                                    <form action="{{URL::to('search')}}" class="row book-form" method="get">
-                                   
+                                    <form action="{{ URL::to('search') }}" class="row book-form" method="get">
+
                                         <div class="col-md-11">
                                             <div class="row">
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputAddress"><i class="fa fa-map-marker"
                                                             aria-hidden="true"></i></label>
-                                                    <input type="text" name="location_name" class="form-control" id="locationssearch"
-                                                        aria-describedby="AddressHelp" placeholder="Going to" required>
+                                                    <input type="text" name="location_name" class="form-control"
+                                                        id="locationssearch" aria-describedby="AddressHelp"
+                                                        placeholder="Going to" required>
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputDate"><i class="fa fa-calendar"
                                                             aria-hidden="true"></i></label>
-                                                    <input type="text" name="search_date" class="form-control" id="datetimesl"
-                                                        placeholder="Apr 29 - May 3" required>
+                                                    <input type="text" name="search_date" class="form-control"
+                                                        id="datetimesl" placeholder="Apr 29 - May 3" required>
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputTravelers"><i class="fa fa-user-o"
                                                             aria-hidden="true"></i></label>
-                                                    <input type="text" name="no_of_travelers" class="form-control" id="exampleInputTravelers"
-                                                        placeholder="2 travelers" required>
+                                                    <input type="text" name="no_of_travelers" class="form-control"
+                                                        id="exampleInputTravelers" placeholder="2 travelers" required>
                                                 </div>
                                                 <div class="form-group form-check col-md-2 col-sm-6">
                                                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -215,7 +216,7 @@
                                 </div>
 
                                 <div id="TabF" class="tabcontent-inner">
-                                    <form action="{{URL::to('search')}}" class="row book-form" method="GET">
+                                    <form action="{{ URL::to('search') }}" class="row book-form" method="GET">
                                         <div class="col-md-11">
                                             <div class="row">
                                                 <div class="form-group col-md-3">
@@ -271,18 +272,17 @@
                 </div>
                 <div class="col-md-12 mb-4">
                     <div class="owl-carousel owl-theme owl-trending">
-                      @foreach ($locations as $location)
-                              
-                        <div class="">
-                        
-                       
-                            <div class="trending-box">
-                                <img src="{{ URL::to('public/images/'.$location->location_image) }}" alt=""
-                                    class="img-fluid" />
-                                <h6>{{$location->location_name}}</h6>
-                                <p>India</p>
+                        @foreach ($locations as $location)
+                            <div class="">
+
+
+                                <div class="trending-box">
+                                    <img src="{{ URL::to('public/images/' . $location->location_image) }}" alt=""
+                                        class="img-fluid" />
+                                    <h6>{{ $location->location_name }}</h6>
+                                    <p>India</p>
+                                </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -359,42 +359,17 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="trending-box2">
-                        <div class="inner">
-                            <img src="{{ URL::to('public/assets/web/images/img-11.jpg') }}" alt=""
-                                class="img-fluid" />
-                            <h6>Sunny beach hotel offers</h6>
+                @foreach ($expriences as $exprience)
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <div class="trending-box2">
+                            <div class="inner">
+                                <img src="{{ URL::to('public'.$exprience->thumbnail) }}" alt=""  class="img-fluid" 
+                                    />
+                                <h6>{{$exprience->title}}</h6>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="trending-box2">
-                        <div class="inner">
-                            <img src="{{ URL::to('public/assets/web/images/img-12.jpg') }}" alt=""
-                                class="img-fluid" />
-                            <h6>Car rental deals</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="trending-box2">
-                        <div class="inner">
-                            <img src="{{ URL::to('public/assets/web/images/img-13.jpg') }}" alt=""
-                                class="img-fluid" />
-                            <h6>Member discounts</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="trending-box2">
-                        <div class="inner">
-                            <img src="{{ URL::to('public/assets/web/images/img-14.jpg') }}" alt=""
-                                class="img-fluid" />
-                            <h6>Vacation rental offers</h6>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <div class="row">
@@ -572,27 +547,26 @@
 @endsection
 
 @section('scripts')
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-  <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
- 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-  <script>
-  $( function() {
-    var locationssearch = @php echo $locationssearch; @endphp;
-    $( "#locationssearch" ).autocomplete({
-      source: locationssearch
-    });
-  } );
-  $(function() {
-  $('#datetimesl').daterangepicker({
-    autoApply: true,
-    minDate: new Date()
-  });
- 
-});
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
 
-  </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+        $(function() {
+            var locationssearch = @php echo $locationssearch; @endphp;
+            $("#locationssearch").autocomplete({
+                source: locationssearch
+            });
+        });
+        $(function() {
+            $('#datetimesl').daterangepicker({
+                autoApply: true,
+                minDate: new Date()
+            });
+
+        });
+    </script>
 @endsection

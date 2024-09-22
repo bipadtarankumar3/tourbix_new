@@ -13,7 +13,10 @@
                   <a class="nav-link sliding-link" href="#">Rooms</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link sliding-link" href="#">Experiences</a>
+                  <a class="nav-link sliding-link" href="{{URL::To('tours')}}">Tours</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link sliding-link" href="{{URL::To('expriences')}}">Experiences</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link sliding-link" href="#">Cabs</a>

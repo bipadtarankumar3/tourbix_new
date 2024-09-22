@@ -19,10 +19,17 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/', [WebViewController::class, 'index'])->name('home');
 Route::get('search', [WebViewController::class, 'search']);
+Route::get('tours', [WebViewController::class, 'toursPage']);
+Route::get('expriences', [WebViewController::class, 'expriencesPage']);
+Route::get('tour-details/{id}', [WebViewController::class, 'tourDetails']);
+Route::get('exprience-details/{id}', [WebViewController::class, 'exprienceDetails']);
 Route::get('property_details/{id}', [WebViewController::class, 'property_details']);
 Route::get('payment/{hotel_id}/{room_id}', [WebViewController::class, 'payNow']);
 Route::post('book-now', [WebViewController::class, 'bookNow']);
+Route::post('tour-book-now', [WebViewController::class, 'tourBookNow']);
+Route::post('exp-book-now', [WebViewController::class, 'expBookNow']);
 Route::get('booking-status/{booking_id}', [WebViewController::class, 'bookingStatus']);
+Route::get('tour-exprience-booking-status/{booking_id}', [WebViewController::class, 'TourExpbookingStatus']);
 
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');

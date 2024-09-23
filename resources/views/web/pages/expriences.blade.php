@@ -1,10 +1,62 @@
 @extends('web.layouts.main')
 @section('content')
     <section class="search-list">
+        <form action="">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 p-0">
+                    <img src="{{ URL::to('public/assets/web/images/banner.jpg') }}" alt="" class="img-fluid" />
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="down-border">
+                      
+
+                            <div class="col-md-11">
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="exampleInputAddress"><i class="fa fa-map-marker"
+                                                aria-hidden="true"></i></label>
+                                        {{-- <input type="text" name="location_id" class="form-control"
+                                            id="locationssearch" aria-describedby="AddressHelp"
+                                            placeholder="Going to" required> --}}
+                                            <select name="location_id" id="location_id" onchange="this.form.submit()" class="form-control">
+                                                <option value="">Select Address</option>
+                                                @foreach ($locations as $item)
+                                                    <option value="{{$item->id}}" {{ $item->id == request()->input('location_id') ? 'selected' : '' }}>{{$item->location_name}}</option>
+                                                @endforeach
+
+                                            </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="exampleInputDate"><i class="fa fa-calendar"
+                                                aria-hidden="true"></i></label>
+                                                <input type="text" name="search_date" class="form-control"
+                                                id="datetimesl" placeholder="{{ request('search_date') ?? 'Apr 29 - May 3' }}" required>
+                                    </div>
+                                  <div class="col-md-1 p-0-c">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                                   
+                                </div>
+                            </div>
+                           
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
            
-            <form action="">
-
+           
+{{-- 
                 <section class="pt-40 pb-40 bg-light-2">
                     <div class="container">
                         <div class="row">
@@ -19,6 +71,7 @@
                                                 <div class="form-group col-md-4">
                                                     <label for="exampleInputDate"><i class="fa fa-calendar"
                                                             aria-hidden="true"></i></label>
+                                                           
                                                     <input type="text" name="search_date" class="form-control"
                                                         id="datetimesl" placeholder="{{ request('search_date') ?? 'Apr 29 - May 3' }}" required>
                                                 </div>
@@ -34,15 +87,13 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> --}}
 
                 <div class="row my-4">
                     <div class="col-md-4">
                         <aside class="sidebar y-gap-40 p-4 p-lg-0">
-                            <div data-x-click="filterPopup" class="-icon-close is_mobile pb-0">
-                                <i class="icon-close"></i>
-                            </div>
-
+                           
+{{-- 
                             <div class="sidebar__item -no-border">
                                 <h5 class="text-18 fw-500 mb-10">Location</h5>
                                 <div class="sidebar-checkbox">
@@ -69,7 +120,7 @@
                                     
                                 
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="sidebar__item -no-border">
                                 <h5 class="text-18 fw-500 mb-10">Tour Type</h5>
@@ -210,51 +261,62 @@
                 
                     <div class="col-md-8">
                         <div class="row">
-                    @foreach ($tours as $t)
-                        <div class="col-md-6 mb-4">
-                            <div class="listing-box">
-                                <div class="listing-box-slider">
-                                    <div class="owl-product-list owl-carousel owl-theme">
-                                        @if ($t->feature_image)
-                                            <div class="item"><img src="{{ URL::to('public/' . $t->feature_image) }}"
-                                                    alt="{{ $t->title }}" /></div>
-                                        @else
-                                            <div class="item"><img src="{{ URL::to('public/images/no-image2.png') }}"
-                                                    alt="{{ $t->title }}" /></div>
-                                        @endif
 
-                                        <div class="listing-box-top">
-                                            <div class=" pull-left"><button class="btn btn-custom">Guest favourite</button>
-                                            </div>
-                                            <div class=" pull-right">
-                                                <div class="rit-sid-i"><i class="fa fa-heart" aria-hidden="true"></i></div>
+                            @if (count($tours) > 0)
+                            @foreach ($tours as $t)
+                            <div class="col-md-6 mb-4">
+                                <div class="listing-box">
+                                    <div class="listing-box-slider">
+                                        <div class="owl-product-list owl-carousel owl-theme">
+                                            @if ($t->feature_image)
+                                                <div class="item">
+                                                    <img src="{{ URL::to('public/' . $t->feature_image) }}"
+                                                        alt="{{ $t->title }}" />
+                                                    </div>
+                                            @else
+                                                <div class="item"><img src="{{ URL::to('public/images/no-image2.png') }}"
+                                                        alt="{{ $t->title }}" /></div>
+                                            @endif
+    
+                                            <div class="listing-box-top">
+                                                <div class=" pull-left"><button class="btn btn-custom">Guest favourite</button>
+                                                </div>
+                                                <div class=" pull-right">
+                                                    <div class="rit-sid-i"><i class="fa fa-heart" aria-hidden="true"></i></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <h4>
-                                        <a href="{{ URL::to('exprience-details', $t->id) }}">
+                                        <h4>
                                             <a href="{{ URL::to('exprience-details', $t->id) }}">
-                                                {{ $t->title }}
+                                                <a href="{{ URL::to('exprience-details', $t->id) }}">
+                                                    {{ $t->title }}
+                                                </a>
                                             </a>
-                                        </a>
-
-                                        {{-- <span><i class="fa fa-star" aria-hidden="true"></i> 4.8 (101)</span> --}}
-                                    </h4>
-                                    <p>{{ $t->content }}</p>
-                                    <p>{{ $t->real_address }}</p>
-                                    <h5> <span>₹{{ $t->amount }}</span> total</u></h5>
+    
+                                            {{-- <span><i class="fa fa-star" aria-hidden="true"></i> 4.8 (101)</span> --}}
+                                        </h4>
+                                        <p>{{ $t->content }}</p>
+                                        <p>{{ $t->real_address }}</p>
+                                        <h5> <span>₹{{ $t->amount }}</span> total</u></h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                            @else
+                                <h2 class="text-center">No Data Available</h2>
+                            @endif
+
+                    
                         </div>
                 </div>
                 </div>
-            </form>
+           
 
 
 
-        </div>
+        </div> 
+    
+    </form>
     </section>
 @endsection
 
@@ -271,6 +333,9 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <script>
+
+
+        
             $(function() {
     var startDate = moment().subtract(29, 'days');  // Set default start date
     var endDate = moment();  // Set default end date

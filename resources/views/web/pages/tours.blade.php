@@ -80,7 +80,7 @@
                                         <div class="col-auto">
                                             <div class="d-flex items-center">
                                                 <div class="form-checkbox ">
-                                                    <input name="tour_type_id[]" type="checkbox"  onchange="this.form.submit()" value="{{$item->id}}" {{ in_array($item->id, request()->input('tour_type_id', [])) ? 'checked' : '' }} class="has-value">
+                                                    <input name="category_id[]" type="checkbox"  onchange="this.form.submit()" value="{{$item->id}}" {{ in_array($item->id, request()->input('category_id', [])) ? 'checked' : '' }} class="has-value">
                                                     <div class="form-checkbox__mark">
                                                         <div class="form-checkbox__icon icon-check"></div>
                                                     </div>

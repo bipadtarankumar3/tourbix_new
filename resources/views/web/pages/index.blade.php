@@ -363,9 +363,9 @@
                     <div class="col-md-3 col-sm-6 mb-4">
                         <div class="trending-box2">
                             <div class="inner">
-                                <img src="{{ URL::to('public'.$exprience->thumbnail) }}" alt=""  class="img-fluid" 
-                                    />
-                                <h6>{{$exprience->title}}</h6>
+                                <img src="{{ URL::to('public' . $exprience->thumbnail) }}" alt=""
+                                    class="img-fluid" />
+                                <h6>{{ $exprience->title }}</h6>
                             </div>
                         </div>
                     </div>

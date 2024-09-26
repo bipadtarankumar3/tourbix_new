@@ -15,29 +15,31 @@ use App\Models\ExpriencePackageAvailableDay;
 use App\Models\ExpriencePackageDay;
 use App\Models\Location;
 use DateTime;
+
 class ExpriencePackageController extends Controller
 {
     public function list()
     {
-        $data['expriences']=Experiance::all();
+        $data['expriences'] = Experiance::all();
         $data['lists'] = ExpriencePackage::all();
-        return view('admin.pages.exprience_packages.list',$data);
+        return view('admin.pages.exprience_packages.list', $data);
     }
     public function add()
     {
-        $data['locations']=Location::orderBy('id','desc')->get();
-        $data['categories']=experianceCategory::orderBy('id','desc')->get();
-        $list=experianceAttribute::orderBy('id','desc')->get();
-        $data['top_features']=$list->where('attribute_type','top_feature');
-        $data['facilities']=$list->where('attribute_type','facilities');
-        $data['travel_style']=$list->where('attribute_type','travel_style');
-        $data['expriences']=Experiance::all();
+        $data['locations'] = Location::orderBy('id', 'desc')->get();
+        $data['categories'] = experianceCategory::orderBy('id', 'desc')->get();
+        $list = experianceAttribute::orderBy('id', 'desc')->get();
+        $data['top_features'] = $list->where('attribute_type', 'top_feature');
+        $data['facilities'] = $list->where('attribute_type', 'facilities');
+        $data['travel_style'] = $list->where('attribute_type', 'travel_style');
+        $data['expriences'] = Experiance::all();
         $data['lists'] = ExpriencePackage::all();
-        return view('admin.pages.exprience_packages.add',$data);
+        return view('admin.pages.exprience_packages.add', $data);
     }
 
-    public function AddAction(Request $request, $exprienceId = null){
-// dd($request->all());
+    public function AddAction(Request $request, $exprienceId = null)
+    {
+        // dd($request->all());
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -46,17 +48,17 @@ class ExpriencePackageController extends Controller
         $year_month = explode('-', $request->input('month'));
         $year = $year_month[0];
         $month = $year_month[1];
-        $facilities = $request->input('facilitie_id'); 
+        $facilities = $request->input('facilitie_id');
 
         // Implode the array into a comma-separated string
         $facilitiesString = implode(',', $facilities);
         //    dd( $facilitiesString);
-            $exp = $exprienceId ? ExpriencePackage::findOrFail($exprienceId) : new ExpriencePackage();
-            $exp->experiance_attribute_facilities_id = $facilitiesString;
-            $exp->location_id = $request->input('location_id');
-            $exp->category_id = $request->input('category_id');
-            $exp->experiance_attribute_features_id = $request->input('top_feature_id');
-            $exp->experiance_attribute_style_id = $request->input('travel_style_id');
+        $exp = $exprienceId ? ExpriencePackage::findOrFail($exprienceId) : new ExpriencePackage();
+        $exp->experiance_attribute_facilities_id = $facilitiesString;
+        $exp->location_id = $request->input('location_id');
+        $exp->category_id = $request->input('category_id');
+        $exp->experiance_attribute_features_id = $request->input('top_feature_id');
+        $exp->experiance_attribute_style_id = $request->input('travel_style_id');
         // Set attributes
         $exp->title = $request->input('title');
         $exp->description = $request->input('description');
@@ -66,7 +68,7 @@ class ExpriencePackageController extends Controller
 
         $id = $exp->id;
 
-       
+
 
 
         if ($request->hasFile('feature_image')) {
@@ -108,37 +110,33 @@ class ExpriencePackageController extends Controller
             if ($uploadSuccess) {
                 Documents::insert($documentData);
             }
-        $package_day = $request->package_day;
-        $exprience_id = $request->exprience_id;
-        $package_description = $request->package_description;
-        if ($package_day != null) {
+            $package_day = $request->package_day;
+            $exprience_id = $request->exprience_id;
+            $package_description = $request->package_description;
+            if ($package_day != null) {
 
-         
-            foreach ($package_day as $key => $package_d) {
-               
-                   
+
+                foreach ($package_day as $key => $package_d) {
+
+
                     $packageData[] = [
                         'exprience_package_id' => $id,
                         'package_day' => isset($package_day[$key]) ? $package_day[$key] : '',
                         'exprience_id' => isset($exprience_id[$key]) ? $exprience_id[$key] : '',
                         'package_description' => isset($package_description[$key]) ? $package_description[$key] : '',
-                        
+
                     ];
-               
+                }
+                ExpriencePackageDay::insert($packageData);
             }
-            ExpriencePackageDay::insert($packageData);
-           
-           
         }
-          
-        }
-           // Create a DateTime object for the first day of the given month
+        // Create a DateTime object for the first day of the given month
         $startDate = new DateTime("$year-$month-01");
         // Clone the DateTime object and set it to the first day of the next month
         $endDate = clone $startDate;
 
         $endDate->modify('first day of next month');
-        
+
         // Initialize an array to store all dates in the month
         $dates = [];
         while ($startDate < $endDate) {
@@ -147,18 +145,17 @@ class ExpriencePackageController extends Controller
         }
 
         foreach ($dates as $date) {
-            
+
             $ExperiancepackAvailable = new ExpriencePackageAvailableDay();
             $ExperiancepackAvailable->exprience_package_id = $id;
             $ExperiancepackAvailable->exprience_package_amount = $request->input('amount');
             $ExperiancepackAvailable->exprience_package_available_date = $date;
-            $ExperiancepackAvailable->exprience_package_available_month =$request->input('month');
+            $ExperiancepackAvailable->exprience_package_available_month = $request->input('month');
             $ExperiancepackAvailable->exprience_package_available_status = 'available';
             $ExperiancepackAvailable->save();
         }
 
-        return redirect('admin/experiance-package/add_experiance_package_available/'.$id)->with('success', 'Experience Package created successfully.');
-       
+        return redirect('admin/experiance-package/add_experiance_package_available/' . $id)->with('success', 'Experience Package created successfully.');
     }
     public function add_experiance_package_available($id)
     {
@@ -172,11 +169,11 @@ class ExpriencePackageController extends Controller
 
         // dd($data['ExperianceAvailable'] );
 
-        return view('admin.pages.exprience_packages.add_experiance_available',$data);
+        return view('admin.pages.exprience_packages.add_experiance_available', $data);
     }
 
 
-        
+
     public function add_experiance_package_update_availability(Request $request)
     {
         $id = $request->input('id');
@@ -206,7 +203,7 @@ class ExpriencePackageController extends Controller
         $year = $year_month[0];
         $month = $year_month[1];
 
-        $ExperianceAvailableCheck = ExpriencePackageAvailableDay::where('exprience_package_id',$experiance_id)->where('exprience_package_available_month',$request->input('month'))->first();
+        $ExperianceAvailableCheck = ExpriencePackageAvailableDay::where('exprience_package_id', $experiance_id)->where('exprience_package_available_month', $request->input('month'))->first();
 
         if ($ExperianceAvailableCheck) {
             return response()->json([
@@ -214,20 +211,20 @@ class ExpriencePackageController extends Controller
                 'message' => 'Already inseted',
             ]);
         }
-           
+
         $exp = ExpriencePackage::findOrFail($experiance_id);
         $exp->month = $request->input('month');
         $exp->save();
 
         $id = $exp->id;
-                
+
         // Create a DateTime object for the first day of the given month
         $startDate = new DateTime("$year-$month-01");
         // Clone the DateTime object and set it to the first day of the next month
         $endDate = clone $startDate;
 
         $endDate->modify('first day of next month');
-        
+
         // Initialize an array to store all dates in the month
         $dates = [];
         while ($startDate < $endDate) {
@@ -236,12 +233,12 @@ class ExpriencePackageController extends Controller
         }
 
         foreach ($dates as $date) {
-            
+
             $ExpriencePackageAvailableDay = new ExpriencePackageAvailableDay();
             $ExpriencePackageAvailableDay->exprience_package_id = $exp->id;
             $ExpriencePackageAvailableDay->exprience_package_amount = $exp->amount;
             $ExpriencePackageAvailableDay->exprience_package_available_date = $date;
-            $ExpriencePackageAvailableDay->exprience_package_available_month =$request->input('month');
+            $ExpriencePackageAvailableDay->exprience_package_available_month = $request->input('month');
             $ExpriencePackageAvailableDay->exprience_package_available_status = 'available';
             $ExpriencePackageAvailableDay->save();
         }
@@ -255,18 +252,18 @@ class ExpriencePackageController extends Controller
 
     public function edit($id)
     {
-        $data['locations']=Location::orderBy('id','desc')->get();
-        $data['categories']=experianceCategory::orderBy('id','desc')->get();
-        $list=experianceAttribute::orderBy('id','desc')->get();
-        $data['top_features']=$list->where('attribute_type','top_feature');
-        $data['facilities']=$list->where('attribute_type','facilities');
-        $data['travel_style']=$list->where('attribute_type','travel_style');
-        $data['expriences']=Experiance::all();
+        $data['locations'] = Location::orderBy('id', 'desc')->get();
+        $data['categories'] = experianceCategory::orderBy('id', 'desc')->get();
+        $list = experianceAttribute::orderBy('id', 'desc')->get();
+        $data['top_features'] = $list->where('attribute_type', 'top_feature');
+        $data['facilities'] = $list->where('attribute_type', 'facilities');
+        $data['travel_style'] = $list->where('attribute_type', 'travel_style');
+        $data['expriences'] = Experiance::all();
         $data['lists'] = ExpriencePackage::all();
         $data['package'] = ExpriencePackage::findOrFail($id);
         $data['documents'] = Documents::where('item_id', $id)->where('table_name', 'rooms')->get();
         $data['exp_pack_days'] = ExpriencePackageDay::where('exprience_package_id', $id)->get();
-        return view('admin.pages.exprience_packages.add',$data);
+        return view('admin.pages.exprience_packages.add', $data);
     }
     public function delete_exp_images($id)
     {

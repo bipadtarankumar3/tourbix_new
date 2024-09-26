@@ -1,74 +1,71 @@
 @extends('web.layouts.main')
 @section('content')
     <section class="search-list">
+
+        <form action="">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 p-0">
+                        <img src="{{ URL::to('public/assets/web/images/banner.jpg') }}" alt="" class="img-fluid" />
+                    </div>
+                </div>
+            </div>
+
         <div class="container">
 
-            <form action="">
-                <section class="pt-40 pb-40 bg-light-2">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="text-center">
-                                    <h1 class="text-30 fw-600">Search for tour</h1>
-                                </div>
-                        
-                                        <div class="row w-100 m-0">
-                                                                                
-                                            <div class="col-lg-10 align-self-center px-30 lg:py-20 lg:px-0">
-                                                <div class="form-group col-md-4">
-                                                    <label for="exampleInputDate"><i class="fa fa-calendar"
-                                                            aria-hidden="true"></i></label>
-                                                    <input type="text" name="search_date" class="form-control"
-                                                        id="datetimesl" placeholder="{{ request('search_date') ?? 'Apr 29 - May 3' }}" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <button class="mainSearch__submit button  -dark-1 py-15 col-12 bg-blue-1 text-white w-100 rounded-4" type="submit" fdprocessedid="a5im7m">
-                                                    <i class="icon-search text-20 mr-10"></i>
-                                                    <span class="text-search">Search</span>
-                                                </button>
-                                            </div>
+           
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="down-border">
+                          
+    
+                                <div class="col-md-11">
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleInputAddress"><i class="fa fa-map-marker"
+                                                    aria-hidden="true"></i></label>
+                                            {{-- <input type="text" name="location_id" class="form-control"
+                                                id="locationssearch" aria-describedby="AddressHelp"
+                                                placeholder="Going to" required> --}}
+                                                <select name="location_id" id="location_id" onchange="this.form.submit()" class="form-control">
+                                                    <option value="">Select Address</option>
+                                                    @foreach ($locations as $item)
+                                                        <option value="{{$item->id}}" {{ $item->id == request()->input('location_id') ? 'selected' : '' }}>{{$item->location_name}}</option>
+                                                    @endforeach
+    
+                                                </select>
                                         </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleInputDate"><i class="fa fa-calendar"
+                                                    aria-hidden="true"></i></label>
+                                                    <input type="text" name="search_date" class="form-control"
+                                                    id="datetimesl" placeholder="{{ request('search_date') ?? 'Apr 29 - May 3' }}" required>
+                                        </div>
+                                      <div class="col-md-1 p-0-c">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                </div>
+                                       
+                                    </div>
+                                </div>
+                               
                             
-                            </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </div>
+    
+
 
                 <div class="row my-4">
                     <div class="col-md-4">
                         <aside class="sidebar y-gap-40 p-4 p-lg-0">
-                            <div data-x-click="filterPopup" class="-icon-close is_mobile pb-0">
-                                <i class="icon-close"></i>
-                            </div>
-
-                            <div class="sidebar__item -no-border">
-                                <h5 class="text-18 fw-500 mb-10">Location</h5>
-                                <div class="sidebar-checkbox">
-
-                                    @foreach ($locations as $item)
-                                    <div class="row y-gap-10 items-center justify-between">
-                                        <div class="col-auto">
-                                            <div class="d-flex items-center">
-                                                <div class="form-checkbox ">
-                                                    <input name="location_id[]" type="checkbox"  onchange="this.form.submit()" value="{{$item->id}}" {{ in_array($item->id, request()->input('location_id', [])) ? 'checked' : '' }} class="has-value">
-                                                    <div class="form-checkbox__mark">
-                                                        <div class="form-checkbox__icon icon-check"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="text-15 ml-10"> {{$item->location_name}}</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-auto">
-                                            <div class="text-15 text-light-1"></div>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                    
-                                
-                                </div>
-                            </div>
+                            
+                         
 
                             <div class="sidebar__item -no-border">
                                 <h5 class="text-18 fw-500 mb-10">Tour Type</h5>
@@ -209,6 +206,8 @@
                 
                     <div class="col-md-8">
                         <div class="row ">
+
+                            @if (count($tours) > 0)
                     @foreach ($tours as $t)
                         <div class="col-md-6 mb-4">
                             <div class="listing-box">
@@ -245,6 +244,11 @@
                             </div>
                         </div>
                     @endforeach
+                    @else
+                    <h2 class="text-center">No Data Available</h2>
+                @endif
+
+
                         </div>
 
 
@@ -254,11 +258,12 @@
                         </div>
                 </div>
                 </div>
-            </form>
+           
 
 
 
         </div>
+    </form>
     </section>
 @endsection
 

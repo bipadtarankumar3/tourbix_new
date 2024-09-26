@@ -111,6 +111,7 @@ class WebViewController extends Controller
         $data['travel_style'] = experianceAttribute::where('attribute_type', 'travel_style')->orderBy('id', 'desc')->get();
         $data['facilities'] = experianceAttribute::where('attribute_type', 'facilities')->orderBy('id', 'desc')->get();
         $data['tour_feature'] = experianceAttribute::where('attribute_type', 'travel_style')->orderBy('id', 'desc')->get();
+        
     
         $tourQuery = Experiance::query();
     
@@ -131,6 +132,7 @@ class WebViewController extends Controller
     
         // Filter by location
         if ($request->has('location_id') && !empty($request->input('location_id'))) {
+            // dd($request->input('location_id'));
             $tourQuery->where('location_id', $request->input('location_id'));
         }
     

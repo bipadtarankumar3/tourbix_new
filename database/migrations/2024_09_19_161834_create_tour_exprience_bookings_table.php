@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tour_exp_id');
             $table->string('type');
             $table->string('first_name');
+            $table->string('traveler');
             $table->string('booking_id');
             $table->string('last_name');
             $table->integer('phone');

@@ -21,6 +21,7 @@ use App\Models\RoomAvailableDate;
 use App\Models\TourExprienceBooking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class WebViewController extends Controller
@@ -37,6 +38,8 @@ class WebViewController extends Controller
 
     public function toursPage(Request $request)
     {
+        // dd($request->all());
+        Session::put('traveler',$request->traveler);
         $data['experianceCategory'] = experianceCategory::orderBy('id', 'desc')->get();
         $data['locations'] = Location::orderBy('id', 'desc')->get();
         $data['travel_style'] = experianceAttribute::where('attribute_type', 'travel_style')->orderBy('id', 'desc')->get();
@@ -112,7 +115,7 @@ class WebViewController extends Controller
         $data['facilities'] = experianceAttribute::where('attribute_type', 'facilities')->orderBy('id', 'desc')->get();
         $data['tour_feature'] = experianceAttribute::where('attribute_type', 'travel_style')->orderBy('id', 'desc')->get();
         
-    
+        Session::put('traveler',$request->traveler);
         $tourQuery = Experiance::query();
     
         // Filter by search date range and availability status
@@ -278,6 +281,7 @@ class WebViewController extends Controller
         $booking_id = Str::upper(Str::random(8));
       Booking::create([
         'first_name'=>$request->first_name,
+        
         'last_name'=>$request->last_name,
         'email'=>$request->email,
         'phone'=>$request->phone,
@@ -297,6 +301,7 @@ class WebViewController extends Controller
         TourExprienceBooking::create([
         'first_name'=>$request->first_name,
         'last_name'=>$request->last_name,
+        'traveler'=>Session::get('traveler'),
         'email'=>$request->email,
         'phone'=>$request->phone,
         'tour_exp_id'=>$request->tour_exp_id,
@@ -315,6 +320,7 @@ class WebViewController extends Controller
         'last_name'=>$request->last_name,
         'email'=>$request->email,
         'phone'=>$request->phone,
+        'traveler'=>Session::get('traveler'),
         'tour_exp_id'=>$request->room_id,
         'type'=>"exprience",
         'total_price'=>$request->amount,

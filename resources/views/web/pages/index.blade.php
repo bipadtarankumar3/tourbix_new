@@ -151,33 +151,38 @@
                                 </div>
 
                                 <div id="TabD" class="tabcontent-inner">
-                                    <form class="row book-form">
+                                    <form class="row book-form" method="get" action="{{URL::To('tours')}}">
                                         <div class="col-md-11">
                                             <div class="row">
-                                                <div class="form-group col-md-3">
-                                                    <label for="exampleInputLeaving2"><i class="fa fa-map-marker"
+                                                <div class="form-group col-md-4">
+                                                    <label for="exampleInputAddress"><i class="fa fa-map-marker"
                                                             aria-hidden="true"></i></label>
-                                                    <input type="text" class="form-control" id="exampleInputLeaving2"
-                                                        aria-describedby="AddressHelp" placeholder="Leaving from">
+        
+                                                    <select name="location_id" id="location_id" onchange="this.form.submit()"
+                                                        class="form-control" style="height: calc(2.25rem + 10px);">
+                                                        <option value="">Select Address</option>
+                                                        @foreach ($locations as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                {{ $item->id == request()->input('location_id') ? 'selected' : '' }}>
+                                                                {{ $item->location_name }}</option>
+                                                        @endforeach
+        
+                                                    </select>
                                                 </div>
-                                                <div class="form-group col-md-3">
-                                                    <label for="exampleInputGoing"><i class="fa fa-map-marker"
+                                                <div class="form-group col-md-4">
+                                                    <label for="exampleInputDate"><i class="fa fa-calendar"
                                                             aria-hidden="true"></i></label>
-                                                    <input type="text" class="form-control" id="exampleInputGoing"
-                                                        aria-describedby="AddressHelp" placeholder="Going to">
+                                                    <input type="text" name="search_date" class="form-control" id="datetimesll"
+                                                        placeholder="{{ request('search_date') ?? 'Apr 29 - May 3' }}" required>
                                                 </div>
-                                                <div class="form-group col-md-3">
-                                                    <label for="exampleInputDate2"><i class="fa fa-calendar"
+                                                <div class="form-group col-md-4">
+                                                    <label for="exampleInputTravelers"><i class="fa fa-user-o"
                                                             aria-hidden="true"></i></label>
-                                                    <input type="text" class="form-control" id="exampleInputDate2"
-                                                        placeholder="Apr 29 - May 3">
+                                                    <input type="text" class="form-control" name="traveler" id="exampleInputTravelers"
+                                                        placeholder="1 travelers">
                                                 </div>
-                                                <div class="form-group col-md-3">
-                                                    <label for="exampleInputTravelers2"><i class="fa fa-user-o"
-                                                            aria-hidden="true"></i></label>
-                                                    <input type="text" class="form-control"
-                                                        id="exampleInputTravelers2" placeholder="1 travelers">
-                                                </div>
+        
+        
                                             </div>
                                         </div>
                                         <div class="col-md-1 p-0-c">
@@ -563,6 +568,13 @@
         });
         $(function() {
             $('#datetimesl').daterangepicker({
+                autoApply: true,
+                minDate: new Date()
+            });
+
+        });
+        $(function() {
+            $('#datetimesll').daterangepicker({
                 autoApply: true,
                 minDate: new Date()
             });

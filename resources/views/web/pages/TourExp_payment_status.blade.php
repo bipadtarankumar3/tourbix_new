@@ -19,6 +19,7 @@
                         <li><strong>Booking ID:</strong>{{$bookingDetails->booking_id}}</li>
                         <li><strong>Name:</strong> {{$bookingDetails->first_name}} {{$bookingDetails->last_name}}</li>
                         <li><strong>Email:</strong> {{$bookingDetails->email}}</li>
+                        <li><strong>Traveler:</strong> {{$bookingDetails->traveler}}</li>
                         <li><strong>Mobile:</strong> +91 {{$bookingDetails->phone}}</li>          
                         <li><strong>Amount Paid:</strong>{{$bookingDetails->total_price}} </li>
                         <li><strong>Booking Date:</strong> {{ \Carbon\Carbon::parse($bookingDetails->created_at)->format('F j, Y, g:i a') }}</li>

@@ -25,7 +25,6 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2);
             $table->enum('status', ['confirmed', 'cancelled', 'completed']);
             $table->timestamps();
-            $table->timestamps();
         });
     }
 

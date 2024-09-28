@@ -142,8 +142,144 @@
 
                         </div>
 
+                        <div class="refundable-text mt-4 mb-5">
+                            <h3>Important information</h3>
+                           
+                            <p>{!!$tour->description!!}</p>
+                           
+                                processes your payment outside the U.S., in which case your card issuer may charge a foreign
+                                transaction fee.</p>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Detailed Itinerary
+                                   </h3>
+                                   <p> Your days at a glance</p>
+                            </div>
+                        </div>
+                        <div id="accordion">
+
+                            @foreach ($ExpriencePackageDay as $key => $item)
+                            <div class="card mt-2">
+                                <div class="card-header" id="heading{{$key}}">
+                                  <h5 class="mb-0">
+                                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">
+                                      Day {{$item->package_day}}
+                                    </button>
+                                  </h5>
+                                </div>
+                            
+                                <div id="collapse{{$key}}" class="collapse {{$key == 0?'show':''}}" aria-labelledby="heading{{$key}}" data-parent="#accordion">
+                                  <div class="card-body">
+                                    {{$item->package_description}}
+                                  </div>
+                                </div>
+                              </div>
+                            @endforeach
+
+                            
+                        
+                        </div>
 
 
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <h3>Things to know
+                                   </h3>
+                                   <p>Before you go</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                               <h5>What's included</h5>
+                               @foreach ($package_includeds as $item)
+                                   <div class="card mt-2">
+                                        <div class="card-body">
+                                            <h6>{{$item->in_title}}</h6>
+                                        <p>{{$item->in_description}}</p>
+                                        </div>
+                                        
+                                   </div>
+                               @endforeach
+                            </div>
+                            <div class="col-md-4">
+                                <h5>What's not included</h5>
+                                @foreach ($package_not_includeds as $item)
+                                    <div class="card mt-2">
+                                        <div class="card-body">
+                                        <h6>{{$item->in_not_title}}</h6>
+                                        <p>{{$item->in_not_description}}</p>
+                                        </div>
+                                        
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="col-md-4">
+                                <h5>What to carry</h5>
+                                @foreach ($package_carry as $item)
+                                    <div class="card mt-2">
+                                        <div class="card-body">
+                                        <h6>{{$item->carry_title}}</h6>
+                                        <p>{{$item->carry_description}}</p>
+                                        </div>
+                                        
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div id="accordion">
+
+                            @foreach ($package_faqs as $key => $item)
+                            <div class="card mt-2">
+                                <div class="card-header" id="heading{{$key}}">
+                                  <h5 class="mb-0">
+                                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-faq-{{$key}}" aria-expanded="true" aria-controls="collapse-faq-{{$key}}">
+                                      Day {{$item->faq_question}}
+                                    </button>
+                                  </h5>
+                                </div>
+                            
+                                <div id="collapse-faq-{{$key}}" class="collapse {{$key == 0?'show':''}}" aria-labelledby="heading{{$key}}" data-parent="#accordion">
+                                  <div class="card-body">
+                                    {{$item->faq_answers}}
+                                  </div>
+                                </div>
+                              </div>
+                            @endforeach
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>FAQs
+                                   </h3>
+                                   <p> Frequently asked questions</p>
+                            </div>
+                        </div>
+                        <div id="accordion">
+
+                            @foreach ($package_faqs as $key => $item)
+                            <div class="card mt-2">
+                                <div class="card-header" id="heading{{$key}}">
+                                  <h5 class="mb-0">
+                                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-faq-{{$key}}" aria-expanded="true" aria-controls="collapse-faq-{{$key}}">
+                                      Day {{$item->faq_question}}
+                                    </button>
+                                  </h5>
+                                </div>
+                            
+                                <div id="collapse-faq-{{$key}}" class="collapse {{$key == 0?'show':''}}" aria-labelledby="heading{{$key}}" data-parent="#accordion">
+                                  <div class="card-body">
+                                    {{$item->faq_answers}}
+                                  </div>
+                                </div>
+                              </div>
+                            @endforeach
+
+                        </div>
+
+                       
                         <div class="refundable-text mt-4">
                             <h3>Cancellation policy</h3>
                             <p>. Fully refundable before Fri, Sep 6</p>
@@ -152,15 +288,6 @@
                                 subject to a property fee equal to the first nights rate plus taxes and fees</p>
 
                         </div>
-
-                        <div class="refundable-text mt-4 mb-5">
-                            <h3>Important information</h3>
-                           
-                            <p>{!!$tour->description!!}</p>
-                           
-                                processes your payment outside the U.S., in which case your card issuer may charge a foreign
-                                transaction fee.</p>
-                                                   </div>
 
                     </div>
 

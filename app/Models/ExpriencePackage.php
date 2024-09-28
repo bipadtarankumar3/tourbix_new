@@ -13,6 +13,6 @@ class ExpriencePackage extends Model
     public function documents()
     {
         return $this->hasMany(Documents::class, 'item_id')
-        ->where('table_name', 'exprience');
+        ->where('table_name', 'exprience_packages');
     }
 }

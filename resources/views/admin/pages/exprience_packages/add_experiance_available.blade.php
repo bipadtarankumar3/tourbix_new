@@ -34,7 +34,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 {{-- <button class="btn btn-primary mt-2" type="submit">Update</button> --}}
-                                <a href="{{URL::to('admin/experiance/list')}}">
+                                <a href="{{URL::to('admin/experiance-package/list')}}">
                                     <button class="btn btn-success mt-2" type="button">Back</button>
 
                                 </a>

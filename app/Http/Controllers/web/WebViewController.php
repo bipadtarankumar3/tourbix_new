@@ -24,6 +24,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
+use App\Models\package_carry;
+use App\Models\package_faq;
+use App\Models\package_included;
+use App\Models\package_not_included;
+
 class WebViewController extends Controller
 {
     public function index(){
@@ -178,6 +183,12 @@ class WebViewController extends Controller
       
         
         $data['tour']=ExpriencePackage::where('id',$id)->first();
+        $data['ExpriencePackageDay']=ExpriencePackageDay::where('exprience_package_id',$id)->get();
+
+        $data['package_includeds'] = package_included::where('in_exprience_package_id', $id)->get();
+        $data['package_not_includeds'] = package_not_included::where('in_not_exprience_package_id', $id)->get();
+        $data['package_carry'] = package_carry::where('carry_exprience_package_id', $id)->get();
+        $data['package_faqs'] = package_faq::where('faq_exprience_package_id', $id)->get();
         
         return view('web.pages.toursDetails',$data);
     }

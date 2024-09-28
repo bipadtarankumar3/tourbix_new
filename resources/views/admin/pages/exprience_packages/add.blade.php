@@ -29,8 +29,8 @@
                             <input type="file" name="feature_image" class="form-control" id="basic-default-name"
                                 placeholder="Feature Image">
                             <label for="basic-default-name">Feature Image</label>
-                            @if (isset($room) && $room->feature_image)
-                                <img src="{{ URL::to('public/' . $room->feature_image) }}" alt="Feature Image"
+                            @if (isset($package) && $package->feature_image)
+                                <img src="{{ URL::to('public/' . $package->feature_image) }}" alt="Feature Image"
                                     width="100">
                             @endif
                         </div>
@@ -186,29 +186,10 @@
                                     <tbody class="table_days_body_row">
                                         <!-- Loop through existing images if in edit mode -->
 
-                                        <tr>
-                                            <td><input type="text" name="package_day[]" class="form-control"
-                                                    placeholder="Example Day 1"></td>
-                                            <td>
-                                                <select name="exprience_id[]" id="" class="form-control">
-                                                    @foreach ($expriences as $exprience)
-                                                        <option value="{{ $exprience->id }}">{{ $exprience->title }}
-                                                        </option>
-                                                    @endforeach
+                                        
 
-                                                </select>
-                                            </td>
-                                            <td><input type="text" name="package_description[]" class="form-control">
-                                            </td>
-                                            <td>
-                                                <button type="button" onclick="add_days_more_row()" id="#add-more-row"
-                                                    class="btn btn-info waves-effect waves-light"><i
-                                                        class="fa-solid fa-plus"></i></button>
-                                            </td>
-                                        </tr>
-
-                                        @if (isset($exp_pack_days))
-                                            @foreach ($exp_pack_days as $exp_pack_day)
+                                        @if (isset($exp_pack_days) && count($exp_pack_days) > 0)
+                                            @foreach ($exp_pack_days as $key=> $exp_pack_day)
                                                 <tr>
                                                     <td><input type="text" name="package_day[]"
                                                             value="{{ $exp_pack_day->package_day }}" class="form-control"
@@ -229,18 +210,303 @@
                                                             class="form-control">
                                                     </td>
                                                     <td>
+                                                        @if ($key == 0)
+                                                        <button type="button" onclick="add_days_more_row()" id="#add-more-row"
+                                                        class="btn btn-info waves-effect waves-light"><i
+                                                            class="fa-solid fa-plus"></i></button>
+                                                        @else
                                                         <button
-                                                            onclick="remove_row_with_data(this,'{{ $exp_pack_day->id }}')"
-                                                            class="btn btn-danger waves-effect waves-light"><i
-                                                                class="fa-solid fa-trash"></i></button>
+                                                        onclick="remove_row_with_data(this,'{{ $exp_pack_day->id }}')"
+                                                        class="btn btn-danger waves-effect waves-light"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                        @endif
+                                                        
                                                     </td>
                                                 </tr>
                                             @endforeach
+
+                                        @else
+                                        <tr>
+                                            <td><input type="text" name="package_day[]" class="form-control"
+                                                    placeholder="Example Day 1"></td>
+                                            <td>
+                                                <select name="exprience_id[]" id="" class="form-control">
+                                                    @foreach ($expriences as $exprience)
+                                                        <option value="{{ $exprience->id }}">{{ $exprience->title }}
+                                                        </option>
+                                                    @endforeach
+
+                                                </select>
+                                            </td>
+                                            <td><input type="text" name="package_description[]" class="form-control">
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="add_days_more_row()" id="#add-more-row"
+                                                    class="btn btn-info waves-effect waves-light"><i
+                                                        class="fa-solid fa-plus"></i></button>
+                                            </td>
+                                        </tr>
                                         @endif
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
+
+                        <div class="row my-4">
+                            <div class="col-md-12">
+                                <h4>What's included</h4>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table_include_body_row">
+                                        <!-- Loop through existing images if in edit mode -->
+
+                                       
+
+                                        @if (isset($package_includeds)  && count($package_includeds) > 0)
+                                            @foreach ($package_includeds as $key=> $inc)
+                                                <tr>
+                                                    <td><input type="text" name="included_title[]"
+                                                            value="{{ $inc->in_title }}" class="form-control"
+                                                            placeholder="Example Day 1"></td>
+                                                   
+                                                    <td><input type="text" name="included_description[]"
+                                                            value="{{ $inc->in_description }}"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td>
+                                                        @if ($key == 0)
+                                                        <button type="button" onclick="add_included_more_row()" id="#add-more-row"
+                                                        class="btn btn-info waves-effect waves-light"><i
+                                                            class="fa-solid fa-plus"></i></button>
+                                                        @else
+                                                        <button
+                                                        onclick="remove_include_row_with_data(this,'{{ $inc->id }}')"
+                                                        class="btn btn-danger waves-effect waves-light"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                        @endif
+                                                        
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                        <tr>
+                                            <td><input type="text" name="included_title[]" class="form-control"
+                                                    placeholder="Title">
+                                                </td>
+                                            
+                                            <td><input type="text" name="included_description[]" class="form-control">
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="add_included_more_row()" id="#add-more-row"
+                                                    class="btn btn-info waves-effect waves-light"><i
+                                                        class="fa-solid fa-plus"></i></button>
+                                            </td>
+                                        </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div class="row my-4">
+                            <div class="col-md-12">
+                                <h4>What's not included</h4>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table_not_include_body_row">
+                                        <!-- Loop through existing images if in edit mode -->
+
+                                       
+
+                                        @if (isset($package_not_includeds)  && count($package_not_includeds) > 0)
+                                            @foreach ($package_not_includeds as $key=> $not_included)
+                                                <tr>
+                                                    <td><input type="text" name="not_included_title[]"
+                                                            value="{{ $not_included->in_not_title }}" class="form-control"
+                                                            placeholder="Example Day 1"></td>
+                                                   
+                                                    <td><input type="text" name="not_included_description[]"
+                                                            value="{{ $not_included->in_not_description }}"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td>
+                                                        @if ($key == 0)
+                                                        <button type="button" onclick="add_not_included_more_row()" id="#add-more-row"
+                                                        class="btn btn-info waves-effect waves-light"><i
+                                                            class="fa-solid fa-plus"></i></button>
+                                                        @else
+                                                        <button
+                                                        onclick="remove_in_not_row_with_data(this,'{{ $not_included->id }}')"
+                                                        class="btn btn-danger waves-effect waves-light"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                        @endif
+                                                        
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            @else
+                                            <tr>
+                                                <td><input type="text" name="not_included_title[]" class="form-control"
+                                                        placeholder="Title">
+                                                    </td>
+                                                
+                                                <td><input type="text" name="not_included_description[]" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="add_not_included_more_row()" id="#add-more-row"
+                                                        class="btn btn-info waves-effect waves-light"><i
+                                                            class="fa-solid fa-plus"></i></button>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row my-4">
+                            <div class="col-md-12">
+                                <h4>What to carry</h4>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table_carry_body_row">
+                                        <!-- Loop through existing images if in edit mode -->
+
+                                        
+
+                                        @if (isset($package_carry)  && count($package_carry) > 0)
+                                            @foreach ($package_carry as $key => $carries)
+                                                <tr>
+                                                    <td><input type="text" name="carry_title[]"
+                                                            value="{{ $carries->carry_title }}" class="form-control"
+                                                            placeholder="Title"></td>
+                                                   
+                                                    <td><input type="text" name="carry_description[]"
+                                                            value="{{ $carries->carry_description }}"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td>
+                                                        @if ($key == 0)
+                                                        <button type="button" onclick="add_carry_more_row()" id="#add-more-row"
+                                                        class="btn btn-info waves-effect waves-light"><i
+                                                            class="fa-solid fa-plus"></i></button>
+                                                        @else
+                                                        <button
+                                                        onclick="remove_carry_row_with_data(this,'{{ $carries->id }}')"
+                                                        class="btn btn-danger waves-effect waves-light"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                        @endif
+                                                        
+                                                    </td>
+                                                </tr>
+                                            
+
+                                            @endforeach
+                                        @else   
+                                        <tr>
+                                            <td><input type="text" name="carry_title[]" class="form-control"
+                                                    placeholder="Title">
+                                                </td>
+                                            
+                                            <td><input type="text" name="carry_description[]" class="form-control">
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="add_carry_more_row()" id="#add-more-row"
+                                                    class="btn btn-info waves-effect waves-light"><i
+                                                        class="fa-solid fa-plus"></i></button>
+                                            </td>
+                                        </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div class="row my-4">
+                            <div class="col-md-12">
+                                <h4>FAQ</h4>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Question</th>
+                                            <th>Answers</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table_faq_body_row">
+                                        <!-- Loop through existing images if in edit mode -->
+
+                                        
+
+                                        @if (isset($package_faqs)  && count($package_faqs) > 0)
+                                            @foreach ($package_faqs as $key=> $faqs)
+                                                <tr>
+                                                    <td><input type="text" name="question[]"
+                                                            value="{{ $faqs->faq_question }}" class="form-control"
+                                                            placeholder="Question"></td>
+                                                   
+                                                    <td><input type="text" name="answers[]"
+                                                            value="{{ $faqs->faq_answers }}"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td>
+                                                        @if ($key == 0)
+                                                        <button type="button" onclick="add_faq_more_row()" id="#add-more-row"
+                                                        class="btn btn-info waves-effect waves-light"><i
+                                                            class="fa-solid fa-plus"></i></button>
+                                                        @else
+                                                        <button
+                                                        onclick="remove_faq_row_with_data(this,'{{ $faqs->id }}')"
+                                                        class="btn btn-danger waves-effect waves-light"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                        @endif
+                                                        
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                        <tr>
+                                            <td><input type="text" name="question[]" class="form-control"
+                                                    placeholder="Question">
+                                                </td>
+                                            
+                                            <td><input type="text" name="answers[]" class="form-control">
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="add_faq_more_row()" id="#add-more-row"
+                                                    class="btn btn-info waves-effect waves-light"><i
+                                                        class="fa-solid fa-plus"></i></button>
+                                            </td>
+                                        </tr>
+
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
                         <!-- Additional form fields, populated with data if in edit mode -->
 
 
@@ -316,6 +582,90 @@
             $(".table_days_body_row").append(newRow)
         }
 
+
+        
+        function add_included_more_row() {
+            var newRow = `
+                                        <tr>
+                                            <td><input type="text" name="included_title[]" class="form-control"
+                                                    placeholder="Title">
+                                                </td>
+                                            
+                                            <td><input type="text" name="included_description[]" class="form-control">
+                                            </td>
+                                            <td>
+                                                 <button
+                                                            onclick="remove_include_row_with_data(this,'')"
+                                                            class="btn btn-danger waves-effect waves-light"><i
+                                                                class="fa-solid fa-trash"></i></button>
+                                            </td>
+                                        </tr>`;
+            $(".table_include_body_row").append(newRow)
+        }
+
+        
+        
+        function add_not_included_more_row() {
+            var newRow = `
+                                        <tr>
+                                            <td><input type="text" name="not_included_title[]" class="form-control"
+                                                    placeholder="Title">
+                                                </td>
+                                            
+                                            <td><input type="text" name="not_included_description[]" class="form-control">
+                                            </td>
+                                            <td>
+                                                <button
+                                                            onclick="remove_in_not_row_with_data(this,'')"
+                                                            class="btn btn-danger waves-effect waves-light"><i
+                                                                class="fa-solid fa-trash"></i></button>
+                                            </td>
+                                        </tr>`;
+            $(".table_not_include_body_row").append(newRow)
+        }
+        
+        
+        function add_carry_more_row() {
+            var newRow = `
+                                        
+                                        <tr>
+                                            <td><input type="text" name="carry_title[]" class="form-control"
+                                                    placeholder="Title">
+                                                </td>
+                                            
+                                            <td><input type="text" name="carry_description[]" class="form-control">
+                                            </td>
+                                            <td>
+                                                 <button
+                                                            onclick="remove_carry_row_with_data(this,'')"
+                                                            class="btn btn-danger waves-effect waves-light"><i
+                                                                class="fa-solid fa-trash"></i></button>
+                                            </td>
+                                        </tr>`;
+            $(".table_carry_body_row").append(newRow)
+        }
+        
+        function add_faq_more_row() {
+            var newRow = `
+                                       
+                                        <tr>
+                                            <td><input type="text" name="question[]" class="form-control"
+                                                    placeholder="Qquestion">
+                                                </td>
+                                            
+                                            <td><input type="text" name="answers[]" class="form-control">
+                                            </td>
+                                            <td>
+                                               <button
+                                                            onclick="remove_faq_row_with_data(this,'')"
+                                                            class="btn btn-danger waves-effect waves-light"><i
+                                                                class="fa-solid fa-trash"></i></button>
+                                            </td>
+                                        </tr>`;
+            $(".table_faq_body_row").append(newRow)
+        }
+
+
         function remove_row_with_data(get_this, id) {
 
             $.ajax({
@@ -332,6 +682,35 @@
 
                 }
             });
+
+            $(get_this).closest('tr').remove();
+
+
+        }
+
+
+        function remove_include_row_with_data(get_this, id) {
+
+            $(get_this).closest('tr').remove();
+
+
+        }
+
+        function remove_in_not_row_with_data(get_this, id) {
+
+            $(get_this).closest('tr').remove();
+
+
+        }
+
+        function remove_carry_row_with_data(get_this, id) {
+
+            $(get_this).closest('tr').remove();
+
+
+        }
+
+        function remove_faq_row_with_data(get_this, id) {
 
             $(get_this).closest('tr').remove();
 

@@ -308,14 +308,14 @@ class ExpriencePackageController extends Controller
 
                 foreach ($carry_title as $key => $package_d) {
 
-                    $packageData[] = [
+                    $packageDataCarry[] = [
                         'carry_exprience_package_id' => $id,
                         'carry_title' => isset($carry_title[$key]) ? $carry_title[$key] : '',
                         'carry_description' => isset($carry_description[$key]) ? $carry_description[$key] : '',
 
                     ];
                 }
-                package_carry::insert($packageData);
+                package_carry::insert($packageDataCarry);
             }
             
             $included_title = $request->included_title;
@@ -324,14 +324,14 @@ class ExpriencePackageController extends Controller
 
                 foreach ($included_title as $key => $package_d) {
 
-                    $packageData[] = [
+                    $packageDataIn[] = [
                         'in_exprience_package_id' => $id,
                         'in_title' => isset($included_title[$key]) ? $included_title[$key] : '',
                         'in_description' => isset($included_description[$key]) ? $included_description[$key] : '',
 
                     ];
                 }
-                package_included::insert($packageData);
+                package_included::insert($packageDataIn);
             }
 
             $not_included_title = $request->not_included_title;
@@ -340,14 +340,14 @@ class ExpriencePackageController extends Controller
 
                 foreach ($not_included_title as $key => $package_d) {
 
-                    $packageData[] = [
+                    $packageDataNotIn[] = [
                         'in_not_exprience_package_id' => $id,
                         'in_not_title' => isset($not_included_title[$key]) ? $not_included_title[$key] : '',
                         'in_not_description' => isset($not_included_description[$key]) ? $not_included_description[$key] : '',
 
                     ];
                 }
-                package_not_included::insert($packageData);
+                package_not_included::insert($packageDataNotIn);
             }
 
             $question = $request->question;
@@ -356,14 +356,14 @@ class ExpriencePackageController extends Controller
 
                 foreach ($question as $key => $package_d) {
 
-                    $packageData[] = [
+                    $packageDataFaq[] = [
                         'faq_exprience_package_id' => $id,
                         'faq_question' => isset($question[$key]) ? $question[$key] : '',
                         'faq_answers' => isset($answers[$key]) ? $answers[$key] : '',
 
                     ];
                 }
-                package_faq::insert($packageData);
+                package_faq::insert($packageDataFaq);
             }
 
             // Create a DateTime object for the first day of the given month

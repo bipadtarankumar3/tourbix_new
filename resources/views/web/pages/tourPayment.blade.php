@@ -8,7 +8,7 @@
           <!-- Check if documents exist and display the first one -->
           @if($tour->documents && $tour->documents->first())
             <a href="#" data-toggle="modal" data-target=".bd-example-modal-xl">
-              <img src="{{ URL::to('public/upload/' . $tour->documents->first()->image_name) }}" alt="" class="w-100" />
+              <img src="{{ URL::to('public/upload/' . $tour->documents->first()->image_name) }}" alt=""  style="height: 100%;"  class="w-100" />
             </a>
           @endif
         </div>
@@ -18,7 +18,7 @@
           <div class="row m-0">
             <!-- Check if documents exist and loop through the rest of the images -->
             @if($tour->documents)
-              @foreach ($tour->documents->slice(1) as $doc)
+              @foreach ($tour->documents->slice(1)->take(2) as $doc)
                 <div class="col-md-12 col-xs-6 pl-1 pr-1 pb-2 img-over">
                   <a href="#" data-toggle="modal" data-target=".bd-example-modal-xl">
                     <img src="{{ URL::to('public/upload/' . $doc->image_name) }}" alt="" class="w-100" />
@@ -235,7 +235,7 @@
         </div>
     </section>
 
-
+{{-- 
     <section id="Accessibility">
         <div class="container">
             <div class="row">
@@ -343,5 +343,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection

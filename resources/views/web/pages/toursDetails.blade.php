@@ -8,7 +8,7 @@
           <!-- Check if documents exist and display the first one -->
           @if($tour->documents && $tour->documents->first())
             <a href="#" data-toggle="modal" data-target=".bd-example-modal-xl">
-              <img src="{{ URL::to('public/upload/' . $tour->documents->first()->image_name) }}" alt="" class="w-100" />
+              <img src="{{ URL::to('public/upload/' . $tour->documents->first()->image_name) }}" alt="" class="w-100" style="height: 100%;"  />
             </a>
           @endif
         </div>
@@ -18,14 +18,15 @@
           <div class="row m-0">
             <!-- Check if documents exist and loop through the rest of the images -->
             @if($tour->documents)
-              @foreach ($tour->documents->slice(1) as $doc)
+            @foreach ($tour->documents->slice(1)->take(2) as $doc)
                 <div class="col-md-12 col-xs-6 pl-1 pr-1 pb-2 img-over">
-                  <a href="#" data-toggle="modal" data-target=".bd-example-modal-xl">
-                    <img src="{{ URL::to('public/upload/' . $doc->image_name) }}" alt="" class="w-100" />
-                  </a>
+                    <a href="#" data-toggle="modal" data-target=".bd-example-modal-xl">
+                        <img src="{{ URL::to('public/upload/' . $doc->image_name) }}" alt="" class="w-100" />
+                    </a>
                 </div>
-              @endforeach
-            @endif
+            @endforeach
+        @endif
+        
             
             <!-- If there are more than 2 documents, display the "View All" button -->
             @if($tour->documents && $tour->documents->count() > 2)
@@ -305,7 +306,7 @@
         <div class="col-md-3 mb-3">
             <div class="listing-box border border-red">
               <div class="listing-box-slider">
-                   <img src="{{URL::to('public'.$item->feature_image)}}" alt="" class="w-100"/>
+                   <img src="{{URL::to('public'.$item->feature_image)}}" alt="" class="w-100" style="height: 200px"/>
                  
                  <div class="listing-box-top w-auto p-0">
                     <div class="popular-shay">Trip</div>
@@ -336,7 +337,7 @@
   </section>
   
   
-  <section id="">
+  {{-- <section id="">
     <div class="container">
       <div class="row">
         <div class="col-md-12 mt-3 mb-3">
@@ -355,10 +356,10 @@
          </div>
       </div>
     </div>
-  </section>
+  </section> --}}
   
   
-  
+{{--   
   <section id="Policies">
     <div class="container">
       <div class="row">
@@ -398,7 +399,7 @@
          </div>
       </div>
     </div>
-  </section>
+  </section> --}}
   
 
 @endsection

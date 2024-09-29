@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id('exprience_package_id')->nullable();
             $table->text('package_day')->nullable();
             $table->integer('exprience_id')->nullable();
+            $table->text('package_day_title')->nullable();
             $table->text('package_description')->nullable();
             $table->timestamps();
         });

@@ -728,46 +728,7 @@ border:1px solid #C3C3C3;}
     display: block;
     margin-bottom: 15px;
 }
-.text-gray{ color:#6C6C6C;font-weight: 400;}
-.js-accordion-custom {
-    background-color: #f5f5f5;
-    border-radius: 6px;
-	overflow:hidden;
-    padding: 0;
-	display: flex;
-}
-.number-add-on {
-    background-color: #ebebeb;
-    width: 80px;
-    text-align: center;
-    padding: 15px 0px;
-}
-.number-add-on p {
-    font-size: 16px;
-    color: #686868;
-    font-weight: 100;
-    margin-bottom: 8px;
-}
-.number-add-on h5{
-	font-size: 25px;
-	margin-bottom:0;
-}
-.text-add-on {
-    padding: 22px 0px 22px 20px;
-}
-.text-add-on p{
-	font-weight: 100;
-    margin-bottom: 8px;
-}
-.text-add-on h6{
-   margin-bottom:0; 
-}
-.accordion-border {
-    border-radius: 5px;
-    border: 1px solid #ebe9e9;
-	 padding:20px 15px;
-}
-.w-auto{ width:auto;}
+
 
 
 

@@ -63,6 +63,7 @@ class ExpriencePackageController extends Controller
             $exp = ExpriencePackage::findOrFail($exprienceId);
             $exp->experiance_attribute_facilities_id = $facilitiesString;
             $exp->location_id = $request->input('location_id');
+            $exp->total_days = $request->input('total_days');
             $exp->category_id = $request->input('category_id');
             $exp->experiance_attribute_features_id = $request->input('top_feature_id');
             $exp->experiance_attribute_style_id = $request->input('travel_style_id');
@@ -123,6 +124,7 @@ class ExpriencePackageController extends Controller
             $package_day = $request->package_day;
             $exprience_id = $request->exprience_id;
             $package_description = $request->package_description;
+            $package_day_title = $request->package_day_title;
             ExpriencePackageDay::where('exprience_package_id', $id)->delete();
             if ($package_day != null) {
 
@@ -134,6 +136,7 @@ class ExpriencePackageController extends Controller
                         'exprience_package_id' => $id,
                         'package_day' => isset($package_day[$key]) ? $package_day[$key] : '',
                         'exprience_id' => isset($exprience_id[$key]) ? $exprience_id[$key] : '',
+                        'package_day_title' => isset($package_day_title[$key]) ? $package_day_title[$key] : '',
                         'package_description' => isset($package_description[$key]) ? $package_description[$key] : '',
 
                     ];
@@ -279,6 +282,7 @@ class ExpriencePackageController extends Controller
             $package_day = $request->package_day;
             $exprience_id = $request->exprience_id;
             $package_description = $request->package_description;
+            $package_day_title = $request->package_day_title;
             if ($package_day != null) {
 
 
@@ -289,6 +293,7 @@ class ExpriencePackageController extends Controller
                         'exprience_package_id' => $id,
                         'package_day' => isset($package_day[$key]) ? $package_day[$key] : '',
                         'exprience_id' => isset($exprience_id[$key]) ? $exprience_id[$key] : '',
+                        'package_day_title' => isset($package_day_title[$key]) ? $package_day_title[$key] : '',
                         'package_description' => isset($package_description[$key]) ? $package_description[$key] : '',
 
                     ];

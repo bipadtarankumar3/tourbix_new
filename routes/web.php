@@ -26,6 +26,7 @@ Route::get('exprience-details/{id}', [WebViewController::class, 'exprienceDetail
 Route::get('property_details/{id}', [WebViewController::class, 'property_details']);
 Route::get('payment/{hotel_id}/{room_id}', [WebViewController::class, 'payNow']);
 Route::post('book-now', [WebViewController::class, 'bookNow']);
+Route::get('tour-book-page/{id}', [WebViewController::class, 'tour_book_page']);
 Route::post('tour-book-now', [WebViewController::class, 'tourBookNow']);
 Route::post('exp-book-now', [WebViewController::class, 'expBookNow']);
 Route::get('booking-status/{booking_id}', [WebViewController::class, 'bookingStatus']);

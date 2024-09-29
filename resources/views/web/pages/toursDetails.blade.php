@@ -45,424 +45,360 @@
   
   
 
-
-    <section>
-        <div class="container">
-            <form class="payment-page" action="{{ URL::To('tour-book-now') }}" method="post">
-                @csrf
-                <div class="row">
-                    <div class="col-md-8">
-
-
-                        <div class="refundable-text ">
-                            <h3>Who's checking in?</h3>
-                            <p>{{ $tour->name }}</p>
-                            <p style="color: #1a7e2b;"><i class="fa fa-check" aria-hidden="true"></i> Breakfast included
-                                &nbsp;
-                                <i class="fa fa-check" aria-hidden="true"></i> Free parking &nbsp; <i class="fa fa-check"
-                                    aria-hidden="true"></i> Free WiFi
-                            </p>
-                            <div class="info-text">
-                                <table>
-                                    <tr>
-                                        <td><i class="fa fa-info-circle mr-3" aria-hidden="true"
-                                                style="font-size:20px;"></i>
-                                        </td>
-                                        <td>
-                                            <p>We require traveler information to enable us to fulfill bookings if we cannot
-                                                contact you directly. We will never use the information collected on this
-                                                page
-                                                to market to travelers.</p>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">First name *</label>
-                                        <input type="text" class="form-control pl-2" id="exampleInputFirstname"
-                                            aria-describedby="emailHelp" name="first_name" placeholder="First name">
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Last name *</label>
-                                        <input type="text" class="form-control pl-2" id="exampleInputLastname"
-                                            aria-describedby="emailHelp" name="last_name" placeholder="Last name">
-
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Email address *</label>
-                                        <input type="email" name="email" class="form-control pl-2"
-                                            id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="@">
-                                        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <label for="exampleInputEmail1">Mobile phone number *</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <select class="form-control pl-2" id="exampleFormControlSelect1"
-                                            style="height: auto;">
-                                            <option>IND +91</option>
-                                            <option>AFG +93</option>
-                                            <option>ALB +355</option>
-                                            <option>DZA +213</option>
-                                            <option>ASM +1</option>
-                                            <option>AND +376</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        <input type="number" name="phone" class="form-control pl-2"
-                                            id="exampleInputMobile" aria-describedby="emailHelp" placeholder="Phone number">
-
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group form-check">
-                                        <input type="checkbox" name="alert" class="form-check-input" id="exampleCheck2">
-                                        <label class="form-check-label" for="exampleCheck1">Receive text alerts about this
-                                            trip. Message and data rates may apply.</label>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <!--<button type="submit" class="btn btn-primary w-100">Sign in</button>-->
-
-
-                        </div>
-
-                        <div class="refundable-text mt-4 mb-5">
-                            <h3>Important information</h3>
-                           
-                            <p>{!!$tour->description!!}</p>
-                           
-                                processes your payment outside the U.S., in which case your card issuer may charge a foreign
-                                transaction fee.</p>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>Detailed Itinerary
-                                   </h3>
-                                   <p> Your days at a glance</p>
-                            </div>
-                        </div>
-                        <div id="accordion">
-
-                            @foreach ($ExpriencePackageDay as $key => $item)
-                            <div class="card mt-2">
-                                <div class="card-header" id="heading{{$key}}">
-                                  <h5 class="mb-0">
-                                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">
-                                      Day {{$item->package_day}}
-                                    </button>
-                                  </h5>
-                                </div>
-                            
-                                <div id="collapse{{$key}}" class="collapse {{$key == 0?'show':''}}" aria-labelledby="heading{{$key}}" data-parent="#accordion">
-                                  <div class="card-body">
-                                    {{$item->package_description}}
-                                  </div>
-                                </div>
-                              </div>
-                            @endforeach
-
-                            
-                        
-                        </div>
-
-
-                        <div class="row mt-2">
-                            <div class="col-md-12">
-                                <h3>Things to know
-                                   </h3>
-                                   <p>Before you go</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                               <h5>What's included</h5>
-                               @foreach ($package_includeds as $item)
-                                   <div class="card mt-2">
-                                        <div class="card-body">
-                                            <h6>{{$item->in_title}}</h6>
-                                        <p>{{$item->in_description}}</p>
-                                        </div>
-                                        
-                                   </div>
-                               @endforeach
-                            </div>
-                            <div class="col-md-4">
-                                <h5>What's not included</h5>
-                                @foreach ($package_not_includeds as $item)
-                                    <div class="card mt-2">
-                                        <div class="card-body">
-                                        <h6>{{$item->in_not_title}}</h6>
-                                        <p>{{$item->in_not_description}}</p>
-                                        </div>
-                                        
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="col-md-4">
-                                <h5>What to carry</h5>
-                                @foreach ($package_carry as $item)
-                                    <div class="card mt-2">
-                                        <div class="card-body">
-                                        <h6>{{$item->carry_title}}</h6>
-                                        <p>{{$item->carry_description}}</p>
-                                        </div>
-                                        
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div id="accordion">
-
-                            @foreach ($package_faqs as $key => $item)
-                            <div class="card mt-2">
-                                <div class="card-header" id="heading{{$key}}">
-                                  <h5 class="mb-0">
-                                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-faq-{{$key}}" aria-expanded="true" aria-controls="collapse-faq-{{$key}}">
-                                      Day {{$item->faq_question}}
-                                    </button>
-                                  </h5>
-                                </div>
-                            
-                                <div id="collapse-faq-{{$key}}" class="collapse {{$key == 0?'show':''}}" aria-labelledby="heading{{$key}}" data-parent="#accordion">
-                                  <div class="card-body">
-                                    {{$item->faq_answers}}
-                                  </div>
-                                </div>
-                              </div>
-                            @endforeach
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>FAQs
-                                   </h3>
-                                   <p> Frequently asked questions</p>
-                            </div>
-                        </div>
-                        <div id="accordion">
-
-                            @foreach ($package_faqs as $key => $item)
-                            <div class="card mt-2">
-                                <div class="card-header" id="heading{{$key}}">
-                                  <h5 class="mb-0">
-                                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-faq-{{$key}}" aria-expanded="true" aria-controls="collapse-faq-{{$key}}">
-                                      Day {{$item->faq_question}}
-                                    </button>
-                                  </h5>
-                                </div>
-                            
-                                <div id="collapse-faq-{{$key}}" class="collapse {{$key == 0?'show':''}}" aria-labelledby="heading{{$key}}" data-parent="#accordion">
-                                  <div class="card-body">
-                                    {{$item->faq_answers}}
-                                  </div>
-                                </div>
-                              </div>
-                            @endforeach
-
-                        </div>
-
-                       
-                        <div class="refundable-text mt-4">
-                            <h3>Cancellation policy</h3>
-                            <p>. Fully refundable before Fri, Sep 6</p>
-                            <p>. Cancellations or changes made after 2:00pm (property local time) on Sep 6, 2024 or no-shows
-                                are
-                                subject to a property fee equal to the first nights rate plus taxes and fees</p>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="col-md-4">
-                        <div class="refundable-text">
-                            <div class="owl-product-list owl-carousel owl-theme">
-
-                             
-                                <input type="hidden" name="tour_exp_id" value="{{ $tour->id }}">
-
-                            </div>
-                            <h6>{{ $tour->title }}</h6>
-                            <div class="top-birder mt-3 pt-3"></div>
-                            <div class="prop-detail-a">
-
-                                <p>{{ $tour->name }}</p>
-                            
-
-                                <p>You have good taste! Book now before someone else grabs it!</p>
-
-                            </div>
-                        </div>
-
-                        <div class="refundable-text mt-3">
-                            <h5>Price details</h5>
-                            <div class="top-birder mt-3 pt-3"></div>
-                            <table class="w-100">
-                                <tr>
-                                    <td width="80%">
-                                        <p>1 exprience 
-                                          
-                                    </td>
-                                    <td width="20%">
-                                        <p><b>₹{{ $tour->amount }}</b></p>
-                                        <input type="hidden" value="{{ $tour->amount }}" name="amount">
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                </tr>
-                            </table>
-
-                            <div class="top-birder mt-3 pt-3"></div>
-
-                            <table class="w-100">
-                                <tr>
-                                    <td width="80%">
-                                        <h5>Total</h5>
-                                    </td>
-                                    <td width="20%">
-                                        <h5>₹{{ $tour->amount }}</h5>
-                                    </td>
-                                </tr>
-                            </table>
-                            <p><a href="#">Use a coupon</a>, <a href="#">credit</a>, or <a
-                                    href="#">promotion code</a></p>
-                        </div>
-                        <div><button type="submit" class="btn btn-primary">Book Now</button></div>
-                    </div>
-
-
-                </div>
-            </form>
-        </div>
-    </section>
-
-
-    <section id="Accessibility">
-        <div class="container">
+  <section id="Overview">
+    <div class="container">
+      <div class="row" style=" border-top: 1px solid #bfbfbf;">
+        <div class="col-md-8 mt-4">
+          <div class="prop-detail-a">
+            <h2 class="mb-3">{{ $tour->title }}</h2>
+            <p>{!!$tour->description!!}</p>
+            <!--<h4 id="Amenities">Popular amenities</h4>
             <div class="row">
-                <div class="col-md-12 mt-3 mb-3">
-                    <div class="border-1  mb-3"></div>
-                    <h3>Similar properties we recommend</h3>
+              <div class="col-6">
+                <div class="popular-amenities">
+                   <ul>
+                     <li><img src="images/pool.svg" alt=""/> Pool <img src="images/info.svg" alt="" style="width: 16px;"/></li>
+                     <li><img src="images/coffee-cup.svg" alt=""/> Breakfast available <img src="images/info.svg" alt="" style="width: 16px;"/></li>
+                     <li><img src="images/spa.svg" alt=""/> Spa</li>
+                   </ul>
+                </div>
+              </div>
+              <div class="col-6">
+               <div class="popular-amenities">
+                   <ul>
+                     <li><img src="images/restaurant.svg" alt=""/> Restaurant <img src="images/info.svg" alt="" style="width: 16px;"/></li>
+                     <li><img src="images/wifi.svg" alt=""/> Free WiFi </li>
+                     <li><img src="images/air-conditioning.svg" alt=""/> Air conditioning</li>
+                   </ul>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="see-all mb-4"><a href="#">See all property amenities <i class="fa fa-angle-right"></i> </a></div>
+              </div>
+            </div>-->
+          </div>
+        </div>
+        <div class="col-md-4 mt-4">
+          <div class="bg-light text-center pt-5 pb-5">
+            <a href="{{URL::To('tour-book-page',$tour->id)}}"><button class="btn btn-info-custom w-50">Book Now</button></a>
+            <!--<h4>Explore the area</h4>
+             <div class="map-body">
+                <div class="map">
+                   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5244.931822706119!2d87.55303141116794!3d21.635564690052664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a03332c6b09af5d%3A0xb62ac7ec4d6ce95a!2sShankarpur%20mohona!5e0!3m2!1sen!2sin!4v1720450322610!5m2!1sen!2sin" width="100%" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <p class="mb-1 ml-2">Jalan Pantai Kuta, Kuta, Bali, 80361</p>
+                <div class="see-all mb-4 ml-2"><a href="#">View in a map </a></div>
+             </div>
+             <div class="map-location mt-3">
+               <div class="popular-amenities">
+                   <ul>
+                     <li><img src="images/map.svg" alt=""/> Beachwalk Shopping Center <span>1 min walk</span></li>
+                     <li><img src="images/map.svg" alt=""/> Kuta Beach <span>1 min walk</span></li>
+                     <li><img src="images/map.svg" alt=""/> Waterbom Bali <span>18 min walk</span></li>
+                     <li><img src="images/airplane.svg" alt=""/> Denpasar (DPS-Ngurah Rai Intl.) <span>29 min drive</span></li>
+                   </ul>
+                </div>
+                <div class="see-all mb-4"><a href="#">See more <i class="fa fa-angle-right"></i> </a></div>
+             </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <section id="Rooms">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mt-5">
+          <h3>Detailed Itinerary</h3>
+          <h6 class="text-gray">Your days at a glance</h6>
+        </div>
+        <div class="col-md-8 mt-3">
+          <div class="wf-accordion-group js-accordion-group">
+
+
+            @foreach ($ExpriencePackageDay as $key => $item)
+                <div class="wf-accordion js-accordion">
+                    <div class="wf-accordion__header js-accordion__header">
+                        <div class="wf-accordion__trigger js-accordion__trigger js-accordion-custom">
+                        <div class="number-add-on">
+                            <p>Day</p>
+                            <h5> {{$item->package_day}}</h5>
+                        </div>
+                        <div class="text-add-on">
+                            {{-- <p>Sat, 5th October '24</p> --}}
+                            <h6>{{$item->package_day_title}}</h6>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="wf-accordion__panel js-accordion__panel">
+                        <p> {{$item->package_description}}</p>            
+                    </div>
+                </div>
+            @endforeach
+
+        </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+           <div class="col-md-12 mt-3 mb-3">
+             <div class="border-1  mb-3"></div>
+           </div>
+            <div class="col-md-4 mt-3">
+              <h5>What's included</h5>
+
+              @foreach ($package_includeds as $item)
+              <div class="help-box mb-3">
+                {{-- <i class="fa fa-home" aria-hidden="true"></i> --}}
+                <h6>{{$item->in_title}}</h6>
+                <p>{{$item->in_description}}</p>
+              </div>
+              @endforeach
+
+
+
+            </div>
+
+            
+            <div class="col-md-4 mt-3">
+              <h5>What's not included</h5>
+
+              @foreach ($package_not_includeds as $item)
+              <div class="help-box mb-3">
+                <h6>{{$item->in_not_title}}</h6>
+                <p>{{$item->in_not_description}}</p>
+              </div>
+              @endforeach
+
+
+            </div>
+
+
+            
+            <div class="col-md-4 mt-3">
+              <h5>What to carry</h5>
+
+              @foreach ($package_carry as $item)
+              <div class="help-box mb-3">
+                <h6>{{$item->carry_title}}</h6>
+                <p>{{$item->carry_description}}</p>
+              </div>
+              @endforeach
+
+
+            </div>
+
+
+
+            
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12 mb-2 mt-2">
+          <div class="border border-red p-3">
+            <table class="w-100">
+              <tr>
+                <td><img src="images/lodging_priming.svg" alt=""/></td>
+                <td><h5>Enjoy more peace of mind by adding stay protection at checkout.</h5></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <h3>Our policies</h3>
+          <h6 class="text-gray">Please read them once</h6>
+        </div>
+        <div class="col-md-8">
+        <div class="wf-accordion-group js-accordion-group">
+          <div class="wf-accordion js-accordion">
+              <div class="wf-accordion__header js-accordion__header">
+                  <h3 class="wf-accordion__trigger js-accordion__trigger accordion-border">General Policy</h3>
+              </div>
+              <div class="wf-accordion__panel js-accordion__panel">
+                  <p>A. details</p>
+              </div>
+          </div>
+          <div class="wf-accordion js-accordion" >
+              <div class="wf-accordion__header js-accordion__header">
+                  <h3 class="wf-accordion__trigger js-accordion__trigger accordion-border">Cancellation Policy</h3>
+              </div>
+              <div class="wf-accordion__panel js-accordion__panel">
+                  <p>A. details</p>
+              </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <!--<div class="row">
+        <div class="col-md-12 mb-4 mt-2">
+          <div class="border border-red p-3">
+            <h3>Have a question?</h3>
+            <p>Search in general property info and reviews.</p>
+            <form class=" w-100">
+                <div class="form-row align-items-center">
+                  <div class="col-11">
+                    <label class="sr-only" for="inlineFormInputGroup">Search</label>
+                    <div class="input-group mb-2">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-search"></i></div>
+                      </div>
+                      <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search">
+                    </div>
+                  </div>
+                  <div class="col-1">
+                    <button type="submit" class="btn btn-primary mb-2" style="border-radius: 30px;
+      padding: 8px 13px;"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </form>
+          </div>
+        </div>
+      </div>-->
+      
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <h3>FAQs</h3>
+          <h6 class="text-gray">Frequently asked questions</h6>
+        </div>
+        <div class="col-md-8">
+        <div class="wf-accordion-group js-accordion-group">
+
+            @foreach ($package_faqs as $key => $item)
+            <div class="wf-accordion js-accordion">
+                <div class="wf-accordion__header js-accordion__header">
+                    <h3 class="wf-accordion__trigger js-accordion__trigger accordion-border">{{$item->faq_question}}</h3>
+                </div>
+                <div class="wf-accordion__panel js-accordion__panel">
+                    <p> {{$item->faq_answers}}</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <div class="listing-box border border-red">
-                        <div class="listing-box-slider">
-                            <img src="{{ URL::to('public/assets/web/images/img-5.jpg') }}" alt=""
-                                class="w-100" />
+            @endforeach
 
-                            <div class="listing-box-top p-0">
-                                <div class="popular-shay">Walk to Kuta Beach</div>
-                            </div>
-                        </div>
-                        <div class=" pl-3">
-                            <h4>Room, 1 King Bed, Balcony</h4>
-                            <p>Downtown Kuta</p>
-                            <div class="popular-amenities">
-                                <ul>
-                                    <li><i class="fa fa-check"></i> Pool</li>
-                                    <li><i class="fa fa-check"></i> Hot Tub</li>
-                                    <li><i class="fa fa-check"></i> Spa</li>
-                                    <li><i class="fa fa-check"></i> Kids pool</li>
-                                </ul>
-                            </div>
-
-                            <p><b>4.6/5</b> Wonderful (1007)</p>
-                            <div class="">
-                                <h3>$140</h3>
-                                <p>par night</p>
-                                <h6>$170 total</h6>
-                                <p>includes texes & fees</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="listing-box border border-red">
-                        <div class="listing-box-slider">
-                            <img src="{{ URL::to('public/assets/web/images/img-4.jpg') }}" alt=""
-                                class="w-100" />
-
-                            <!--<div class="listing-box-top p-0">
-                         <div class="popular-shay">Walk to Kuta Beach</div>
-                      </div>-->
-                        </div>
-                        <div class=" pl-3">
-                            <h4>Room, 1 King Bed, Balcony</h4>
-                            <p>Downtown Kuta</p>
-                            <div class="popular-amenities">
-                                <ul>
-                                    <li><i class="fa fa-check"></i> Pool</li>
-                                    <li><i class="fa fa-check"></i> Hot Tub</li>
-                                    <li><i class="fa fa-check"></i> Spa</li>
-                                    <li><i class="fa fa-check"></i> Kids pool</li>
-                                </ul>
-                            </div>
-
-                            <p><b>4.6/5</b> Wonderful (1007)</p>
-                            <div class="">
-                                <h3>$140</h3>
-                                <p>par night</p>
-                                <h6>$170 total</h6>
-                                <p>includes texes & fees</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="listing-box border border-red">
-                        <div class="listing-box-slider">
-                            <img src="{{ URL::to('public/assets/web/images/img-3.jpg') }}" alt=""
-                                class="w-100" />
-
-                            <div class="listing-box-top p-0">
-                                <div class="popular-shay">Walk to Kuta Beach</div>
-                            </div>
-                        </div>
-                        <div class=" pl-3">
-                            <h4>Room, 1 King Bed, Balcony</h4>
-                            <p>Downtown Kuta</p>
-                            <div class="popular-amenities">
-                                <ul>
-                                    <li><i class="fa fa-check"></i> Pool</li>
-                                    <li><i class="fa fa-check"></i> Hot Tub</li>
-                                    <li><i class="fa fa-check"></i> Spa</li>
-                                    <li><i class="fa fa-check"></i> Kids pool</li>
-                                </ul>
-                            </div>
-
-                            <p><b>4.6/5</b> Wonderful (1007)</p>
-                            <div class="">
-                                <h3>$140</h3>
-                                <p>par night</p>
-                                <h6>$170 total</h6>
-                                <p>includes texes & fees</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </section>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  
+  <section id="Accessibility">
+    <div class="container">
+      <div class="row">
+         <div class="col-md-12 mt-3 mb-3">
+           <div class="border-1  mb-3"></div>
+           <h3>More Trips Around Bhutan</h3>
+         </div>
+      </div>
+      <div class="row">
+
+        @foreach ($tour_more_list as $item)
+        <div class="col-md-3 mb-3">
+            <div class="listing-box border border-red">
+              <div class="listing-box-slider">
+                   <img src="{{URL::to('public'.$item->feature_image)}}" alt="" class="w-100"/>
+                 
+                 <div class="listing-box-top w-auto p-0">
+                    <div class="popular-shay">Trip</div>
+                 </div>
+              </div>
+              <div class=" pl-3">
+              <h4>{{$item->title}}</h4>
+              <p>{{$item->location_name}}</p>
+               <div class="popular-amenities">
+                    <ul>
+                      <li><i class="fa fa-inr"></i> {{$item->amount}} per person</li>
+                      <li><i class="fa fa-clock-o"></i>{{$item->total_days??0}}Days</li>
+                    </ul>
+                 </div>
+              </div>
+              <a href="{{URL::to('tour-details/'.$item->id)}}">
+                <button class="btn btn-info-custom w-100 rounded-0">Explore Now</button>
+              </a>
+              
+            </div>
+         </div>
+        @endforeach
+        
+
+
+      </div>
+    </div>
+  </section>
+  
+  
+  <section id="">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mt-3 mb-3">
+           <div class="border-1  mb-3"></div>
+         </div>
+         <div class="col-md-4 mt-3 mb-3">
+           <h3>About this property</h3>
+         </div>
+         <div class="col-md-8 mb-3">
+           <h5>Sheraton Bali Kuta Resort</h5>
+           <p>Sheraton Bali Kuta Resort offers its guests a full-service spa, 2 outdoor swimming pools, a health club, and a sauna. There are 2 restaurants on site. You can enjoy a drink at the bar/lounge. Public spaces have free WiFi.</p>
+           <p>A 24-hour business center and 10 meeting rooms are available. A children's pool, spa services, and a terrace are also featured at the luxury Sheraton Bali Kuta Resort. An airport shuttle (available 24 hours) is available for a fee. Free self parking and valet parking are available.</p>
+           <p>This 5-star Kuta hotel is smoke free.</p>
+           <h5>Languages</h5>
+           <p>Chinese (Mandarin), English, German, Indonesian, Japanese</p>
+         </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  <section id="Policies">
+    <div class="container">
+      <div class="row">
+         <div class="col-md-12 mt-3 mb-3">
+           <div class="border-1  mb-3"></div>
+         </div>
+         <div class="col-md-4 mt-3 mb-3">
+           <h3>Policies</h3>
+         </div>
+         <div class="col-md-8 mb-3">
+           <div class="row">
+             <div class="col-md-6">
+               <h5>Check-in</h5>
+               <p>Check-in start time: 3:00 PM; Check-in end time: noon</p>
+               <p>Late check-in subject to availability</p>
+             </div>
+             <div class="col-md-6">
+               <h5>Check-out</h5>
+               <p>Check-out before noon</p>
+               <p>Late check-out subject to availability</p>
+               <p>A late check-out fee will be charged</p>
+             </div>
+           </div>
+           <h5>Special check-in instructions</h5>
+           <p>This property offers transfers from the airport (surcharges may apply); guests must contact the property with arrival details before travel, using the contact information on the booking confirmation
+  Guests must contact the property in advance for check-in instructions; front desk staff will greet guests on arrival</p>
+           <p>To make arrangements for check-in please contact the property at least 24 hours before arrival using the information on the booking confirmation</p>
+           <p>If you are planning to arrive after midnight please contact the property in advance using the information on the booking confirmation</p>
+           <h5>Renovations and closures</h5>
+           <p>The property will be renovating from March 15 2024 to July 31 2024 (completion date subject to change). The following areas are affected:
+           <ul>
+             <li>Lobby</li>
+           </ul>
+  
+  In accordance with local regulations, all visitors must remain within the property during Seclusion Day (Nyepi)/Hindu New Year for a 24-hour period (starting at 6 AM). Seclusion Day typically falls in March or April (dates subject to change each year). Check-in and check-out will not be possible on that date. Ngurah Rai Airport (Bali International Airport) is also closed on Seclusion Day.
+  Renovation work will only be conducted during business hours. Every effort will be made to minimize noise and disturbance.</p>
+         </div>
+      </div>
+    </div>
+  </section>
+  
+
 @endsection

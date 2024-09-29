@@ -35,7 +35,7 @@
                             @endif
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="basic-default-name">Location</label>
                                 <select name="location_id" id="" class="form-control">
                                     @foreach ($locations as $location)
@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                         
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="basic-default-name">Tour Type</label>
                                 <select name="category_id" id="" class="form-control">
                                     @foreach ($categories as $category)
@@ -57,6 +57,11 @@
                                         </option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="basic-default-name">Total days</label>
+                                <input type="text" placeholder="Total days" name="total_days"
+                                value="{{ isset($package) ? $package->total_days : '' }}" class="form-control">
                             </div>
                         </div>
                         
@@ -179,6 +184,7 @@
                                         <tr>
                                             <th>No Of Days</th>
                                             <th>Select Expriences</th>
+                                            <th>Title</th>
                                             <th>Description</th>
                                             <th>Action</th>
                                         </tr>
@@ -207,6 +213,10 @@
                                                     </td>
                                                     <td><input type="text" name="package_description[]"
                                                             value="{{ $exp_pack_day->package_description }}"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="package_day_title[]"
+                                                            value="{{ $exp_pack_day->package_day_title }}"
                                                             class="form-control">
                                                     </td>
                                                     <td>
@@ -238,6 +248,7 @@
 
                                                 </select>
                                             </td>
+                                            <td><input type="text" name="package_day_title[]" class="form-control">
                                             <td><input type="text" name="package_description[]" class="form-control">
                                             </td>
                                             <td>
@@ -574,6 +585,7 @@
                                                 </select>
                                             </td>
                                     <td><input type="text" name="package_description[]" class="form-control"></td>
+                                    <td><input type="text" name="package_day_title[]" class="form-control"></td>
             <td>
                 <button type="button" class="btn btn-danger waves-effect waves-light remove-row"><i class="fa-solid fa-trash"></i></button>
             </td>

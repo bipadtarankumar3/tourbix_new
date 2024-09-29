@@ -183,6 +183,10 @@ class WebViewController extends Controller
       
         
         $data['tour']=ExpriencePackage::where('id',$id)->first();
+        $data['tour_more_list']=ExpriencePackage::join('locations','locations.id','exprience_packages.location_id')
+        ->select('exprience_packages.*', 'locations.location_name')
+        ->whereNot('exprience_packages.id',$id)
+        ->get();
         $data['ExpriencePackageDay']=ExpriencePackageDay::where('exprience_package_id',$id)->get();
 
         $data['package_includeds'] = package_included::where('in_exprience_package_id', $id)->get();
@@ -304,6 +308,12 @@ class WebViewController extends Controller
         'booking_id'=>$booking_id,
       ]);
       return redirect('booking-status/'.$booking_id)->with('success', 'Booking Complete');
+
+    }
+    public function tour_book_page(Request $request ,$id){
+        $data['tour']=ExpriencePackage::where('id',$id)->first();
+        
+      return view('web.pages.tourPayment',$data);
 
     }
     public function tourBookNow(Request $request){
